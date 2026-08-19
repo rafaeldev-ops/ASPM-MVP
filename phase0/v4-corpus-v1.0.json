@@ -1,0 +1,1898 @@
+{
+  "findings": [
+    {
+      "advisory_id": "GHSA-jfh8-c2jp-5v3q",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "2.13.0"
+            },
+            {
+              "fixed": "2.15.0"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "2.0-beta9"
+            },
+            {
+              "fixed": "2.3.1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "2.4"
+            },
+            {
+              "fixed": "2.12.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+      "dependency_scope": "direct",
+      "deployed_version": "2.14.1",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 1.0,
+        "score": 0.99999
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-001",
+      "identifier": "CVE-2021-44228",
+      "kev": {
+        "date_added": "2021-12-10",
+        "listed": true,
+        "ransomware": "Known"
+      },
+      "package": "Maven/org.apache.logging.log4j:log4j-core",
+      "range_covers_deployed": true,
+      "scanner_message": "log4j-core 2.14.1: JNDI lookup in log messages permits remote code execution",
+      "service": "checkout-api",
+      "stratum": "S1",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-crg9-44h2-xw35",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.15.16"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "5.16.0"
+            },
+            {
+              "fixed": "5.16.7"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "5.17.0"
+            },
+            {
+              "fixed": "5.17.6"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "5.18.0"
+            },
+            {
+              "fixed": "5.18.3"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:H/A:H/E:H",
+      "dependency_scope": "direct",
+      "deployed_version": "5.17.3",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99952,
+        "score": 0.99723
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-002",
+      "identifier": "CVE-2023-46604",
+      "kev": {
+        "date_added": "2023-11-02",
+        "listed": true,
+        "ransomware": "Known"
+      },
+      "package": "Maven/org.apache.activemq:activemq-client",
+      "range_covers_deployed": true,
+      "scanner_message": "activemq-client 5.17.3: OpenWire protocol deserialization of untrusted data",
+      "service": "checkout-api",
+      "stratum": "S1",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-3gx9-37ww-9qw6",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.7"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "dependency_scope": "direct",
+      "deployed_version": "3.1.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99912,
+        "score": 0.98253
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-003",
+      "identifier": "CVE-2022-22947",
+      "kev": {
+        "date_added": "2022-05-16",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Maven/org.springframework.cloud:spring-cloud-gateway",
+      "range_covers_deployed": true,
+      "scanner_message": "spring-cloud-gateway 3.1.0: SpEL expression injection via Actuator endpoint",
+      "service": "checkout-api",
+      "stratum": "S1",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-69r9-qgr7-g2wj",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "11.0.20"
+            },
+            {
+              "fixed": "11.0.21"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "10.1.53"
+            },
+            {
+              "fixed": "10.1.54"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "9.0.116"
+            },
+            {
+              "fixed": "9.0.117"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "dependency_scope": "direct",
+      "deployed_version": "10.1.53",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99645,
+        "score": 0.82933
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-004",
+      "identifier": "CVE-2026-34486",
+      "kev": {
+        "date_added": "2026-08-04",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Maven/org.apache.tomcat:tomcat-tribes",
+      "range_covers_deployed": true,
+      "scanner_message": "tomcat-tribes 10.1.53: missing encryption of sensitive data in cluster replication",
+      "service": "checkout-api",
+      "stratum": "S1",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-rxpj-7qvf-xv32",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.19.5"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.2.3"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+      "dependency_scope": "direct",
+      "deployed_version": "5.19.2",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99889,
+        "score": 0.9722
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-005",
+      "identifier": "CVE-2026-34197",
+      "kev": {
+        "date_added": "2026-04-16",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Maven/org.apache.activemq:activemq-broker",
+      "range_covers_deployed": true,
+      "scanner_message": "activemq-broker 5.19.2: improper input validation in the broker",
+      "service": "checkout-api",
+      "stratum": "S1",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-2m8v-572m-ff2v",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.3.1"
+            }
+          ],
+          "type": "SEMVER"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:H",
+      "dependency_scope": "direct",
+      "deployed_version": "5.2.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99795,
+        "score": 0.90675
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-006",
+      "identifier": "CVE-2021-21315",
+      "kev": {
+        "date_added": "2022-01-18",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "npm/systeminformation",
+      "range_covers_deployed": true,
+      "scanner_message": "systeminformation 5.2.0 as a direct dependency: command injection in si.inetLatency",
+      "service": "catalog-web",
+      "stratum": "S1",
+      "tool": "snyk",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-36p3-wjmg-h94x",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.5.12"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "2.6.0"
+            },
+            {
+              "fixed": "2.6.6"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H",
+      "dependency_scope": "direct",
+      "deployed_version": "3.2.4",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99949,
+        "score": 0.99677
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-007",
+      "identifier": "CVE-2022-22965",
+      "kev": {
+        "date_added": "2022-04-04",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Maven/org.springframework.boot:spring-boot-starter-web",
+      "range_covers_deployed": false,
+      "scanner_message": "Spring4Shell reported against spring-boot-starter-web",
+      "service": "checkout-api",
+      "stratum": "S2",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-83qj-6fr2-vhqg",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "11.0.0-M1"
+            },
+            {
+              "fixed": "11.0.3"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "10.1.0-M1"
+            },
+            {
+              "fixed": "10.1.35"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "9.0.0.M1"
+            },
+            {
+              "fixed": "9.0.99"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "8.5.0"
+            },
+            {
+              "last_affected": "8.5.100"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H",
+      "dependency_scope": "direct",
+      "deployed_version": "10.1.53",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99968,
+        "score": 0.99925
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-008",
+      "identifier": "CVE-2025-24813",
+      "kev": {
+        "date_added": "2025-04-01",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Maven/org.apache.tomcat.embed:tomcat-embed-core",
+      "range_covers_deployed": false,
+      "scanner_message": "tomcat-embed-core 10.1.53: path equivalence permits RCE when writes are enabled",
+      "service": "checkout-api",
+      "stratum": "S2",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-35jh-r3h4-6jhm",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "4.17.21"
+            }
+          ],
+          "type": "SEMVER"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+      "dependency_scope": "direct",
+      "deployed_version": "4.17.21",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.97382,
+        "score": 0.21333
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-009",
+      "identifier": "CVE-2021-23337",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "npm/lodash",
+      "range_covers_deployed": false,
+      "scanner_message": "lodash: command injection via template",
+      "service": "catalog-web",
+      "stratum": "S2",
+      "tool": "snyk",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-v845-jxx5-vc9f",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.6"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.26.17"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:N",
+      "dependency_scope": "transitive",
+      "deployed_version": "2.2.2",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.65654,
+        "score": 0.01207
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-010",
+      "identifier": "CVE-2023-43804",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/urllib3",
+      "range_covers_deployed": false,
+      "scanner_message": "urllib3: Cookie header leak on cross-origin redirect",
+      "service": "inventory-sync",
+      "stratum": "S2",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-r9hx-vwmv-q579",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "65.5.1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "70.0.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.84083,
+        "score": 0.02617
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-011",
+      "identifier": "CVE-2022-40897",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/setuptools",
+      "range_covers_deployed": false,
+      "scanner_message": "setuptools: ReDoS in package_index",
+      "service": "inventory-sync",
+      "stratum": "S2",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-grv7-fg5c-xmjg",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.3"
+            }
+          ],
+          "type": "SEMVER"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "3.0.3",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.7148,
+        "score": 0.01471
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-012",
+      "identifier": "CVE-2024-4068",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "npm/braces",
+      "range_covers_deployed": false,
+      "scanner_message": "braces: uncontrolled resource consumption",
+      "service": "catalog-web",
+      "stratum": "S2",
+      "tool": "snyk",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-r9hx-vwmv-q579",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "65.5.1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "dependency_scope": "dev_only",
+      "deployed_version": "58.0.4",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.84083,
+        "score": 0.02617
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-013",
+      "identifier": "CVE-2022-40897",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/setuptools",
+      "range_covers_deployed": true,
+      "scanner_message": "setuptools 58.0.4 in the dev dependency group: ReDoS in package_index",
+      "service": "analytics-etl",
+      "stratum": "S3",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-j8r2-6x86-q33q",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "2.3.0"
+            },
+            {
+              "fixed": "2.31.0"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:N",
+      "dependency_scope": "dev_only",
+      "deployed_version": "2.28.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.86049,
+        "score": 0.02974
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-014",
+      "identifier": "CVE-2023-32681",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/requests",
+      "range_covers_deployed": true,
+      "scanner_message": "requests 2.28.0: Proxy-Authorization leaked on redirect",
+      "service": "analytics-etl",
+      "stratum": "S3",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-3ww4-gg4f-jr7f",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "42.0.0"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "dependency_scope": "transitive",
+      "deployed_version": "41.0.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.63273,
+        "score": 0.01118
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-015",
+      "identifier": "CVE-2023-50782",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/cryptography",
+      "range_covers_deployed": true,
+      "scanner_message": "cryptography 41.0.0: Bleichenbacher timing oracle in RSA decryption",
+      "service": "analytics-etl",
+      "stratum": "S3",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-9wx4-h78v-vm56",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.32.0"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+      "dependency_scope": "dev_only",
+      "deployed_version": "2.31.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.26903,
+        "score": 0.0034
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-016",
+      "identifier": "CVE-2024-35195",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/requests",
+      "range_covers_deployed": true,
+      "scanner_message": "requests 2.31.0: verify=False persists across session requests",
+      "service": "analytics-etl",
+      "stratum": "S3",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-017",
+      "identifier": "python.lang.security.audit.subprocess-shell-true",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "subprocess call with shell=True in etl/loaders/legacy_import.py:88",
+      "service": "analytics-etl",
+      "stratum": "S3",
+      "tool": "semgrep",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "CVE-2023-4911",
+      "affected_ranges": [],
+      "class": "container",
+      "cvss_vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "2.36-9",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99605,
+        "score": 0.81422
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-018",
+      "identifier": "CVE-2023-4911",
+      "kev": {
+        "date_added": "2023-11-21",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Debian/glibc",
+      "range_covers_deployed": null,
+      "scanner_message": "glibc 2.36-9 in the staging image: buffer overflow in ld.so GLIBC_TUNABLES",
+      "service": "analytics-etl",
+      "stratum": "S3",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-019",
+      "identifier": "java.lang.security.audit.object-deserialization",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "ObjectInputStream.readObject on request-derived bytes in checkout/api/LegacyCartCodec.java:142",
+      "service": "checkout-api",
+      "stratum": "S4",
+      "tool": "semgrep",
+      "tool_reachability": "reachable"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-020",
+      "identifier": "java.lang.security.audit.sqli.jdbc-sqli",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "String-concatenated JDBC query with request parameter in checkout/repo/OrderSearch.java:61",
+      "service": "checkout-api",
+      "stratum": "S4",
+      "tool": "semgrep",
+      "tool_reachability": "reachable"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-021",
+      "identifier": "javascript.express.security.audit.xss.direct-response-write",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "Unescaped request parameter written to response in pages/api/search.ts:34",
+      "service": "catalog-web",
+      "stratum": "S4",
+      "tool": "semgrep",
+      "tool_reachability": "reachable"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-022",
+      "identifier": "java.spring.security.audit.spel-injection",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "SpEL expression built from request attribute in checkout/promo/RuleEval.java:77",
+      "service": "checkout-api",
+      "stratum": "S4",
+      "tool": "semgrep",
+      "tool_reachability": "reachable"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-023",
+      "identifier": "javascript.lang.security.audit.path-traversal.path-join-resolve-traversal",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "Request-derived path joined without normalization in pages/api/asset.ts:22",
+      "service": "catalog-web",
+      "stratum": "S4",
+      "tool": "semgrep",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-wf5p-g6vw-rhxx",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "1.0.0"
+            },
+            {
+              "fixed": "1.6.0"
+            }
+          ],
+          "type": "SEMVER"
+        },
+        {
+          "events": [
+            {
+              "introduced": "0.8.1"
+            },
+            {
+              "fixed": "0.28.0"
+            }
+          ],
+          "type": "SEMVER"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:N/A:N",
+      "dependency_scope": "direct",
+      "deployed_version": "1.5.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.43628,
+        "score": 0.00556
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-024",
+      "identifier": "CVE-2023-45857",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "npm/axios",
+      "range_covers_deployed": true,
+      "scanner_message": "axios 1.5.0: XSRF-TOKEN leaked to third-party host",
+      "service": "catalog-web",
+      "stratum": "S4",
+      "tool": "snyk",
+      "tool_reachability": null
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-025",
+      "identifier": "java.lang.security.audit.xxe.documentbuilderfactory-disallow-doctype-decl-missing",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "DocumentBuilderFactory without DOCTYPE restriction parsing a request body in checkout/edi/InvoiceParser.java:31",
+      "service": "checkout-api",
+      "stratum": "S4",
+      "tool": "semgrep",
+      "tool_reachability": "reachable"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-026",
+      "identifier": "javascript.express.security.audit.express-open-redirect",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "res.redirect with request-controlled target in pages/api/out.ts:12",
+      "service": "catalog-web",
+      "stratum": "S4",
+      "tool": "semgrep",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-p6mc-m468-83gw",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "3.7.0"
+            },
+            {
+              "fixed": "4.17.19"
+            }
+          ],
+          "type": "SEMVER"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "4.17.15",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.91767,
+        "score": 0.05213
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-027",
+      "identifier": "CVE-2020-8203",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "npm/lodash",
+      "range_covers_deployed": true,
+      "scanner_message": "lodash 4.17.15 pulled in by a build-time plugin: prototype pollution in zipObjectDeep",
+      "service": "catalog-web",
+      "stratum": "S5",
+      "tool": "snyk",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-c2qf-rxjj-qqgw",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "7.0.0"
+            },
+            {
+              "fixed": "7.5.2"
+            }
+          ],
+          "type": "SEMVER"
+        },
+        {
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.3.1"
+            }
+          ],
+          "type": "SEMVER"
+        },
+        {
+          "events": [
+            {
+              "introduced": "2.0.0-alpha"
+            },
+            {
+              "fixed": "5.7.2"
+            }
+          ],
+          "type": "SEMVER"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "7.3.5",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.84976,
+        "score": 0.02761
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-028",
+      "identifier": "CVE-2022-25883",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "npm/semver",
+      "range_covers_deployed": true,
+      "scanner_message": "semver 7.3.5: ReDoS in range parsing",
+      "service": "catalog-web",
+      "stratum": "S5",
+      "tool": "snyk",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-vwqq-5vrc-xw9h",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "2.13.0"
+            },
+            {
+              "fixed": "2.13.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "2.4.0"
+            },
+            {
+              "fixed": "2.12.3"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.3.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+      "dependency_scope": "transitive",
+      "deployed_version": "2.13.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.94307,
+        "score": 0.08096
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-029",
+      "identifier": "CVE-2020-9488",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "Maven/org.apache.logging.log4j:log4j-core",
+      "range_covers_deployed": true,
+      "scanner_message": "log4j-core 2.13.0: SMTP appender does not verify certificate hostname",
+      "service": "checkout-api",
+      "stratum": "S5",
+      "tool": "trivy",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-34jh-p97f-mpxf",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.26.19"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.2.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:N/A:N",
+      "dependency_scope": "transitive",
+      "deployed_version": "2.0.4",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.63836,
+        "score": 0.01141
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-030",
+      "identifier": "CVE-2024-37891",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/urllib3",
+      "range_covers_deployed": true,
+      "scanner_message": "urllib3 2.0.4: Proxy-Authorization not stripped on cross-origin redirect",
+      "service": "inventory-sync",
+      "stratum": "S5",
+      "tool": "trivy",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-4vpr-xfrp-cj64",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "5.8.0"
+            },
+            {
+              "fixed": "5.8.5"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.0.5"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "6.1.0"
+            },
+            {
+              "fixed": "6.1.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+      "dependency_scope": "transitive",
+      "deployed_version": "6.0.3",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.4841,
+        "score": 0.00658
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-031",
+      "identifier": "CVE-2023-34035",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "Maven/org.springframework.security:spring-security-config",
+      "range_covers_deployed": true,
+      "scanner_message": "spring-security-config 6.0.3: authorization rules may be misapplied with multiple servlets",
+      "service": "checkout-api",
+      "stratum": "S5",
+      "tool": "trivy",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-j8r2-6x86-q33q",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "2.3.0"
+            },
+            {
+              "fixed": "2.31.0"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:N/A:N",
+      "dependency_scope": "transitive",
+      "deployed_version": "2.28.1",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.86049,
+        "score": 0.02974
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-032",
+      "identifier": "CVE-2023-32681",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/requests",
+      "range_covers_deployed": true,
+      "scanner_message": "requests 2.28.1: Proxy-Authorization leaked on redirect",
+      "service": "inventory-sync",
+      "stratum": "S5",
+      "tool": "trivy",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "CVE-2023-4911",
+      "affected_ranges": [],
+      "class": "container",
+      "cvss_vector": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "2.35-1",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99605,
+        "score": 0.81422
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-033",
+      "identifier": "CVE-2023-4911",
+      "kev": {
+        "date_added": "2023-11-21",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Debian/glibc",
+      "range_covers_deployed": null,
+      "scanner_message": "glibc 2.35-1: local privilege escalation via GLIBC_TUNABLES. Local vector only",
+      "service": "inventory-sync",
+      "stratum": "S6",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-3gx9-37ww-9qw6",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "3.0.7"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "3.1.0"
+            },
+            {
+              "fixed": "3.1.1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "3.0.6",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99912,
+        "score": 0.98253
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-034",
+      "identifier": "CVE-2022-22947",
+      "kev": {
+        "date_added": "2022-05-16",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Maven/org.springframework.cloud:spring-cloud-gateway",
+      "range_covers_deployed": true,
+      "scanner_message": "spring-cloud-gateway 3.0.6: Actuator not exposed per the team's config",
+      "service": "checkout-api",
+      "stratum": "S6",
+      "tool": "trivy",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-jfh8-c2jp-5v3q",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "2.13.0"
+            },
+            {
+              "fixed": "2.15.0"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "2.0-beta9"
+            },
+            {
+              "fixed": "2.3.1"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "2.4"
+            },
+            {
+              "fixed": "2.12.2"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H/E:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "2.12.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 1.0,
+        "score": 0.99999
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-035",
+      "identifier": "CVE-2021-44228",
+      "kev": {
+        "date_added": "2021-12-10",
+        "listed": true,
+        "ransomware": "Known"
+      },
+      "package": "Maven/org.apache.logging.log4j:log4j-core",
+      "range_covers_deployed": true,
+      "scanner_message": "log4j-core 2.12.0 inside a vendored analytics agent JAR",
+      "service": "checkout-api",
+      "stratum": "S6",
+      "tool": "snyk",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-rxpj-7qvf-xv32",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.19.5"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "6.0.0"
+            },
+            {
+              "fixed": "6.2.3"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "5.19.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99889,
+        "score": 0.9722
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-036",
+      "identifier": "CVE-2026-34197",
+      "kev": {
+        "date_added": "2026-04-16",
+        "listed": true,
+        "ransomware": "Unknown"
+      },
+      "package": "Maven/org.apache.activemq:activemq-broker",
+      "range_covers_deployed": true,
+      "scanner_message": "activemq-broker 5.19.0 on the classpath; the team states the embedded broker is never started",
+      "service": "checkout-api",
+      "stratum": "S6",
+      "tool": "trivy",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-crg9-44h2-xw35",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "5.15.16"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "5.16.0"
+            },
+            {
+              "fixed": "5.16.7"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "5.17.0"
+            },
+            {
+              "fixed": "5.17.6"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "5.18.0"
+            },
+            {
+              "fixed": "5.18.3"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:H/A:H/E:H",
+      "dependency_scope": "transitive",
+      "deployed_version": "5.16.5",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.99952,
+        "score": 0.99723
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-037",
+      "identifier": "CVE-2023-46604",
+      "kev": {
+        "date_added": "2023-11-02",
+        "listed": true,
+        "ransomware": "Known"
+      },
+      "package": "Maven/org.apache.activemq:activemq-client",
+      "range_covers_deployed": true,
+      "scanner_message": "activemq-client 5.16.5: OpenWire transport disabled in the broker config",
+      "service": "checkout-api",
+      "stratum": "S6",
+      "tool": "trivy",
+      "tool_reachability": "unknown"
+    },
+    {
+      "advisory_id": "GHSA-3ww4-gg4f-jr7f",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "42.0.0"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+      "dependency_scope": "transitive",
+      "deployed_version": "40.0.1",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.63273,
+        "score": 0.01118
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-038",
+      "identifier": "CVE-2023-50782",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/cryptography",
+      "range_covers_deployed": true,
+      "scanner_message": "cryptography 40.0.1: RSA decryption timing oracle. No known exploitation",
+      "service": "admin-console",
+      "stratum": "S7",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-9wx4-h78v-vm56",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "2.32.0"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:H/I:H/A:N",
+      "dependency_scope": "direct",
+      "deployed_version": "2.30.0",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.26903,
+        "score": 0.0034
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-039",
+      "identifier": "CVE-2024-35195",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/requests",
+      "range_covers_deployed": true,
+      "scanner_message": "requests 2.30.0: TLS verification bypass persists across a Session",
+      "service": "inventory-sync",
+      "stratum": "S7",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "advisory_id": "GHSA-v845-jxx5-vc9f",
+      "affected_ranges": [
+        {
+          "events": [
+            {
+              "introduced": "2.0.0"
+            },
+            {
+              "fixed": "2.0.6"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        },
+        {
+          "events": [
+            {
+              "introduced": "0"
+            },
+            {
+              "fixed": "1.26.17"
+            }
+          ],
+          "type": "ECOSYSTEM"
+        }
+      ],
+      "class": "sca",
+      "cvss_vector": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:N",
+      "dependency_scope": "transitive",
+      "deployed_version": "2.0.5",
+      "epss": {
+        "as_of": "2026-08-14",
+        "model_version": "v2026.06.15",
+        "percentile": 0.65654,
+        "score": 0.01207
+      },
+      "evidence_source": "kev+epss+osv",
+      "finding_id": "NW-040",
+      "identifier": "CVE-2023-43804",
+      "kev": {
+        "date_added": null,
+        "listed": false,
+        "ransomware": null
+      },
+      "package": "PyPI/urllib3",
+      "range_covers_deployed": true,
+      "scanner_message": "urllib3 2.0.5: Cookie header leak on cross-origin redirect",
+      "service": "admin-console",
+      "stratum": "S7",
+      "tool": "trivy",
+      "tool_reachability": null
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-041",
+      "identifier": "python.lang.security.deserialization.avoid-pyyaml-load",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "yaml.load without SafeLoader on a config file read from the internal S3 bucket, sync/config.py:19",
+      "service": "inventory-sync",
+      "stratum": "S7",
+      "tool": "semgrep",
+      "tool_reachability": "reachable"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-042",
+      "identifier": "python.django.security.audit.raw-query",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "Raw SQL built with string formatting in admin/reports/views.py:203",
+      "service": "admin-console",
+      "stratum": "S7",
+      "tool": "semgrep",
+      "tool_reachability": "reachable"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-043",
+      "identifier": "java.lang.security.audit.crypto.use-of-md5",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "MD5 used in src/test/java/checkout/FixtureBuilder.java:44",
+      "service": "checkout-api",
+      "stratum": "S8",
+      "tool": "semgrep",
+      "tool_reachability": "unknown"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-044",
+      "identifier": "javascript.lang.security.audit.code-string-concat",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "Dynamic code construction in generated file src/__generated__/graphql-types.ts:1180",
+      "service": "catalog-web",
+      "stratum": "S8",
+      "tool": "semgrep",
+      "tool_reachability": "unknown"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-045",
+      "identifier": "python.lang.security.audit.dangerous-subprocess-use-audit",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "subprocess with a variable argument in tests/integration/conftest.py:57",
+      "service": "inventory-sync",
+      "stratum": "S8",
+      "tool": "semgrep",
+      "tool_reachability": "unknown"
+    },
+    {
+      "class": "sast",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-046",
+      "identifier": "java.lang.security.audit.crypto.no-null-cipher",
+      "package": null,
+      "rule_verified_against": "semgrep upstream registry",
+      "scanner_message": "NullCipher in src/test/java/checkout/crypto/CipherContractTest.java:28",
+      "service": "checkout-api",
+      "stratum": "S8",
+      "tool": "semgrep",
+      "tool_reachability": "unknown"
+    },
+    {
+      "class": "secret",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-047",
+      "identifier": "stripe-access-token",
+      "package": null,
+      "rule_verified_against": "gitleaks upstream registry",
+      "scanner_message": "Stripe-shaped key in src/test/resources/payment-fixtures.json:12, prefix sk_test_",
+      "service": "checkout-api",
+      "stratum": "S9",
+      "tool": "gitleaks",
+      "tool_reachability": null
+    },
+    {
+      "class": "secret",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-048",
+      "identifier": "aws-access-token",
+      "package": null,
+      "rule_verified_against": "gitleaks upstream registry",
+      "scanner_message": "AWS access key id in cypress/fixtures/env.json:4, prefix AKIA",
+      "service": "catalog-web",
+      "stratum": "S9",
+      "tool": "gitleaks",
+      "tool_reachability": null
+    },
+    {
+      "class": "secret",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-049",
+      "identifier": "generic-api-key",
+      "package": null,
+      "rule_verified_against": "gitleaks upstream registry",
+      "scanner_message": "40-char high-entropy string assigned to WAREHOUSE_API_KEY in tests/conftest.py:14",
+      "service": "inventory-sync",
+      "stratum": "S9",
+      "tool": "gitleaks",
+      "tool_reachability": null
+    },
+    {
+      "class": "secret",
+      "dependency_scope": null,
+      "deployed_version": null,
+      "evidence_source": "rule_only",
+      "finding_id": "NW-050",
+      "identifier": "private-key",
+      "package": null,
+      "rule_verified_against": "gitleaks upstream registry",
+      "scanner_message": "BEGIN RSA PRIVATE KEY block in admin/tests/data/signing_fixture.pem:1",
+      "service": "admin-console",
+      "stratum": "S9",
+      "tool": "gitleaks",
+      "tool_reachability": null
+    }
+  ],
+  "meta": {
+    "epss_as_of": "2026-08-14",
+    "epss_model_version": "v2026.06.15",
+    "kev_catalog": "2026.08.14"
+  },
+  "version": "v4-corpus-v1.0"
+}

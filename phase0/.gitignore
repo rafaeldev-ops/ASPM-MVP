@@ -1,0 +1,6 @@
+# Regenerable. Nothing here is an input to anything.
+.cache/
+__pycache__/
+demo-*.csv
+demo-*.json
+decision-debt-report.html

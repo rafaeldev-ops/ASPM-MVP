@@ -1,0 +1,1330 @@
+[
+ {
+  "finding_id": "NW-001",
+  "stratum": "S1",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.775,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-002",
+  "stratum": "S1",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "present"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.775,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-003",
+  "stratum": "S1",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "present"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.774,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-004",
+  "stratum": "S1",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.774,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.199,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-005",
+  "stratum": "S1",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.774,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-006",
+  "stratum": "S1",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "high",
+   "control": "present"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.737,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-007",
+  "stratum": "S2",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "not_applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_soon",
+  "tree_row": 2,
+  "ordering_score": 0.675,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-008",
+  "stratum": "S2",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "not_applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_soon",
+  "tree_row": 2,
+  "ordering_score": 0.675,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-009",
+  "stratum": "S2",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "not_applicable",
+   "criticality": "high",
+   "control": "present"
+  },
+  "band": "deprioritize_candidate",
+  "tree_row": 18,
+  "ordering_score": 0.482,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.195,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": true,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-010",
+  "stratum": "S2",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "not_applicable",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "deprioritize_candidate",
+  "tree_row": 18,
+  "ordering_score": 0.276,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.131,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": true,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-011",
+  "stratum": "S2",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "not_applicable",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "deprioritize_candidate",
+  "tree_row": 18,
+  "ordering_score": 0.313,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.168,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": true,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-012",
+  "stratum": "S2",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "not_applicable",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "deprioritize_candidate",
+  "tree_row": 18,
+  "ordering_score": 0.43,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.143,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": true,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-013",
+  "stratum": "S3",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "not_deployed",
+   "applicability": "not_applicable",
+   "criticality": "low",
+   "control": "none"
+  },
+  "band": "deprioritize_candidate",
+  "tree_row": 18,
+  "ordering_score": 0.23,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.168,
+   "exploitation": 0.0,
+   "exposure": 0.0,
+   "criticality": 0.037,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": true,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-014",
+  "stratum": "S3",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "not_deployed",
+   "applicability": "not_applicable",
+   "criticality": "low",
+   "control": "none"
+  },
+  "band": "deprioritize_candidate",
+  "tree_row": 18,
+  "ordering_score": 0.234,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.172,
+   "exploitation": 0.0,
+   "exposure": 0.0,
+   "criticality": 0.037,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": true,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-015",
+  "stratum": "S3",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "not_deployed",
+   "applicability": "applicable",
+   "criticality": "low",
+   "control": "none"
+  },
+  "band": "deprioritize_candidate",
+  "tree_row": 19,
+  "ordering_score": 0.289,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.127,
+   "exploitation": 0.0,
+   "exposure": 0.0,
+   "criticality": 0.037,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": true,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-016",
+  "stratum": "S3",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "not_deployed",
+   "applicability": "not_applicable",
+   "criticality": "low",
+   "control": "none"
+  },
+  "band": "deprioritize_candidate",
+  "tree_row": 18,
+  "ordering_score": 0.116,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.054,
+   "exploitation": 0.0,
+   "exposure": 0.0,
+   "criticality": 0.037,
+   "applicability": 0.0,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": true,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-017",
+  "stratum": "S3",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "not_deployed",
+   "applicability": "unknown",
+   "criticality": "low",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.112,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.0,
+   "criticality": 0.037,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-018",
+  "stratum": "S3",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "not_deployed",
+   "applicability": "unknown",
+   "criticality": "low",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.461,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.199,
+   "exploitation": 0.15,
+   "exposure": 0.0,
+   "criticality": 0.037,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-019",
+  "stratum": "S4",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "critical",
+   "control": "present"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.375,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-020",
+  "stratum": "S4",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "critical",
+   "control": "present"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.375,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-021",
+  "stratum": "S4",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "high",
+   "control": "present"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.337,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-022",
+  "stratum": "S4",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "critical",
+   "control": "present"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.375,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-023",
+  "stratum": "S4",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "high",
+   "control": "present"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.337,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-024",
+  "stratum": "S4",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "scheduled",
+  "tree_row": 11,
+  "ordering_score": 0.474,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.087,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-025",
+  "stratum": "S4",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "critical",
+   "control": "present"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.375,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-026",
+  "stratum": "S4",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "high",
+   "control": "present"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.337,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-027",
+  "stratum": "S5",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "scheduled",
+  "tree_row": 11,
+  "ordering_score": 0.571,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.184,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-028",
+  "stratum": "S5",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "scheduled",
+  "tree_row": 11,
+  "ordering_score": 0.557,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.17,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-029",
+  "stratum": "S5",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_soon",
+  "tree_row": 10,
+  "ordering_score": 0.613,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.189,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-030",
+  "stratum": "S5",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "applicable",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 20,
+  "ordering_score": 0.372,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.128,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-031",
+  "stratum": "S5",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_soon",
+  "tree_row": 10,
+  "ordering_score": 0.521,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.097,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-032",
+  "stratum": "S5",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "applicable",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 20,
+  "ordering_score": 0.417,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.172,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-033",
+  "stratum": "S6",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "internal",
+   "applicability": "unknown",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.544,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.199,
+   "exploitation": 0.15,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-034",
+  "stratum": "S6",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.774,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-035",
+  "stratum": "S6",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.775,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-036",
+  "stratum": "S6",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.774,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-037",
+  "stratum": "S6",
+  "decision_points": {
+   "exploitation": "active",
+   "exposure": "open",
+   "applicability": "applicable",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "act_now",
+  "tree_row": 1,
+  "ordering_score": 0.775,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.2,
+   "exploitation": 0.15,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": "kev_listed",
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": [
+   "non_suppressible:kev_listed"
+  ]
+ },
+ {
+  "finding_id": "NW-038",
+  "stratum": "S7",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "applicable",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 20,
+  "ordering_score": 0.409,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.127,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.112,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-039",
+  "stratum": "S7",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "applicable",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 20,
+  "ordering_score": 0.298,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.054,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-040",
+  "stratum": "S7",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "applicable",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 20,
+  "ordering_score": 0.413,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.131,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.112,
+   "applicability": 0.1,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-041",
+  "stratum": "S7",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "unknown",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.195,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-042",
+  "stratum": "S7",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "unknown",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.232,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.112,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-043",
+  "stratum": "S8",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.375,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-044",
+  "stratum": "S8",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.337,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-045",
+  "stratum": "S8",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "unknown",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.195,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-046",
+  "stratum": "S8",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.375,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-047",
+  "stratum": "S9",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "critical",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.375,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.15,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-048",
+  "stratum": "S9",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "open",
+   "applicability": "unknown",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.337,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.15,
+   "criticality": 0.112,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-049",
+  "stratum": "S9",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "unknown",
+   "criticality": "medium",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.195,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.075,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ },
+ {
+  "finding_id": "NW-050",
+  "stratum": "S9",
+  "decision_points": {
+   "exploitation": "none",
+   "exposure": "internal",
+   "applicability": "unknown",
+   "criticality": "high",
+   "control": "none"
+  },
+  "band": "track",
+  "tree_row": 15,
+  "ordering_score": 0.232,
+  "score_contributions": {
+   "cvss": 0.0,
+   "epss": 0.0,
+   "exploitation": 0.0,
+   "exposure": 0.045,
+   "criticality": 0.112,
+   "applicability": 0.05,
+   "pressure": 0.025
+  },
+  "non_suppressible": null,
+  "auto_deprioritize_eligible": false,
+  "ineligibility_reasons": []
+ }
+]

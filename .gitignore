@@ -1,0 +1,16 @@
+# Config/estado local do Claude Code — não é parte do projeto.
+.claude/
+
+# Regenerável a partir dos feeds públicos — nada aqui é entrada de nada.
+phase0/.cache/
+phase0/demo-*.csv
+phase0/demo-*.json
+phase0/decision-debt-report.html
+
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+.DS_Store
+Thumbs.db

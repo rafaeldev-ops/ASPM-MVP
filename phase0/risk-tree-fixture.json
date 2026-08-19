@@ -1,0 +1,6482 @@
+[
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 16
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 12
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 12
+ },
+ {
+  "exploitation": "none",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 16
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 12
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 12
+ },
+ {
+  "exploitation": "none",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 11
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 11
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 11
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 11
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 11
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 11
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 10
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 10
+ },
+ {
+  "exploitation": "none",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 10
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 19
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 14
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "deprioritize_candidate",
+  "tree_row": 18
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 8
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 8
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 8
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 8
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 11
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 8
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 8
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 11
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 8
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 8
+ },
+ {
+  "exploitation": "poc",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 9
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 20
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 7
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 6
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 6
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 6
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 6
+ },
+ {
+  "exploitation": "public",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 6
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 6
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 6
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 6
+ },
+ {
+  "exploitation": "public",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "scheduled",
+  "tree_row": 13
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 17
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "track",
+  "tree_row": 15
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 5
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 5
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 5
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 5
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 5
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 5
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 3
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 3
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 4
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 3
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 3
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 4
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 3
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 3
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 4
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 3
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 3
+ },
+ {
+  "exploitation": "public",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 4
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "not_deployed",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "unknown",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "internal",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "controlled",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "not_applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_soon",
+  "tree_row": 2
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "unknown",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "low",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "medium",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "high",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "none",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "present",
+  "band": "act_now",
+  "tree_row": 1
+ },
+ {
+  "exploitation": "active",
+  "exposure": "open",
+  "applicability": "applicable",
+  "criticality": "critical",
+  "control": "enforcing",
+  "band": "act_now",
+  "tree_row": 1
+ }
+]

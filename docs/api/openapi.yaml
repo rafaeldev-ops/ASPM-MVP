@@ -1,0 +1,1143 @@
+openapi: 3.1.0
+
+info:
+  title: SDIP API
+  version: 1.0.0-draft
+  summary: Evidence-first security decision engine
+  description: |
+    Contracts for the MVP surface. Conventions (auth, errors, idempotency, pagination,
+    versioning, async jobs) are documented in `docs/api/README.md` and are normative.
+
+    Three domain rules are visible throughout this document and are not negotiable:
+
+    1. **The policy engine owns every decision.** `model_recommendation` is advisory data that is
+       stored, audited and evaluated — never authoritative (ADR-0007).
+    2. **No suppression is terminal.** Every suppression carries invalidation conditions, an expiry,
+       a scope and a named human approver (ADR-0016).
+    3. **A decision records what was *not* knowable at the time.** `evidence_availability` is
+       mandatory; it is the field that makes the audit log a defence rather than a liability
+       (ADR-0012).
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://api.sdip.example/
+    description: Production
+
+security:
+  - userSession: []
+
+tags:
+  - name: ingestion
+    description: Customer-side push. SDIP holds no credential that authenticates into the customer.
+  - name: findings
+  - name: decisions
+  - name: suppressions
+    description: The closed pile. Every vendor instruments the clock; this API instruments the world.
+  - name: audit
+  - name: operations
+
+paths:
+
+  /healthz:
+    get:
+      tags: [operations]
+      operationId: health
+      summary: Liveness. Unauthenticated, contains no tenant data.
+      security: []
+      responses:
+        '200':
+          description: Alive
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, const: ok }
+
+  /v1/scan-runs:
+    post:
+      tags: [ingestion]
+      operationId: createScanRun
+      summary: Ingest scanner output
+      description: |
+        Creates the scan run row **before parsing**, so a failed or partial import is
+        distinguishable from an empty one. A retry with the same `Idempotency-Key` returns the
+        existing run with **200**, never a second import and never a 409.
+
+        Payloads are streamed and hard-capped. Per-field truncation is recorded as evidence
+        (`truncated: true` with the original hash and length) rather than silently discarded.
+      security:
+        - ingestToken: [ingest:findings]
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ScanRunCreate' }
+          application/sarif+json:
+            schema:
+              type: object
+              description: SARIF 2.1.0 + Errata 01. SAST only — SCA must use its native format.
+      responses:
+        '202':
+          description: Accepted for processing
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ScanRun' }
+        '200':
+          description: Idempotent replay — this exact run already exists
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ScanRun' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '429': { $ref: '#/components/responses/QuotaExceeded' }
+        default: { $ref: '#/components/responses/Problem' }
+    get:
+      tags: [ingestion]
+      operationId: listScanRuns
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+        - name: repo_id
+          in: query
+          schema: { type: string, format: uuid }
+        - name: status
+          in: query
+          schema: { $ref: '#/components/schemas/ScanRunStatus' }
+      responses:
+        '200':
+          description: A page of scan runs
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Page'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: '#/components/schemas/ScanRun' }
+
+  /v1/scan-runs/{scan_run_id}:
+    get:
+      tags: [ingestion]
+      operationId: getScanRun
+      parameters:
+        - $ref: '#/components/parameters/ScanRunId'
+      responses:
+        '200':
+          description: The scan run
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ScanRun' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /v1/findings:
+    get:
+      tags: [findings]
+      operationId: listFindings
+      description: |
+        Cursor-paginated. Offset pagination is not supported: it scans and discards rows, and
+        results shift under concurrent ingestion so pages silently skip records.
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+        - { name: status,       in: query, schema: { $ref: '#/components/schemas/FindingStatus' } }
+        - { name: disposition,  in: query, schema: { $ref: '#/components/schemas/Disposition' } }
+        - { name: class,        in: query, schema: { $ref: '#/components/schemas/FindingClass' } }
+        - { name: severity,     in: query, schema: { $ref: '#/components/schemas/Severity' } }
+        - { name: repo_id,      in: query, schema: { type: string, format: uuid } }
+        - { name: service_id,   in: query, schema: { type: string, format: uuid } }
+        - { name: tool,         in: query, schema: { type: string } }
+        - { name: rule_id,      in: query, schema: { type: string } }
+        - { name: cve_id,       in: query, schema: { type: string } }
+        - { name: purl,         in: query, schema: { type: string } }
+        - name: has_evidence_gap
+          in: query
+          description: Findings whose decision lacked a required evidence slot. These are never auto-deprioritized.
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: A page of findings
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Page'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: '#/components/schemas/FindingSummary' }
+
+  /v1/findings/{identity_id}:
+    get:
+      tags: [findings]
+      operationId: getFinding
+      parameters: [ { $ref: '#/components/parameters/IdentityId' } ]
+      responses:
+        '200':
+          description: The finding
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FindingDetail' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /v1/findings/{identity_id}/observations:
+    get:
+      tags: [findings]
+      operationId: listObservations
+      description: |
+        The immutable observation history. This is what makes "what did we know at the time"
+        answerable, and it is why the data model is append-only.
+      parameters:
+        - $ref: '#/components/parameters/IdentityId'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+      responses:
+        '200':
+          description: A page of observations
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Page'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: '#/components/schemas/Observation' }
+
+  /v1/findings/{identity_id}/related:
+    get:
+      tags: [findings]
+      operationId: listRelatedFindings
+      description: |
+        Correlated findings with an explicit relation type. Findings are never merged; this
+        endpoint reads a versioned cluster materialization derived from append-only edges.
+      parameters:
+        - $ref: '#/components/parameters/IdentityId'
+        - name: relation
+          in: query
+          schema: { $ref: '#/components/schemas/CorrelationRelation' }
+      responses:
+        '200':
+          description: Related findings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  algorithm_version: { type: integer }
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        identity_id: { type: string, format: uuid }
+                        relation:    { $ref: '#/components/schemas/CorrelationRelation' }
+                        confidence:  { type: number, minimum: 0, maximum: 1 }
+
+  /v1/findings/{identity_id}/analyses:
+    post:
+      tags: [decisions]
+      operationId: requestAnalysis
+      description: |
+        Requests re-analysis. Subject to the materiality gate: if the canonical hash of the
+        evidence bundle, scoring version and prompt version is unchanged, the cached decision is
+        returned with a new `valid_as_of` and `analysis_state: unchanged`, and no model is invoked.
+        Polling this endpoint therefore cannot generate cost.
+      parameters: [ { $ref: '#/components/parameters/IdentityId' } ]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason: { type: string, maxLength: 500 }
+      responses:
+        '202':
+          description: Analysis queued, deferred, or served from cache
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AnalysisJob' }
+        '429': { $ref: '#/components/responses/QuotaExceeded' }
+
+  /v1/analyses/{job_id}:
+    get:
+      tags: [decisions]
+      operationId: getAnalysis
+      parameters:
+        - { name: job_id, in: path, required: true, schema: { type: string, format: uuid } }
+      responses:
+        '200':
+          description: Job state
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AnalysisJob' }
+
+  /v1/decisions/{decision_id}:
+    get:
+      tags: [decisions]
+      operationId: getDecision
+      description: |
+        The full immutable decision record. Note the three separate blocks: what deterministic code
+        computed, what the model recommended, and what the policy engine decided. They are never
+        collapsed, because collapsing them makes it impossible to audit which one was responsible.
+      parameters: [ { $ref: '#/components/parameters/DecisionId' } ]
+      responses:
+        '200':
+          description: The decision
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Decision' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+  /v1/decisions/{decision_id}/evidence:
+    get:
+      tags: [decisions]
+      operationId: getDecisionEvidence
+      description: |
+        Returns evidence **used**, evidence **gaps** (required slots that could not be filled) and
+        evidence **dropped** (retrieved but excluded, with the reason). Without gaps and drops the
+        question "was the decisive evidence dropped before the model saw it?" is unanswerable.
+      parameters: [ { $ref: '#/components/parameters/DecisionId' } ]
+      responses:
+        '200':
+          description: The evidence bundle
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EvidenceBundle' }
+
+  /v1/decisions/{decision_id}/revisions:
+    post:
+      tags: [decisions]
+      operationId: createRevision
+      description: |
+        Analyst feedback. Appends a new decision plus a revision link; the original is never
+        modified. These records are the highest-value calibration examples the system produces.
+      parameters: [ { $ref: '#/components/parameters/DecisionId' } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RevisionCreate' }
+      responses:
+        '201':
+          description: Revision recorded
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Decision' }
+        '422': { $ref: '#/components/responses/Problem' }
+
+  /v1/suppressions:
+    post:
+      tags: [suppressions]
+      operationId: createSuppression
+      description: |
+        Creates a **conditional** suppression. A request without at least one invalidation
+        condition, without an expiry, or without an approver is rejected with 422 — there is no
+        state in this data model where software has silently accepted a risk on someone's behalf.
+
+        Requires step-up authentication. A KEV-listed or actively-exploited finding cannot be
+        suppressed by any role.
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - $ref: '#/components/parameters/StepUpAssertion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SuppressionCreate' }
+      responses:
+        '201':
+          description: Suppression created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Suppression' }
+        '422':
+          description: |
+            Domain invariant violated. `code` is one of `missing_conditions`, `missing_expiry`,
+            `missing_approver`, `non_suppressible`.
+          content:
+            application/problem+json:
+              schema: { $ref: '#/components/schemas/Problem' }
+    get:
+      tags: [suppressions]
+      operationId: listSuppressions
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+        - { name: status,         in: query, schema: { $ref: '#/components/schemas/SuppressionStatus' } }
+        - { name: scope_kind,     in: query, schema: { $ref: '#/components/schemas/SuppressionScopeKind' } }
+        - { name: expires_before, in: query, schema: { type: string, format: date-time } }
+        - { name: condition_type, in: query, schema: { $ref: '#/components/schemas/ConditionType' } }
+      responses:
+        '200':
+          description: A page of suppressions
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Page'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: '#/components/schemas/Suppression' }
+
+  /v1/suppressions/{suppression_id}:
+    get:
+      tags: [suppressions]
+      operationId: getSuppression
+      parameters: [ { $ref: '#/components/parameters/SuppressionId' } ]
+      responses:
+        '200':
+          description: The suppression
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Suppression' }
+
+  /v1/suppressions/{suppression_id}/revoke:
+    post:
+      tags: [suppressions]
+      operationId: revokeSuppression
+      parameters:
+        - $ref: '#/components/parameters/SuppressionId'
+        - $ref: '#/components/parameters/StepUpAssertion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason_code]
+              properties:
+                reason_code: { type: string }
+                note:        { type: string, maxLength: 2000 }
+      responses:
+        '200':
+          description: Revoked; a reopen event was emitted
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReopenEvent' }
+
+  /v1/decision-debt:
+    get:
+      tags: [suppressions]
+      operationId: getDecisionDebt
+      summary: Closed decisions whose justification has silently expired
+      description: |
+        The product, expressed as one endpoint.
+
+        Returns closed decisions whose justifying evidence no longer holds — grouped by the trigger
+        that invalidated them. This is the view that answers: *"of the findings you closed last
+        year, which ones would you want back?"*
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+        - { name: trigger,       in: query, schema: { $ref: '#/components/schemas/ConditionType' } }
+        - { name: closed_after,  in: query, schema: { type: string, format: date-time } }
+        - name: include_unmanaged
+          in: query
+          description: |
+            Include decisions imported from an external system (DefectDojo, Jira, GitHub dismissals)
+            that SDIP did not author. This is what makes the first demo possible without migration.
+          schema: { type: boolean, default: true }
+      responses:
+        '200':
+          description: Decision debt
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/DecisionDebtPage' }
+
+  /v1/reopen-events:
+    get:
+      tags: [suppressions]
+      operationId: listReopenEvents
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+        - { name: trigger,        in: query, schema: { $ref: '#/components/schemas/ConditionType' } }
+        - { name: detected_after, in: query, schema: { type: string, format: date-time } }
+        - { name: acknowledged,   in: query, schema: { type: boolean } }
+      responses:
+        '200':
+          description: A page of reopen events
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Page'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: '#/components/schemas/ReopenEvent' }
+
+  /v1/reopen-events/{event_id}/acknowledge:
+    post:
+      tags: [suppressions]
+      operationId: acknowledgeReopenEvent
+      description: |
+        Records whether the analyst agrees the finding should have been re-opened. This single
+        boolean is the re-litigation precision metric — the number that decides whether the product
+        is useful or is a new source of alert fatigue. Target ≥60%; below 40% the trigger that
+        produced it is disabled.
+      parameters:
+        - { name: event_id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [analyst_agreed]
+              properties:
+                analyst_agreed: { type: boolean }
+                note:           { type: string, maxLength: 2000 }
+      responses:
+        '200':
+          description: Acknowledged
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReopenEvent' }
+
+  /v1/audit:
+    get:
+      tags: [audit]
+      operationId: listAuditRecords
+      parameters:
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Cursor'
+        - { name: subject_type, in: query, schema: { type: string } }
+        - { name: subject_id,   in: query, schema: { type: string, format: uuid } }
+        - { name: action,       in: query, schema: { type: string } }
+        - { name: from,         in: query, schema: { type: string, format: date-time } }
+        - { name: to,           in: query, schema: { type: string, format: date-time } }
+      responses:
+        '200':
+          description: A page of audit records
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Page'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items: { $ref: '#/components/schemas/AuditRecord' }
+
+  /v1/audit/verify:
+    post:
+      tags: [audit]
+      operationId: verifyAuditChain
+      description: |
+        Verifies the hash chain over a range and checks the published Merkle root against the
+        external anchor. A hash chain alone proves nothing against an attacker who owns the
+        database; the anchor is the load-bearing part.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from_seq: { type: integer, format: int64 }
+                to_seq:   { type: integer, format: int64 }
+      responses:
+        '200':
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verified:        { type: boolean }
+                  first_bad_seq:   { type: [integer, 'null'], format: int64 }
+                  merkle_root_id:  { type: string, format: uuid }
+                  anchor:
+                    type: object
+                    properties:
+                      kind:        { type: string, enum: [rfc3161, object_store, transparency_log] }
+                      verified_at: { type: string, format: date-time }
+
+  /v1/usage:
+    get:
+      tags: [operations]
+      operationId: getUsage
+      description: |
+        Spend against budget. When the budget is exhausted the system **queues rather than spends**
+        and reports `degraded: true` — analysis falls back to deterministic-only ranking, labelled
+        as such in every affected decision. It is never an outage.
+      responses:
+        '200':
+          description: Usage
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  period:            { type: string }
+                  budget_usd:        { type: number }
+                  spent_usd:         { type: number }
+                  degraded:          { type: boolean }
+                  llm_touch_rate:    { type: number, description: Fraction of ingested findings that reached a model. Target ≤0.20 }
+                  decisions_analyzed: { type: integer }
+
+components:
+
+  securitySchemes:
+    userSession:
+      type: openIdConnect
+      openIdConnectUrl: https://auth.sdip.example/.well-known/openid-configuration
+    ingestToken:
+      type: http
+      scheme: bearer
+      description: |
+        Short-lived, minted by SDIP, scoped to `ingest:findings` for exactly one project.
+        A compromise yields findings data — never repo access, never code, never a pivot.
+
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 200, default: 50 }
+    Cursor:
+      name: cursor
+      in: query
+      description: Opaque keyset cursor. Offset pagination is not supported.
+      schema: { type: string }
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      description: If omitted on ingest, derived as sha256(payload) ‖ tool ‖ repo ‖ commit.
+      schema: { type: string, maxLength: 255 }
+    StepUpAssertion:
+      name: X-StepUp-Assertion
+      in: header
+      required: true
+      description: Recent-authentication assertion. Required for any operation that can suppress a finding.
+      schema: { type: string }
+    ScanRunId:
+      name: scan_run_id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    IdentityId:
+      name: identity_id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    DecisionId:
+      name: decision_id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    SuppressionId:
+      name: suppression_id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+
+  responses:
+    Problem:
+      description: Error
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    NotFound:
+      description: |
+        Not found, or not visible to this tenant. The two are deliberately indistinguishable.
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    PayloadTooLarge:
+      description: Above the hard payload cap
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+    QuotaExceeded:
+      description: Per-tenant rate or volume quota exceeded
+      headers:
+        Retry-After:
+          schema: { type: integer }
+      content:
+        application/problem+json:
+          schema: { $ref: '#/components/schemas/Problem' }
+
+  schemas:
+
+    Problem:
+      type: object
+      required: [type, title, status, code]
+      properties:
+        type:     { type: string, format: uri }
+        title:    { type: string }
+        status:   { type: integer }
+        detail:   { type: string }
+        instance: { type: string }
+        code:     { type: string, description: Stable machine-readable identifier }
+        trace_id: { type: string }
+        non_suppressible_reason:
+          type: [string, 'null']
+          enum: [kev_listed, active_exploitation, null]
+
+    Page:
+      type: object
+      required: [items]
+      properties:
+        items: { type: array, items: {} }
+        next_cursor: { type: [string, 'null'] }
+        estimated_total:
+          type: integer
+          description: An estimate from table statistics. Never an exact COUNT(*).
+
+    FindingClass:  { type: string, enum: [sast, sca, secret, container, iac] }
+    Severity:      { type: string, enum: [critical, high, medium, low, informational] }
+    FindingStatus: { type: string, enum: [open, reopened, not_present, remediated, suppressed, expired, superseded] }
+    Disposition:   { type: string, enum: [prioritize, deprioritize, false_positive_candidate, needs_review, accepted_risk] }
+    ScanRunStatus: { type: string, enum: [started, complete, partial, failed] }
+    CorrelationRelation: { type: string, enum: [exact_duplicate, same_root_cause, related, suspected] }
+    SuppressionStatus:   { type: string, enum: [active, tripped, expired, revoked] }
+    SuppressionScopeKind:
+      type: string
+      enum: [finding, rule_in_repo, vulnerability_org_wide, package_everywhere]
+    ConditionType:
+      type: string
+      description: |
+        Invalidation triggers. Calendar expiry is the floor, not the mechanism — it is what every
+        competitor already ships. The rest are what nobody watches.
+      enum:
+        - kev_listed
+        - epss_above
+        - exploit_published
+        - advisory_range_narrowed
+        - became_reachable
+        - became_internet_facing
+        - criticality_increased
+        - ownership_changed
+        - calendar_expiry
+    AuthorityTier: { type: string, enum: [A, B, C, D, E] }
+
+    ScanRunCreate:
+      type: object
+      required: [tool, tool_version, format, payload]
+      properties:
+        tool:            { type: string }
+        tool_version:    { type: string }
+        ruleset_version: { type: string }
+        format:          { type: string, enum: [sarif-2.1.0, trivy-json, snyk-json, gitleaks-json] }
+        repo:
+          type: object
+          properties:
+            provider:    { type: string }
+            external_id: { type: string }
+            commit_sha:  { type: string }
+            branch:      { type: string }
+        scope:
+          type: object
+          description: Paths, ruleset and configuration. Canonicalized into scope_hash, which decides scan comparability.
+        payload:
+          description: Inline scanner output, or a reference to a previously uploaded blob.
+          oneOf:
+            - type: object
+            - type: object
+              properties:
+                upload_id: { type: string, format: uuid }
+
+    ScanRun:
+      type: object
+      properties:
+        id:              { type: string, format: uuid }
+        tool:            { type: string }
+        tool_version:    { type: string }
+        ruleset_version: { type: [string, 'null'] }
+        scope_hash:      { type: string }
+        status:          { $ref: '#/components/schemas/ScanRunStatus' }
+        finding_count:   { type: [integer, 'null'] }
+        truncation_summary:
+          type: [object, 'null']
+          description: Fields truncated at the cap, with original hash and length. Nothing is silently discarded.
+        started_at:      { type: string, format: date-time }
+        completed_at:    { type: [string, 'null'], format: date-time }
+        idempotent_replay:
+          type: boolean
+          description: True when this response replays an existing run rather than creating one.
+
+    Observation:
+      type: object
+      description: An immutable historical fact. Never updated, never deleted before retention expiry.
+      properties:
+        id:           { type: string, format: uuid }
+        observed_at:  { type: string, format: date-time }
+        scan_run_id:  { type: string, format: uuid }
+        tool:         { type: string }
+        tool_version: { type: string }
+        rule_id:      { type: [string, 'null'] }
+        rule_version: { type: [string, 'null'] }
+        severity_raw: { type: [string, 'null'] }
+        severity_normalized: { $ref: '#/components/schemas/Severity' }
+        severity_mapping_version: { type: string }
+        cvss:
+          type: array
+          description: Per-source triples. Sources routinely disagree by 2+ points on the same CVE.
+          items:
+            type: object
+            properties:
+              source: { type: string }
+              vector: { type: string }
+              score:  { type: number }
+        cve_ids:      { type: array, items: { type: string } }
+        purl:         { type: [string, 'null'] }
+        fixed_version: { type: [string, 'null'] }
+        dependency_path:
+          type: [array, 'null']
+          description: Direct vs transitive, and which path. SARIF cannot represent this, which is why SCA uses native formats.
+          items: { type: string }
+        file_path:    { type: [string, 'null'] }
+        in_tool_suppressed:
+          type: boolean
+          description: The developer already dismissed this in the scanner. Re-surfacing it as new destroys trust.
+
+    FindingSummary:
+      type: object
+      properties:
+        identity_id:      { type: string, format: uuid }
+        class:            { $ref: '#/components/schemas/FindingClass' }
+        status:           { $ref: '#/components/schemas/FindingStatus' }
+        severity:         { $ref: '#/components/schemas/Severity' }
+        disposition:      { type: [string, 'null'] }
+        title:            { type: string }
+        repo_id:          { type: [string, 'null'], format: uuid }
+        service_id:       { type: [string, 'null'], format: uuid }
+        owner:            { type: [string, 'null'] }
+        first_observed_at: { type: string, format: date-time }
+        last_observed_at: { type: [string, 'null'], format: date-time }
+        current_decision_id: { type: [string, 'null'], format: uuid }
+        duplicate_count:  { type: integer }
+
+    FindingDetail:
+      allOf:
+        - $ref: '#/components/schemas/FindingSummary'
+        - type: object
+          properties:
+            absent_run_count:
+              type: integer
+              description: Consecutive comparable, complete scan runs without this finding. Absence is not a fix.
+            fingerprints:
+              type: array
+              items:
+                type: object
+                properties:
+                  version:     { type: integer }
+                  fingerprint: { type: string }
+            active_suppression: { $ref: '#/components/schemas/Suppression' }
+
+    DeterministicAssessment:
+      type: object
+      description: Computed by versioned code. The model never supplies these values.
+      properties:
+        score:                 { type: number, minimum: 0, maximum: 1 }
+        severity_floor:        { $ref: '#/components/schemas/Severity' }
+        feature_vector:        { type: object }
+        scoring_model_version: { type: string }
+
+    ModelRecommendation:
+      type: object
+      description: |
+        Advisory data. Stored, audited and evaluated — never authoritative. Absent on the majority
+        of decisions, because the deterministic pre-filter resolves them without invoking a model.
+      properties:
+        recommended_decision: { $ref: '#/components/schemas/Disposition' }
+        exploitability:
+          type: string
+          enum: [confirmed, highly_likely, possible, unlikely, unknown]
+        business_impact:
+          type: string
+          enum: [critical, high, medium, low, unknown]
+        reasoning_summary:
+          type: string
+          description: |
+            Untrusted output. Rendered as plain text or through a strict allowlist renderer with
+            remote image loading disabled — a markdown image is a zero-click exfiltration channel.
+        evidence_ids:               { type: array, items: { type: string, format: uuid } }
+        contradicting_evidence_ids: { type: array, items: { type: string, format: uuid } }
+        uncertainty_reasons:        { type: array, items: { type: string } }
+        grounding_validation:
+          type: string
+          enum: [passed, failed_hallucinated_citation, failed_score_deviation, failed_unsupported_claim]
+
+    PolicyDecision:
+      type: object
+      description: Emitted by deterministic code. This is the decision of record.
+      properties:
+        decision:        { $ref: '#/components/schemas/Disposition' }
+        policy_version:  { type: string }
+        predicates_satisfied: { type: array, items: { type: string } }
+        suppression_authorized_by:
+          type: [string, 'null']
+          enum: [policy, analyst, null]
+        non_suppressible_reason:
+          type: [string, 'null']
+          enum: [kev_listed, active_exploitation, null]
+
+    EvidenceAvailability:
+      type: object
+      description: |
+        What was — and was not — knowable at decision time. The field that turns the audit log from
+        a liability into a defence.
+      required: [kev_at_decision_time]
+      properties:
+        kev_at_decision_time:  { type: boolean }
+        epss_at_decision_time: { type: [number, 'null'] }
+        epss_model_version:    { type: [string, 'null'] }
+        advisory_versions_seen:
+          type: array
+          items:
+            type: object
+            properties:
+              source_id:    { type: string }
+              version_label: { type: string }
+              content_hash: { type: string }
+        not_yet_existing:
+          type: array
+          description: Signals that did not exist at decision time and therefore could not have been considered.
+          items: { type: string }
+
+    Decision:
+      type: object
+      properties:
+        id:          { type: string, format: uuid }
+        identity_id: { type: string, format: uuid }
+        decided_at:  { type: string, format: date-time }
+        valid_as_of: { type: string, format: date-time }
+        deterministic_assessment: { $ref: '#/components/schemas/DeterministicAssessment' }
+        model_recommendation:     { $ref: '#/components/schemas/ModelRecommendation' }
+        policy_decision:          { $ref: '#/components/schemas/PolicyDecision' }
+        evidence_availability:    { $ref: '#/components/schemas/EvidenceAvailability' }
+        contextual_risk_score:    { type: number, minimum: 0, maximum: 1 }
+        confidence:
+          type: [number, 'null']
+          description: Computed and calibrated. Never a model's self-report.
+        agreement_band:
+          type: [object, 'null']
+          description: |
+            The empirical statement shown to analysts in place of a confidence number.
+          properties:
+            n:              { type: integer }
+            agreement_rate: { type: number }
+            ci_low:         { type: number }
+            ci_high:        { type: number }
+        redaction_tier: { type: string, enum: [no_code, scrubbed, full_optin] }
+        analysis_state:
+          type: string
+          enum: [analyzed, unchanged, deferred, deterministic_only]
+        versions:
+          type: object
+          properties:
+            decision_version:         { type: string }
+            policy_version:           { type: string }
+            scoring_model_version:    { type: string }
+            prompt_template_version:  { type: [string, 'null'] }
+            retrieval_config_version: { type: [string, 'null'] }
+        audit:
+          type: object
+          properties:
+            record_hash:    { type: string }
+            merkle_root_id: { type: [string, 'null'], format: uuid }
+
+    Evidence:
+      type: object
+      properties:
+        id:            { type: string, format: uuid }
+        slot:          { type: string }
+        source_type:   { type: string }
+        source_id:     { type: string }
+        authority_tier: { $ref: '#/components/schemas/AuthorityTier' }
+        snapshot_id:   { type: [string, 'null'], format: uuid }
+        content_hash:  { type: string }
+        retrieved_at:  { type: string, format: date-time }
+        freshness_window: { type: [string, 'null'] }
+        stale:         { type: boolean }
+        body:          { type: object }
+
+    EvidenceBundle:
+      type: object
+      properties:
+        used:
+          type: array
+          items: { $ref: '#/components/schemas/Evidence' }
+        gaps:
+          type: array
+          description: Required slots that could not be filled. A gap blocks auto-deprioritize.
+          items:
+            type: object
+            properties:
+              slot:   { type: string }
+              reason: { type: string }
+        dropped:
+          type: array
+          description: Retrieved but excluded, with the reason. Without this, retrieval regressions are misattributed to the prompt.
+          items:
+            type: object
+            properties:
+              evidence_ref: { type: string }
+              slot:         { type: string }
+              score:        { type: [number, 'null'] }
+              reason:       { type: string, enum: [over_budget, below_threshold, stale, duplicate] }
+        conflicts:
+          type: array
+          description: Detected by deterministic rules over typed fields. A conflict adjusts confidence; it never flips a decision.
+          items:
+            type: object
+            properties:
+              rule_id:       { type: string }
+              evidence_id_a: { type: string, format: uuid }
+              evidence_id_b: { type: string, format: uuid }
+
+    AnalysisJob:
+      type: object
+      properties:
+        id:     { type: string, format: uuid }
+        state:  { type: string, enum: [queued, running, complete, deferred, failed] }
+        analysis_state:
+          type: string
+          enum: [analyzed, unchanged, deferred, deterministic_only]
+        reason: { type: [string, 'null'] }
+        decision_id: { type: [string, 'null'], format: uuid }
+
+    RevisionCreate:
+      type: object
+      required: [new_disposition, reason_code]
+      properties:
+        new_disposition: { $ref: '#/components/schemas/Disposition' }
+        reason_code:     { type: string }
+        note:            { type: string, maxLength: 4000 }
+
+    InvalidationCondition:
+      type: object
+      required: [condition_type]
+      properties:
+        condition_type: { $ref: '#/components/schemas/ConditionType' }
+        threshold:
+          type: [object, 'null']
+          description: 'e.g. { "epss": 0.10 }'
+        source_pin:
+          type: [object, 'null']
+          description: 'e.g. { "epss_model_version": "v5" } — an unpinned threshold is not comparable over time.'
+
+    SuppressionCreate:
+      type: object
+      required: [decision_id, scope_kind, scope_predicate, conditions, expires_at, reason_code]
+      properties:
+        decision_id:     { type: string, format: uuid }
+        scope_kind:      { $ref: '#/components/schemas/SuppressionScopeKind' }
+        scope_predicate:
+          type: object
+          description: |
+            A predicate, not a list of finding ids. An org-wide CVE suppression must automatically
+            apply to findings that do not exist yet.
+        conditions:
+          type: array
+          minItems: 1
+          items: { $ref: '#/components/schemas/InvalidationCondition' }
+        expires_at:      { type: string, format: date-time }
+        reason_code:     { type: string }
+        justification:   { type: string, maxLength: 4000 }
+
+    Suppression:
+      type: object
+      properties:
+        id:             { type: string, format: uuid }
+        status:         { $ref: '#/components/schemas/SuppressionStatus' }
+        scope_kind:     { $ref: '#/components/schemas/SuppressionScopeKind' }
+        scope_predicate: { type: object }
+        conditions:
+          type: array
+          items: { $ref: '#/components/schemas/InvalidationCondition' }
+        expires_at:     { type: string, format: date-time }
+        approver:
+          type: object
+          description: A named human. There is no system-authored suppression.
+          properties:
+            actor_id: { type: string, format: uuid }
+            subject:  { type: string }
+        reason_code:    { type: string }
+        created_from_decision_id: { type: string, format: uuid }
+        created_at:     { type: string, format: date-time }
+
+    ReopenEvent:
+      type: object
+      properties:
+        id:             { type: string, format: uuid }
+        suppression_id: { type: string, format: uuid }
+        identity_id:    { type: string, format: uuid }
+        trigger:        { $ref: '#/components/schemas/ConditionType' }
+        delta:
+          type: object
+          description: 'What changed, from → to. e.g. { "kev": { "from": false, "to": true } }'
+        detected_at:    { type: string, format: date-time }
+        notified_at:    { type: [string, 'null'], format: date-time }
+        original_decision:
+          type: object
+          properties:
+            decision_id:  { type: string, format: uuid }
+            decided_at:   { type: string, format: date-time }
+            approver:     { type: [string, 'null'] }
+            evidence_availability: { $ref: '#/components/schemas/EvidenceAvailability' }
+        analyst_agreed: { type: [boolean, 'null'] }
+
+    DecisionDebtPage:
+      type: object
+      properties:
+        summary:
+          type: object
+          description: The headline the buyer reads first.
+          properties:
+            closed_decisions_examined: { type: integer }
+            now_invalid:               { type: integer }
+            by_trigger:
+              type: object
+              additionalProperties: { type: integer }
+            window:
+              type: object
+              properties:
+                from: { type: string, format: date-time }
+                to:   { type: string, format: date-time }
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              identity_id:  { type: string, format: uuid }
+              title:        { type: string }
+              closed_at:    { type: string, format: date-time }
+              closed_by:    { type: [string, 'null'] }
+              source_system:
+                type: string
+                description: sdip | defectdojo | jira | github — imported decisions count too.
+              trigger:      { $ref: '#/components/schemas/ConditionType' }
+              delta:        { type: object }
+              known_at_the_time: { $ref: '#/components/schemas/EvidenceAvailability' }
+        next_cursor: { type: [string, 'null'] }
+
+    AuditRecord:
+      type: object
+      properties:
+        seq:          { type: integer, format: int64 }
+        subject_type: { type: string }
+        subject_id:   { type: string, format: uuid }
+        action:       { type: string }
+        actor:        { type: object }
+        payload_ref:
+          type: string
+          description: A content hash. The chain is over references, not content, so a leaked payload can be deleted without breaking it.
+        prev_hash:    { type: string }
+        record_hash:  { type: string }
+        merkle_root_id: { type: [string, 'null'], format: uuid }
+        server_time:  { type: string, format: date-time }
