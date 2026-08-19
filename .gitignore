@@ -1,6 +1,13 @@
 # Config/estado local do Claude Code — não é parte do projeto.
 .claude/
 
+# Banco local da aplicação. Regenerado ao subir; guarda análises da máquina
+# de quem rodou, incluindo nomes de arquivo de export reais.
+sdip.db
+
+# Scratch de renderização usado durante o desenvolvimento da interface.
+_render/
+
 # Regenerável a partir dos feeds públicos — nada aqui é entrada de nada.
 phase0/.cache/
 phase0/demo-*.csv

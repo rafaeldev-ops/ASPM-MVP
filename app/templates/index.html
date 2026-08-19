@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block titulo %}Livro de registro · SDIP{% endblock %}
+
+{% block carimbo %}
+  {% if analyses %}KEV {{ analyses[0].kev_version or 'sem versão declarada' }}
+  · última folha {{ m.datahora(analyses[0].created_at) }} UTC{% else %}Nenhuma folha lavrada{% endif %}
+{% endblock %}
+
+{% block conteudo %}
+
+  <h1 class="t7 titulo-tela">Livro de registro</h1>
+  <p class="t5 tese">Decisões de segurança envelhecem. Este instrumento mede o quanto.</p>
+
+  {# ---------- formulário: o herói do índice ---------- #}
+  <form class="folha entrada bloco" method="post" action="/analyses" enctype="multipart/form-data">
+    <h2 class="t6">Entrada de evidência</h2>
+
+    <label class="rotulo" for="file">Arquivo de export de achados fechados (.csv ou .json)</label>
+    <input id="file" type="file" name="file" accept=".csv,.json" required>
+    <p class="lido t1">O instrumento lê: identificador · data de fechamento · razão do fechamento</p>
+
+    <button type="submit" class="btn btn--primario">Analisar export</button>
+
+    <div class="ou"><span>ou</span></div>
+
+    <button type="submit" name="use_demo" value="1" formnovalidate class="btn btn--secundario">
+      Rodar export sintético
+    </button>
+    <p class="honesto t3">Gera um export de demonstração; a execução fica carimbada como
+      demo em toda tela.</p>
+  </form>
+
+  {# ---------- totais ---------- #}
+  <section class="bloco" aria-labelledby="tit-totais">
+    <h2 class="t1 rubrica" id="tit-totais">Totais do livro</h2>
+
+    <div class="totais">
+      <p class="t1">Folhas lavradas
+        <span class="total-neutro">{{ m.num(totals.runs) }}</span></p>
+      <p class="t1">Achados analisados
+        <span class="total-neutro">{{ m.num(totals.analyzed) }}</span></p>
+    </div>
+
+    <div class="placas">
+      <div class="placa placa--esq">
+        <span class="placa__rotulo t1">← Fechado apesar</span>
+        <span class="placa__numero t8{{ ' tinta-grafite' if not totals.despite }}">{{ m.num(totals.despite) }}</span>
+        <span class="placa__sub t2 tinta-grafite">
+          {% if totals.despite %}achados fechados quando a KEV já sabia{% else %}nada foi fechado apesar do que já se sabia{% endif %}
+        </span>
+      </div>
+
+      <div class="eixo-zero" aria-hidden="true"><span class="t1">Dia do fechamento</span></div>
+
+      <div class="placa placa--dir">
+        <span class="placa__rotulo t1">Dívida de decisão →</span>
+        <span class="placa__numero t8{{ ' tinta-grafite' if not totals.debt }}">{{ m.num(totals.debt) }}</span>
+        <span class="placa__sub t2 tinta-grafite">
+          {% if totals.debt %}decisões que o mundo desmentiu depois{% else %}nenhuma decisão foi reexaminada ainda{% endif %}
+        </span>
+      </div>
+    </div>
+    <p class="nao-somam t1">As duas pilhas não somam</p>
+  </section>
+
+  {# ---------- registro ---------- #}
+  <section class="bloco" aria-labelledby="tit-registro">
+    <h2 class="t1 rubrica" id="tit-registro">Registro de execuções</h2>
+
+    {% if analyses %}
+      {% set mx = [ analyses|map(attribute='debt_count')|max,
+                    analyses|map(attribute='despite_count')|max, 1 ]|max %}
+      <p class="t1 massa-legenda">apesar ← contagem de achados → dívida</p>
+
+      <ul class="registro">
+        {% for a in analyses %}
+          <li>
+            <a class="linha" href="/analyses/{{ a.id }}">
+              <span class="linha__n">Nº {{ '%04d'|format(a.id) }}</span>
+              <span class="linha__fonte">{{ a.source_name }}{% if a.is_demo %}<span class="chip chip--demo">demo</span>{% endif %}</span>
+              <span class="linha__data">{{ m.datahora(a.created_at) }}</span>
+              <span class="linha__massa">
+                <span class="massa" aria-hidden="true">
+                  <span class="massa__esq"><i style="width:{{ (a.despite_count / mx * 100)|round(2) }}%"></i></span>
+                  <span class="massa__zero"></span>
+                  <span class="massa__dir"><i style="width:{{ (a.debt_count / mx * 100)|round(2) }}%"></i></span>
+                </span>
+                <span class="sr-only">{{ m.num(a.despite_count) }} fechados apesar,
+                  {{ m.num(a.debt_count) }} em dívida de decisão</span>
+              </span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      {# ---------- estado vazio: o registro pautado ---------- #}
+      <div class="vazio">
+        <svg class="vazio__seta" width="24" height="56" viewBox="0 0 24 56" role="img"
+             aria-label="A entrada de evidência fica acima">
+          <title>A entrada de evidência fica acima</title>
+          <path d="M12 55 V3 M5 10 L12 3 L19 10" />
+        </svg>
+        <p class="t5 vazio__frase">Nenhum registro lavrado. A régua já existe — faltam as suas decisões.</p>
+        <ul class="vazio__pautas" aria-hidden="true">
+          {% for n in ['0001', '0002', '0003', '0004', '0005', '0006'] %}
+            <li>Nº {{ n }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </section>
+
+{% endblock %}
+
+{% block custodia %}
+  Instrumento SDIP · comparação por data contra o catálogo CISA KEV
+{% endblock %}

@@ -11,23 +11,38 @@ aspirational architecture.
 
 ---
 
-## Run the demo (30 seconds, nothing to install)
+## Rodar a aplicação
+
+```bash
+pip install -r requirements.txt
+python -m uvicorn app.main:app --reload
+```
+
+Abra <http://127.0.0.1:8000>. Envie um export de achados fechados (.csv ou
+.json), ou clique em **Rodar export sintético** para ver o instrumento
+funcionando sem precisar de dado real.
+
+Cada execução vira uma folha no livro de registro, com histórico navegável:
+
+| Tela | O que faz |
+|---|---|
+| `/` | Livro de registro: envio de export e histórico de execuções |
+| `/analyses/{id}` | Laudo: as duas pilhas, linha do tempo, e a tabela filtrável por razão de fechamento e por uso em ransomware |
+| `/analyses/{id}/session` | Sessão de revisão: a amostra estratificada de 20 achados, uma ficha por achado, para percorrer com o analista |
+
+Nenhuma requisição externa além de uma chamada ao catálogo CISA KEV, cacheada
+localmente após a primeira vez. Nada do que é enviado sai da máquina.
+
+### O instrumento de linha de comando
+
+A mesma análise existe como script de arquivo único, sem instalar nada — é
+o formato pensado para rodar na máquina de um parceiro que não vai instalar
+uma aplicação web para avaliar uma ideia:
 
 ```bash
 cd phase0
 python v1_backtest.py --demo
-```
-
-Reads a synthetic export of "closed" security findings, checks each one
-against the real CISA KEV catalog (one HTTPS call, cached locally after the
-first run), and writes `decision-debt-report.html` — a self-contained report
-showing which closed findings later turned out to be known-exploited.
-
-Point it at a real export instead of `--demo` and it runs the same analysis
-on real data — still nothing leaves the machine it runs on.
-
-```bash
-python v1_backtest.py path/to/your-export.csv
+python v1_backtest.py caminho/para/export.csv
 ```
 
 ## The one-sentence thesis
@@ -62,7 +77,8 @@ specifically to find out where they were wrong, and both were:
 
 | Path | What's in it |
 |---|---|
-| [`phase0/`](phase0/) | The only code that runs today. Single-file, standard-library-only instruments — no install step, on purpose. |
+| [`app/`](app/) | A aplicação web: motor de análise, persistência (SQLite) e as três telas. |
+| [`phase0/`](phase0/) | Instrumentos de validação: arquivo único, só biblioteca padrão, sem instalação — de propósito, para rodar na máquina de um parceiro. |
 | [`docs/adr/`](docs/adr/) | 17 architecture decisions, with alternatives and consequences, not just conclusions. |
 | [`docs/product/`](docs/product/) | Product critique, competitive teardown, MVP backlog (MoSCoW), design-partner recruitment kit. |
 | [`docs/evaluation/`](docs/evaluation/) | Pre-registered Phase 0 validation protocols, and the two experiments above. |
@@ -73,14 +89,18 @@ specifically to find out where they were wrong, and both were:
 
 ## What is deliberately not built yet
 
-No LLM, no database, no scanner integration, no correlation engine. The
-backlog ([`docs/product/mvp-backlog.md`](docs/product/mvp-backlog.md)) splits
-the plan into **Ring 0** (~14 engineer-weeks: import decisions, enrich, diff,
-report — what `v1_backtest.py` already does the core of) and **Ring 1**
-(~62 engineer-weeks: the full platform). Ring 1 is not worth building until
-Ring 0's thesis is confirmed against real organizational data — building it
-first is explicitly listed as the failure mode this project is trying to
-avoid.
+Sem LLM, sem integração com scanner, sem motor de correlação, sem
+multi-tenancy. O que existe cobre o núcleo do **Ring 0** do backlog
+([`docs/product/mvp-backlog.md`](docs/product/mvp-backlog.md)): importar
+decisões fechadas, enriquecer com conhecimento público, diferenciar por data
+e relatar. O **Ring 1** (~62 semanas de engenheiro: a plataforma completa)
+não vale ser construído enquanto a tese do Ring 0 não for confirmada contra
+dado organizacional real — construí-lo antes é literalmente o modo de falha
+que este projeto tenta evitar.
+
+Um sinal foi deliberadamente **não** implementado: EPSS como gatilho de
+re-litígio. Ele foi testado e rejeitado com dado medido (ver acima). Estaria
+fácil adicionar e inflaria os números; é exatamente por isso que não está lá.
 
 ## Where this stands right now
 

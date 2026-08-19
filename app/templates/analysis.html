@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block titulo %}Laudo Nº {{ '%04d'|format(a.id) }} · SDIP{% endblock %}
+
+{% block chapa %}<span class="chapa">Nº {{ '%04d'|format(a.id) }}</span>{% endblock %}
+
+{% block carimbo %}
+  KEV {{ a.kev_version or 'sem versão declarada' }}
+  · carimbado {{ m.datahora(a.created_at) }} UTC
+{% endblock %}
+
+{% block conteudo %}
+
+{# ---------- domínio da escala e marcas da régua ---------- #}
+{% set _m = (items | map(attribute='days') | map('abs') | list | max) if items else 0 %}
+{% set dom = 365 if _m <= 365 else (1095 if _m <= 1095 else (1825 if _m <= 1825 else 3650)) %}
+{% set ticks = [90, 180, 365, 730, 1095] | select('lt', dom) | list %}
+
+{# ---------- querystring base dos filtros ---------- #}
+{% set qs_rw = '&ransomware=1' if ransomware == '1' else '' %}
+{% set qs_reason = '&reason=' ~ reason|urlencode if reason else '' %}
+
+  <h1 class="t7 titulo-tela">Laudo de dívida de decisão</h1>
+
+  {# ---------- identificação e procedência ---------- #}
+  <section class="folha bloco" aria-labelledby="tit-ident">
+    <h2 class="t6" id="tit-ident">{{ a.source_name }}{% if a.is_demo %}
+      <span class="chip chip--demo">demo</span>{% endif %}</h2>
+    <p class="procedencia t1">
+      Total {{ m.num(a.total_rows) }} → analisadas {{ m.num(a.analyzed) }}
+      → excluídas {{ m.num(a.excluded) }}
+      · KEV {{ a.kev_version or 'sem versão declarada' }}
+      · id={{ a.id_col or 'não detectada' }}
+      · data={{ a.date_col or 'não detectada' }}
+      · razão={{ a.reason_col or 'não detectada' }}
+    </p>
+  </section>
+
+  {# ---------- placas de métrica = seletor de pilha ---------- #}
+  <section class="bloco" aria-labelledby="tit-pilhas">
+    <h2 class="sr-only" id="tit-pilhas">Pilhas</h2>
+
+    <div class="placas">
+      <a class="placa placa--esq" aria-current="{{ 'true' if kind == 'despite' else 'false' }}"
+         href="?kind=despite{{ qs_reason }}{{ qs_rw }}">
+        <span class="placa__rotulo t1">← Fechado apesar</span>
+        <span class="placa__numero t8">{{ m.num(a.despite_count) }}</span>
+        <span class="placa__sub t2 tinta-grafite">
+          {{ m.num(a.despite_ransomware) }} com ransomware</span>
+      </a>
+
+      <div class="eixo-zero" aria-hidden="true"><span class="t1">Dia do fechamento</span></div>
+
+      <a class="placa placa--dir" aria-current="{{ 'true' if kind == 'debt' else 'false' }}"
+         href="?kind=debt{{ qs_reason }}{{ qs_rw }}">
+        <span class="placa__rotulo t1">Dívida de decisão →</span>
+        <span class="placa__numero t8">{{ m.num(a.debt_count) }}</span>
+        <span class="placa__sub t2 tinta-grafite">
+          {{ m.num(a.debt_ransomware) }} com ransomware</span>
+      </a>
+    </div>
+
+    <p class="nao-somam t1">As duas pilhas não somam</p>
+    <p class="peso-editorial t5">Alguém fechou um achado que já era sabidamente explorado.</p>
+
+    {# ---------- pilhas de razão e exclusões ---------- #}
+    <div class="listas">
+      <div class="lista">
+        <p class="lista__rotulo t1">Razões de fechamento no export</p>
+        <ul>
+          {% for r, c in a.piles.items() %}
+            <li><span>{{ m.razao(r) }}</span><span>{{ m.num(c) }}</span></li>
+          {% else %}
+            <li><span>nenhuma razão classificada</span><span>0</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="lista lista--excl">
+        <p class="lista__rotulo t1">O que o instrumento não pôde ler</p>
+        <ul>
+          {% for e, c in a.exclusions.items() %}
+            <li><span>{{ m.exclusao(e) }}</span><span>{{ m.num(c) }}</span></li>
+          {% else %}
+            <li><span>o instrumento leu todas as linhas</span><span>0</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {# ---------- filtros ---------- #}
+  <section class="bloco" aria-labelledby="tit-filtros">
+    <h2 class="t1 rubrica" id="tit-filtros">Filtros</h2>
+
+    <div class="filtros">
+      <span class="t1">Razão</span>
+      <a class="chip" aria-current="{{ 'true' if not reason else 'false' }}"
+         href="?kind={{ kind }}{{ qs_rw }}">todas</a>
+      {% for r in reasons %}
+        <a class="chip" aria-current="{{ 'true' if reason == r else 'false' }}"
+           href="?kind={{ kind }}&amp;reason={{ r|urlencode }}{{ qs_rw }}">{{ m.razao(r) }}</a>
+      {% endfor %}
+    </div>
+
+    <div class="filtros">
+      <span class="t1">Gravidade</span>
+      <a class="chip chip--rw" aria-current="{{ 'true' if ransomware == '1' else 'false' }}"
+         href="?kind={{ kind }}{{ qs_reason }}{% if ransomware != '1' %}&amp;ransomware=1{% endif %}">só ransomware</a>
+      {% if reason or ransomware == '1' %}
+        <a class="chip" href="?kind={{ kind }}">limpar filtros</a>
+      {% endif %}
+    </div>
+  </section>
+
+  {# ---------- linha do tempo, ou a recusa de desenhar ---------- #}
+  <section class="bloco" aria-labelledby="tit-linha">
+    <h2 class="t1 rubrica" id="tit-linha">Linha do tempo</h2>
+
+    {% if kind == 'debt' %}
+      {% if timeline %}
+        {% set n = timeline|length %}
+        {% set passo = 720 / n %}
+        {% set larg = [[18, passo - 2]|min, 2]|max %}
+        {% set contagens = timeline|map(attribute='count')|list %}
+        {% set maxc = contagens|max %}
+        {% set idx_pico = contagens.index(maxc) %}
+        <div class="grafico folha folha--debt">
+          <svg viewBox="0 0 720 140" role="img" aria-labelledby="tl-titulo">
+            <title id="tl-titulo">Dívida de decisão por mês de entrada na KEV.
+              Pico de {{ maxc }} achados.</title>
+            {% for t in timeline %}
+              {% set h = (t.count / maxc * 90)|round(2) %}
+              <rect class="barra" x="{{ (passo * loop.index0 + (passo - larg) / 2)|round(2) }}"
+                    y="{{ (110 - h)|round(2) }}" width="{{ larg|round(2) }}"
+                    height="{{ h }}"></rect>
+              {% if loop.index0 == idx_pico %}
+                <text class="pico" x="{{ (passo * loop.index0 + passo / 2)|round(2) }}"
+                      y="{{ (110 - h - 6)|round(2) }}" text-anchor="middle">{{ maxc }}</text>
+              {% endif %}
+              {% if loop.index0 % 3 == 0 %}
+                <text class="rot" x="{{ (passo * loop.index0 + passo / 2)|round(2) }}"
+                      y="126" text-anchor="middle">{{ t.month[5:7] }}/{{ t.month[0:4] }}</text>
+              {% endif %}
+            {% endfor %}
+            <line class="base" x1="0" y1="110" x2="720" y2="110"></line>
+          </svg>
+          <p class="grafico__legenda t1">Apenas dívida de decisão · pico de
+            {{ m.num(maxc) }} achados em um mês · {{ m.num(a.debt_count) }} no total</p>
+        </div>
+      {% else %}
+        <div class="nota-recusa">
+          <p class="t5">Não há dívida de decisão nesta análise: nenhum CVE fechado
+            entrou na KEV depois. A linha do tempo fica sem nada para contar.</p>
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="nota-recusa">
+        <p class="t5">A linha do tempo mede só a dívida de decisão: ela conta o dia em
+          que o mundo mudou depois do fechamento. “Fechado apesar” não tem intervalo
+          posterior para medir — a KEV já sabia antes de a decisão ser tomada.</p>
+      </div>
+    {% endif %}
+  </section>
+
+  {# ---------- tabela ---------- #}
+  <section class="bloco" aria-labelledby="tit-tabela">
+    <h2 class="t1 rubrica" id="tit-tabela">
+      {{ 'Dívida de decisão' if kind == 'debt' else 'Fechado apesar' }}
+      · {{ m.num(items|length) }} achados nesta folha</h2>
+
+    {% if items %}
+      <p class="tabela-escala t1">Escala 0–{{ dom }} dias · marcas em {{ ticks|join(' · ') }}</p>
+
+      <div class="tabela-rolagem" tabindex="0" role="region" aria-labelledby="tit-tabela">
+      <table class="tabela">
+        <caption class="sr-only">
+          Achados da pilha {{ 'dívida de decisão' if kind == 'debt' else 'fechado apesar' }},
+          com o intervalo em dias entre o fechamento e a entrada no catálogo KEV.
+        </caption>
+        <colgroup>
+          <col class="col-ev"><col class="col-cve"><col class="col-ach">
+          <col class="col-raz"><col class="col-dat"><col class="col-dat">
+          <col class="col-int">
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">EV</th>
+            <th scope="col">CVE</th>
+            <th scope="col">Achado</th>
+            <th scope="col" class="c-raz">Razão</th>
+            <th scope="col" class="c-data">Fechado</th>
+            <th scope="col" class="c-data">KEV</th>
+            <th scope="col">Intervalo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+            <tr {% if item.ransomware %}data-rw="1"{% endif %}>
+              <td class="c-ev">EV-{{ '%04d'|format(loop.index) }}</td>
+              <td class="c-cve">{{ item.cve }}</td>
+              <td class="c-ach">
+                <span class="c-ach__titulo">{{ item.title or 'sem título no export' }}</span>
+                <span class="c-ach__id t1">{{ item.finding_id }}</span>
+                {% if item.ransomware %}<span class="tarja">ransomware</span>{% endif %}
+              </td>
+              <td class="c-raz t2">{{ m.razao(item.reason) }}</td>
+              <td class="c-data">{{ m.data(item.closed_at) }}</td>
+              <td class="c-data">{{ m.data(item.kev_added) }}</td>
+              <td class="c-int">{{ m.pista(item, dom, ticks) }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      </div>
+
+      {% if items|length == 500 %}
+        <p class="t1 procedencia">A folha mostra as primeiras 500 linhas desta pilha.</p>
+      {% endif %}
+    {% else %}
+      <div class="nota-recusa">
+        <p class="t5">Nenhum achado nesta pilha com os filtros atuais.</p>
+        <p class="t3" style="margin-top:var(--s3)">
+          <a href="?kind={{ kind }}">Limpar os filtros</a> ou trocar de pilha nas placas acima.</p>
+      </div>
+    {% endif %}
+  </section>
+
+  <p class="bloco t4"><a href="/analyses/{{ a.id }}/session">Abrir sessão de revisão →</a></p>
+
+{% endblock %}
+
+{% block custodia %}
+  Leu: id={{ a.id_col or 'não detectada' }} · data={{ a.date_col or 'não detectada' }}
+  · razão={{ a.reason_col or 'não detectada' }}
+  · recusou {{ m.num(a.excluded) }} de {{ m.num(a.total_rows) }} linhas
+{% endblock %}

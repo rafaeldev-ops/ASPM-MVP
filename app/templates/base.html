@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}SDIP — instrumento de dívida de decisão{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/app.css') }}">
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<div class="folha-wrap">
+
+  <header class="chapeu">
+    <div class="chapeu__id">
+      <p class="t1"><a href="/">SDIP · instrumento de dívida de decisão</a></p>
+      {% block chapa %}{% endblock %}
+    </div>
+    <p class="t1 chapeu__carimbo">{% block carimbo %}{% endblock %}</p>
+  </header>
+
+  <main id="conteudo">
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="custodia t1">
+    {% block custodia %}{% endblock %}
+  </footer>
+
+</div>
+</body>
+</html>

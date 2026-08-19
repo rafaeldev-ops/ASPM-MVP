@@ -1,0 +1,55 @@
+{# =========================================================================
+   Macros compartilhados. Nenhum filtro Jinja customizado e registrado no
+   app, entao tudo aqui usa so o que o Jinja ja oferece.
+   ========================================================================= #}
+
+{# Numero com separador de milhar brasileiro: 1.234.567 #}
+{% macro num(n) -%}
+{{ "{:,}".format(n|int(0))|replace(",", ".") }}
+{%- endmacro %}
+
+{# Data no formato brasileiro #}
+{% macro data(d) -%}
+{% if d %}{{ d.strftime('%d/%m/%Y') }}{% else %}—{% endif %}
+{%- endmacro %}
+
+{% macro datahora(d) -%}
+{% if d %}{{ d.strftime('%d/%m/%Y %H:%M') }}{% else %}—{% endif %}
+{%- endmacro %}
+
+{# Rotulo em pt-BR para as classes de razao produzidas por app/analysis.py.
+   Chave desconhecida volta crua: e evidencia do export, nao copy. #}
+{% macro razao(r) -%}
+{% set mapa = {
+  'false_positive': 'falso positivo',
+  'risk_accepted':  'risco aceito',
+  'fixed':          'corrigido',
+  'other':          'outra razão',
+  'unknown':        'sem razão registrada'
+} %}
+{{ mapa.get(r, r) }}
+{%- endmacro %}
+
+{# Rotulo em pt-BR para os motivos de exclusao emitidos por app/analysis.py #}
+{% macro exclusao(e) -%}
+{% set mapa = {
+  'closed as fixed (not a decision to not act)':
+    'fechadas como corrigidas (não é decisão de não agir)',
+  'no parseable close date':
+    'sem data de fechamento legível',
+  'no CVE identifier (rule-only finding: KEV cannot apply)':
+    'sem identificador CVE (achado só de regra: a KEV não se aplica)'
+} %}
+{{ mapa.get(e, e) }}
+{%- endmacro %}
+
+{# Pista unilateral da tabela. Zero na borda esquerda para divida,
+   na direita para fechado apesar. Nunca imprime item.days cru. #}
+{% macro pista(item, dom, ticks) -%}
+{% set d = item.days | abs %}
+<div class="pista {{ 'pista--dir' if item.kind == 'debt' else 'pista--esq' }}"
+     style="{% for t in ticks %}--t{{ t }}:{{ (t / dom * 100)|round(3) }}%;{% endfor %}--w:{{ (d / dom * 100)|round(3) }}%;">
+  <span class="medida"><span class="seg{{ ' seg--rw' if item.ransomware }}"></span></span>
+  <span class="dias">{% if item.kind == 'debt' %}+{{ d }}<span class="sr-only"> dias depois do fechamento</span>{% else %}−{{ d }}<span class="sr-only"> dias antes do fechamento</span>{% endif %}</span>
+</div>
+{%- endmacro %}

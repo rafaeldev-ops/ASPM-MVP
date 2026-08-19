@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% import "_macros.html" as m %}
+
+{% block titulo %}Sessão de revisão · laudo Nº {{ '%04d'|format(a.id) }} · SDIP{% endblock %}
+
+{% block chapa %}<span class="chapa">Nº {{ '%04d'|format(a.id) }}</span>{% endblock %}
+
+{% block carimbo %}
+  KEV {{ a.kev_version or 'sem versão declarada' }}
+  · carimbado {{ m.datahora(a.created_at) }} UTC
+{% endblock %}
+
+{% block conteudo %}
+
+{# ---------- domínio da escala e marcas da régua ---------- #}
+{% set _m = (items | map(attribute='days') | map('abs') | list | max) if items else 0 %}
+{% set dom = 365 if _m <= 365 else (1095 if _m <= 1095 else (1825 if _m <= 1825 else 3650)) %}
+{% set ticks = [90, 180, 365, 730, 1095] | select('lt', dom) | list %}
+{% set total = items|length %}
+
+  <h1 class="t7 titulo-tela">Sessão de revisão</h1>
+  <p class="t1 rubrica">Sessão de revisão · amostra estratificada de {{ total }} achados
+    · {{ a.source_name }}{% if a.is_demo %} · demo{% endif %}</p>
+  <p class="t5 tese">Percorra as fichas com o analista e anote na folha impressa.</p>
+  <p class="t1 tabela-escala">Escala 0–{{ dom }} dias · marcas em {{ ticks|join(' · ') }}
+    · zero no centro = dia do fechamento</p>
+
+  {% if items %}
+    <div class="sessao">
+
+      <nav class="trilha" aria-label="Fichas da sessão">
+        <ul>
+          {% for item in items %}
+            <li><a href="#ev-{{ '%02d'|format(loop.index) }}"
+                   class="{{ 'trilha--rw' if item.ransomware }}">{{ '%02d'|format(loop.index) }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <div>
+        {% for item in items %}
+          {% set d = item.days | abs %}
+          <article class="ficha ficha--{{ item.kind }}" id="ev-{{ '%02d'|format(loop.index) }}">
+
+            <p class="carimbo-print t1">SDIP · laudo Nº {{ '%04d'|format(a.id) }}
+              · KEV {{ a.kev_version or 'sem versão declarada' }}
+              · carimbado {{ m.datahora(a.created_at) }} UTC</p>
+
+            <header class="ficha__topo">
+              <span>EV-{{ '%02d'|format(loop.index) }}/{{ '%02d'|format(total) }}</span>
+              <span>{{ item.cve }}</span>
+              <span>{{ item.finding_id }}</span>
+            </header>
+
+            <div class="ficha__corpo">
+              <h2 class="t6 ficha__titulo">{{ item.title or 'sem título no export' }}</h2>
+
+              <div class="colunas">
+                <dl class="coluna">
+                  <dt class="t1">Sabia-se em {{ m.data(item.closed_at) }}</dt>
+                  <dd class="dd-texto">razão registrada: “{{ m.razao(item.reason) }}”</dd>
+                  <dt class="t1">Achado</dt>
+                  <dd>{{ item.finding_id }}</dd>
+                  <dt class="t1">Pilha</dt>
+                  <dd>{{ 'dívida de decisão' if item.kind == 'debt' else 'fechado apesar' }}</dd>
+                </dl>
+
+                <dl class="coluna coluna--depois">
+                  <dt class="t1">Sabe-se hoje</dt>
+                  <dd>entrou na KEV em {{ m.data(item.kev_added) }}</dd>
+                  <dt class="t1">Alvo no catálogo</dt>
+                  <dd>{{ item.vendor or '—' }} · {{ item.product or '—' }}</dd>
+                  {% if item.ransomware %}
+                    <dt class="t1">Uso confirmado</dt>
+                    <dd><span class="tarja">ransomware</span></dd>
+                  {% endif %}
+                </dl>
+              </div>
+
+              <div class="bi bi--{{ item.kind }}" aria-hidden="true"
+                   style="{% for t in ticks %}--t{{ t }}:{{ (t / dom * 100)|round(3) }}%;{% endfor %}--w:{{ (d / dom * 100)|round(3) }}%;">
+                <span class="bi__seg"></span>
+              </div>
+
+              <p class="bi-numeral bi-numeral--{{ item.kind }}">
+                {% if item.kind == 'debt' %}+{{ d }} dias depois{% else %}−{{ d }} dias antes{% endif %}
+              </p>
+
+              <p class="bi-leitura t3">
+                {% if item.kind == 'debt' %}
+                  {{ d }} dias depois de você fechar, a CISA confirmou exploração ativa.
+                {% else %}
+                  A CISA já sabia havia {{ d }} dias quando o achado foi fechado.
+                {% endif %}
+              </p>
+
+              <p class="t5 pergunta">Você teria querido saber disso?</p>
+              <p class="t1" style="margin-top:var(--s2)">Anotação da sessão</p>
+              <div class="anotacao" aria-hidden="true"><div></div><div></div></div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+    </div>
+  {% else %}
+    <div class="nota-recusa bloco">
+      <p class="t5">Esta análise não produziu amostra de sessão: nenhum achado fechado
+        cruzou com o catálogo KEV.</p>
+      <p class="t3" style="margin-top:var(--s3)">
+        <a href="/analyses/{{ a.id }}">Voltar ao laudo Nº {{ '%04d'|format(a.id) }}</a></p>
+    </div>
+  {% endif %}
+
+  <p class="bloco t4"><a href="/analyses/{{ a.id }}">← Voltar ao laudo</a></p>
+
+{% endblock %}
+
+{% block custodia %}
+  Leu: id={{ a.id_col or 'não detectada' }} · data={{ a.date_col or 'não detectada' }}
+  · razão={{ a.reason_col or 'não detectada' }}
+  · recusou {{ m.num(a.excluded) }} de {{ m.num(a.total_rows) }} linhas
+{% endblock %}
