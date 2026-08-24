@@ -77,6 +77,7 @@ specifically to find out where they were wrong, and both were:
 
 | Path | What's in it |
 |---|---|
+| [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · [`docs/SESSION_HANDOFF.md`](docs/SESSION_HANDOFF.md) | **Comece por aqui.** Estado atual do projeto e a transição da última sessão: o que existe, o que falta, o que está bloqueado e o próximo passo exato. |
 | [`app/`](app/) | A aplicação web: motor de análise, persistência (SQLite) e as três telas. |
 | [`phase0/`](phase0/) | Instrumentos de validação: arquivo único, só biblioteca padrão, sem instalação — de propósito, para rodar na máquina de um parceiro. |
 | [`docs/adr/`](docs/adr/) | 17 architecture decisions, with alternatives and consequences, not just conclusions. |

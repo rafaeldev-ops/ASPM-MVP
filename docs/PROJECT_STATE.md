@@ -1,0 +1,474 @@
+# Project State — SDIP
+
+**Última atualização:** 2026-08-23
+**Commit no momento do checkpoint:** `021b981` · branch `master` · working tree limpo
+**Como este arquivo deve ser lido:** é o estado *persistente* do projeto. A transição
+específica entre sessões está em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md); as regras
+permanentes estão em [`../CLAUDE.md`](../CLAUDE.md); as decisões arquiteturais e suas
+justificativas estão em [`adr/`](adr/). Nada aqui substitui esses arquivos.
+
+> **Convenção de rigor deste documento.** Toda linha é **[F] fato verificado**,
+> **[H] hipótese** ou **[D] decisão registrada**. Se algo não foi medido, está escrito
+> "não medido" — não está estimado.
+
+---
+
+## Current Phase
+
+**[F] Phase 0 — validação**, conforme [`evaluation/phase-0-protocols.md`](evaluation/phase-0-protocols.md).
+
+Nenhum código de produto (Ring 0 ou Ring 1) foi iniciado. O que existe em `app/` e
+`phase0/` são **instrumentos de validação e demonstração**, não a plataforma.
+
+## Current Ring
+
+**[F] Nenhum Ring em construção.** R0-1 … R0-7 estão todos pendentes (§ Pending).
+
+O `mvp-backlog.md` §3 é explícito: `V1 falsification test → R0`. O gate V1 não foi
+executado contra dado real de nenhuma organização, portanto R0-1 não deve começar.
+
+**[F] Cuidado com uma leitura fácil e errada:** o `README.md` diz que a aplicação web
+"cobre o núcleo do Ring 0". Isso é verdade como *conceito* (importar decisões fechadas →
+enriquecer com conhecimento público → diferenciar por data → relatar) e **falso como
+implementação**: nenhum dos sete itens R0-1…R0-7 está implementado conforme
+especificado. Ver § Known Limitations.
+
+## Current Objective
+
+**[F] Objetivo imediato, com data:** apresentação/demo marcada para **2026-08-24**,
+roteiro em [`product/demo-presentation-outline.md`](product/demo-presentation-outline.md).
+Audiência citada no roteiro: **Pride Security**. O pedido explícito da apresentação
+(§8 do roteiro) é o item **V0**: um export de achados fechados dos últimos 12 meses +
+60 minutos de revisão.
+
+**[H] Objetivo estratégico:** converter essa apresentação em ≥1 design partner, porque
+V0 é o gargalo declarado de todo o Phase 0 e nada depois dele pode avançar sem ele.
+
+## Overall Progress
+
+| Camada | Estado |
+|---|---|
+| Documentação de arquitetura, produto, dados, API, ameaças, avaliação | **[F] Completa como *design*.** 43 documentos em `docs/` (+ os 2 arquivos de estado deste checkpoint), 17 ADRs |
+| Instrumentos Phase 0 (`phase0/`) | **[F] 4 instrumentos executáveis, todos rodando** |
+| Aplicação web de demonstração (`app/`) | **[F] Roda; 3 telas; só dado sintético até hoje** |
+| Experimentos executados | **[F] 2** (EXP-001, EXP-002) |
+| Validação com organização real | **[F] Zero.** Nenhum export de parceiro foi recebido ou analisado |
+| Código de produto (Ring 0 / Ring 1) | **[F] Zero linhas** |
+
+---
+
+## Completed
+
+### Documentação (commit `f1427b9`, 2026-08-19)
+
+- **[F] 43 documentos** em `docs/` no commit `f1427b9`, incluindo:
+- **[F] 17 ADRs** (`docs/adr/0001`…`0017`), 16 com status *Accepted*, **1 com status
+  *Proposed*: ADR-0017 (cross-tenant priors) — decisão humana pendente, ver § Blocked.**
+- **[F] 4 críticas** (arquitetura, produto, segurança, AI/RAG) em `docs/*/critique-*.md`.
+- **[F] Modelo de domínio e schema PostgreSQL completos** (`docs/data/`), incluindo
+  estratégia de retenção. Nada disso foi implementado.
+- **[F] Contrato OpenAPI** (`docs/api/openapi.yaml`, 1143 linhas). Nenhum endpoint
+  implementado.
+- **[F] Threat model + mapeamento OWASP ASVS 5.0.0** (`docs/threat-model/`), com o CSV
+  do ASVS versionado no repositório.
+- **[F] Backlog MoSCoW com sizing** (`docs/product/mvp-backlog.md`): Ring 0 ≈ 14 ew,
+  Ring 1 ≈ 62 ew, total ≈ 76 ew ≈ 6 meses com 3 engenheiros.
+- **[F] Protocolos Phase 0 pré-registrados** (`docs/evaluation/phase-0-protocols.md`),
+  com o log de mudança de threshold (§8) **vazio** — nenhum threshold foi movido.
+- **[F] Kit de recrutamento de design partner** (`docs/product/design-partner-kit.md`).
+- **[F] Kit de anotação V4** (`docs/evaluation/v4-annotation-kit.md`).
+
+### Instrumentos Phase 0 (`phase0/`) — todos arquivo único, só stdlib, sem instalação
+
+| Arquivo | Estado |
+|---|---|
+| `v1_backtest.py` | **[F] Funciona.** Backtest de dívida de decisão contra CISA KEV. Rodado apenas com `--demo` (dado sintético) |
+| `v2_riskmodel.py` | **[F] Funciona.** Executa a árvore de `risk-model.md`; gates `--assert` e `--selftest` passam |
+| `v4_corpus.py` | **[F] Funciona.** Constrói e valida o corpus de 50 achados; `--check` passa |
+| `v4_kappa.py` | **[F] Funciona como instrumento.** Fleiss κ com CI bootstrap. **Só rodado com `--demo` (dado sintético)** |
+
+### Experimentos executados (resultados reais, dado público)
+
+- **[F] EXP-001 (2026-08-16) — fronteira de versão do modelo EPSS.**
+  71.885 CVEs cruzaram o limiar 0.01 para cima na troca v4→v5 em 10 dias, contra 306 num
+  controle de 10 dias sob o mesmo modelo — **inflação de 235×, com 0,0% dos scores
+  inalterados.** Consequência registrada: **EPSS foi excluído como gatilho de
+  re-litígio no V1.** Documento: `docs/evaluation/exp-001-epss-model-boundary.md`.
+- **[F] EXP-002 (2026-08-17) — a árvore de risco, executada.**
+  A árvore publicada em `risk-model.md` §4.2 deixava **19,4% (112 de 576) do próprio
+  espaço de entrada sem regra**, continha uma regra que nunca podia disparar, e não
+  produzia discriminação nenhuma para 36% dos achados de um corpus realista. Os dois
+  primeiros defeitos foram corrigidos; **o terceiro não é bug e permanece aberto** — é a
+  forma do modelo. Documento: `docs/evaluation/exp-002-risk-model-executed.md`.
+  **[F] O reparo mudou o tamanho do espaço de decisão:** DP2 ganhou um quinto valor
+  (`not_deployed`), então 4×4×3×4×3 = 576 virou 4×5×3×4×3 = **720**. Um número não
+  contradiz o outro — 576 é o espaço antes do reparo (e é sobre ele que os 19,4% foram
+  medidos), 720 é o espaço de hoje e é o que `v2_riskmodel.py --assert` verifica.
+
+### Aplicação web de demonstração (commit `021b981`, 2026-08-19)
+
+- **[F] Roda.** FastAPI + Jinja2 + SQLAlchemy sobre SQLite (`sdip.db`, gitignorado).
+- **[F] 3 telas:** `/` (livro de registro + histórico), `/analyses/{id}` (laudo, com
+  filtro por razão de fechamento e por uso em ransomware, e linha do tempo mensal),
+  `/analyses/{id}/session` (amostra estratificada de 20 para a sessão de revisão do
+  protocolo V1 §1.5).
+- **[F] Uma única chamada externa:** o catálogo CISA KEV, cacheado em disco.
+- **[F] `app/analysis.py` porta a lógica de `phase0/v1_backtest.py` sem importar dela**
+  (a regra em `phase0/README.md` — "Never imported by `app/`" — está respeitada).
+  A única adição é o campo `knownRansomwareCampaignUse` da própria KEV.
+- **[F] Os dois instrumentos concordam numericamente** no mesmo export sintético:
+  900 linhas → 698 analisadas, 202 excluídas, **100 de dívida de decisão**, **88 de
+  "fechado apesar de"**. Verificado em 2026-08-23 comparando
+  `phase0/decision-debt-report.html` com a tabela `analyses` do `sdip.db`.
+
+---
+
+## In Progress
+
+**[F] Nada em edição.** Working tree limpo em `021b981`; não há trabalho pela metade
+em nenhum arquivo versionado.
+
+**[F] A única atividade da sessão anterior visível no disco** é a regeneração dos
+artefatos de demo em 2026-08-23 22:45–22:46 (horário local): `phase0/demo-export.csv`,
+`phase0/decision-debt-report.html` e uma segunda execução demo gravada no `sdip.db`
+(análise `id=2`, `created_at=2026-08-24 01:46 UTC`). Isso corresponde exatamente aos
+dois primeiros itens do checklist de
+[`demo-presentation-outline.md`](product/demo-presentation-outline.md) — os checkboxes
+no documento continuam desmarcados, mas os artefatos existem com esse timestamp.
+
+---
+
+## Pending
+
+### Phase 0 — o que falta, item a item
+
+| Item | Estado real | Bloqueado por |
+|---|---|---|
+| **V0** — recrutar 5 design partners | **[F] Não iniciado *no repositório*.** O kit existe; o tracker do §6 do kit é um *schema*, e **não existe nenhum arquivo de tracker preenchido**. Se houve contato com algum parceiro, isso não está registrado em lugar nenhum | — (é o gargalo) |
+| **V1** — backtest de dívida de decisão | **[F] Instrumento pronto, experimento não executado.** Zero exports reais | V0 |
+| **V2** — ablação determinística | **[F] Não executado.** Precisa de 200 achados e labels de analistas do parceiro | V0 |
+| **V3** — join vs. retrieval | **[F] Não executado.** Parcialmente executável in-house sobre advisories públicos | Nada estrutural |
+| **V4** — probe de concordância (κ) | **[F] Parcialmente pronto.** Corpus `v4-corpus-v1.0` construído e validado; instrumento de análise pronto. **A sessão real com 3 anotadores nunca aconteceu** — não existe `annotations.csv` no repositório | Nada externo. É o item mais barato e mais adiado |
+| **V5** — verificação competitiva | **[F] Parcialmente quitado em 2026-08-16** (Brinqa, Phoenix, Cycode, Semgrep verificados; Seemplicity, Apiiro, OX indisponíveis publicamente). **Resta T-1: as quatro perguntas Nucleus numa demo — prazo era 2026-08-22, que já passou, e não há registro de ter acontecido** | Agendar a demo |
+| **V6** — instrumento de baseline | **[F] Não executado, e não existe script.** Só o método em `phase-0-protocols.md` §6 | V0 |
+
+### Ring 0 — o que a aplicação web *não* implementa
+
+Nenhum dos sete itens está implementado como especificado no backlog:
+
+| Item | Especificado | Implementado hoje |
+|---|---|---|
+| R0-1 | Migration #1, `org_id` em chaves compostas, RLS + FORCE, enums, gate de migration no CI | **Não.** SQLite, duas tabelas, `Base.metadata.create_all()`, sem migrations, sem tenancy |
+| R0-2 | Import de decisões fechadas → registros `decision` + `suppression` canônicos com `source_system` | **Parcial e diferente.** Detecção heurística de colunas + classificação por regex de razão; não produz `decision`/`suppression` canônicos |
+| R0-3 | KEV + EPSS (versão pinada) + OSV/GHSA com **snapshots, content hashes e authority tiers** | **Não.** Só KEV, sem snapshot, sem hash, sem tier, sem pin de versão |
+| R0-4 | Detector de estreitamento de faixa afetada (diff entre snapshots) | **Não** |
+| R0-5 | Avaliador de condições de invalidação (watch-worker) | **Não.** A comparação é uma passada única, não um worker |
+| R0-6 | `reopen_event` + reconstrução de `evidence_availability` | **Não** |
+| R0-7 | `GET /v1/decision-debt` + artefato estático | **Parcial.** Existe o artefato (HTML) e as telas; não existe o endpoint versionado |
+
+### Ring 1
+
+**[F] Não iniciado.** 23 itens, ≈62 ew. `mvp-backlog.md` §3: **se o gate do Ring 0
+falhar, Ring 1 não deve ser construído.**
+
+---
+
+## Blocked
+
+| O quê | Bloqueado por | Consequência de não resolver |
+|---|---|---|
+| **[F] Todo o Phase 0 quantitativo (V1, V2, V6)** | **V0** — nenhum design partner registrado | Nenhum gate pode ser avaliado. O projeto não pode nem passar nem falhar |
+| **[F] ADR-0017 (cross-tenant priors)** | Status *Proposed*. Requer decisão humana | `docs/adr/README.md`: "bloqueia a narrativa de moat, não o build" |
+| **[F] V5 / T-1 (as quatro perguntas Nucleus)** | Só uma demo do produto responde. **Prazo pré-registrado 2026-08-22 vencido em 2026-08-23** | `competitive-teardown.md` §167: "o pitch sai com uma alegação competitiva não verificada" |
+| **[H] A demo de 2026-08-24** | Nada técnico. Os artefatos estão gerados e a aplicação sobe | — |
+
+---
+
+## Recent Changes
+
+| Quando | O quê |
+|---|---|
+| 2026-08-19 03:03 | Commit `f1427b9`: primeiro commit — `phase0/` + toda a documentação (44 arquivos, 17 ADRs) |
+| 2026-08-19 04:38 | Commit `021b981`: aplicação web — 10 arquivos em `app/`, 13 arquivos no commit (com `requirements.txt` e o README reescrito), 1.797 linhas inseridas |
+| 2026-08-23 22:45 | **[F] Sem commit.** Regeneração de `phase0/demo-export.csv` e `phase0/decision-debt-report.html` (artefatos gitignorados, preparação da demo) |
+| 2026-08-23 22:46 | **[F] Sem commit.** Segunda execução demo gravada em `sdip.db` (gitignorado) |
+| 2026-08-23 (esta sessão) | Criação de `docs/PROJECT_STATE.md` e `docs/SESSION_HANDOFF.md`; `CLAUDE.md` ganhou o §0 "Start here, every session"; `README.md` ganhou uma linha no mapa. **Nenhuma alteração em código, arquitetura, ADR ou documento de design** |
+
+---
+
+## Important Architectural Decisions
+
+As decisões estão nos ADRs; aqui ficam apenas as que mais restringem o próximo passo.
+**Não desfaça nenhuma sem ler o ADR correspondente.**
+
+| # | Decisão | Por que não desfazer |
+|---|---|---|
+| **ADR-0001** | Observações append-only, identidade versionada | Irreversível: histórico anterior à mudança não pode ser fabricado |
+| **ADR-0003** | Tenancy no dia 1 (`org_id` na frente das chaves, RLS FORCE) | ~2 semanas agora vs. ~4 meses-engenheiro depois |
+| **ADR-0007** | O policy engine decide; o modelo recomenda e pode escalar, **nunca suprimir** | É onde mora toda a exposição de responsabilidade |
+| **ADR-0011** | Fronteira de redação por tipo; `no_code` por padrão; ingestão push-only | Um segredo vazado não é recuperável |
+| **ADR-0012** | Cadeia de hash de auditoria + `evidence_availability` em todo registro de decisão | Retrofit de dado imutável é a pior classe de migração |
+| **ADR-0016** | Não existe supressão terminal: `deprioritized_until(conditions[])` | É a tese do produto inteira |
+| **ADR-0013** | Pinagem de versão, snapshot, authority tiers no conhecimento externo | Confirmado por EXP-001 com número medido |
+
+**[D] Decisão de sequenciamento, registrada em `mvp-backlog.md` §0 e §3:** Ring 0 antes
+de Ring 1 não é conveniência de faseamento — é a única ordem em que a empresa descobre
+se a tese é verdadeira **antes** de gastar seis meses na plataforma.
+
+**[F] Lacuna de registro (inconsistência, não decisão):** a aplicação web em `app/`
+introduziu SQLite + SQLAlchemy + FastAPI como camada de persistência e apresentação, e
+**essa escolha não tem ADR.** A justificativa existe, mas só no docstring de
+`app/db.py` e no README. Ver § Known Limitations, item L6.
+
+---
+
+## Rejected Approaches
+
+**[F] Rejeitados com dado medido — não desfazer sem novo experimento:**
+
+- **EPSS como gatilho de re-litígio no V1.** Rejeitado por EXP-001 (235× de inflação).
+  Está fácil de adicionar e inflaria os números do relatório; é exatamente por isso que
+  não está lá. Qualquer Claude futuro que "adicione EPSS porque melhora os números"
+  está desfazendo um resultado experimental.
+- **Comparação as-of-hoje em vez de as-of-data-de-fechamento.** O `v1_backtest.py`
+  documenta: ler as-of-hoje acende ~um quarto de um estate por razões que não têm
+  relação com nada ter mudado.
+- **Fundir "dívida de decisão" com "fechado apesar de já estar na KEV".** São histórias
+  diferentes; fundir infla o número numa direção que quem recebe o relatório notaria.
+
+**[F] Rejeitados por design, com o gatilho que mudaria a decisão** — a tabela WON'T em
+`mvp-backlog.md` §2.5 (reachability, autofix, workflow de remediação, graph database,
+Kafka/Kubernetes, multi-agent, fine-tuning, abstração multi-provider de LLM, supressão
+automática sem revisão humana, credencial de leitura de repositório). Cada linha tem o
+gatilho que a reabriria. **Não reabra nenhuma sem o gatilho.**
+
+---
+
+## Current Experimental Results
+
+**[F] Só dois experimentos produziram resultado real. Ambos usam dado público, nenhum
+usa dado de organização.**
+
+| ID | Data | Resultado | Efeito |
+|---|---|---|---|
+| EXP-001 | 2026-08-16 | 71.885 vs 306 cruzamentos de limiar (235×); 0,0% dos scores EPSS inalterados na fronteira de modelo | EPSS excluído do V1; ADR-0013 confirmado com número |
+| EXP-002 | 2026-08-17 | Árvore de risco: 19,4% do espaço de entrada sem regra; 1 regra morta; 36% sem discriminação num corpus realista | 2 defeitos corrigidos; o terceiro achado permanece aberto |
+
+**[F] O que NÃO é resultado experimental, e não pode ser citado como se fosse:**
+a saída de `python v4_kappa.py --demo` (κ_holistic 0.190, κ_derived 0.759, delta +0.570).
+**Isso é dado sintético gerado pelo próprio script** para exercitar o pipeline. O V4 real
+nunca rodou. Se esse número aparecer em qualquer slide ou documento como medição, é
+fabricação.
+
+### Follow-ups em aberto dos experimentos
+
+**[F] Os dois experimentos deixaram 10 follow-ups, e eles não estão rastreados em lugar
+nenhum além do rodapé dos próprios documentos.** Nenhum foi executado, exceto onde
+indicado. Reproduzidos aqui para que não sumam:
+
+**De EXP-001** (`exp-001-epss-model-boundary.md` §7):
+
+| # | Item | Estado |
+|---|---|---|
+| F-1 | Medir a fronteira v3→v4 (2025-03-10 vs 2025-03-20) — 235× é típico ou v5 foi anômalo? | Aberto |
+| F-2 | Fixture de fronteira de modelo no eval harness: dois snapshots, assertar **zero** `ReopenEvent` atribuível ao bump | Aberto (não há eval harness) |
+| F-3 | Verificar se a mesma descontinuidade existe em KEV (mudança de schema) e NVD CVSS (rescoring) | Aberto |
+| F-4 | Decidir o threshold de EPSS **junto com** o tratamento de época de modelo | Aberto |
+
+**De EXP-002** (`exp-002-risk-model-executed.md` §8):
+
+| # | Item | Estado |
+|---|---|---|
+| F-1 | Decidir o que a camada determinística pode dizer sobre SAST — e se a resposta for "nada", dizer isso na ADR-0008 e re-derivar a alegação dos 80% e o modelo de custo a partir de um teto de 65% | **Aberto, e é o de maior consequência: a economia do ADR-0008 depende dele** |
+| F-2 | Reportar a ablação padrão **por classe de achado**, nunca misturada | Aberto |
+| F-3 | Promover a árvore reparada para `risk-model.md` §4.2 com o fixture de 720 linhas | **[F] Já feito** — `risk-model.md` §4.2 tem as 20 linhas e a nota do espaço de 720. **A tabela de follow-ups do exp-002 está desatualizada** e ainda diz que "o documento publica uma árvore que não termina" |
+| F-4 | Assertion de CI: a árvore deve ser total e nenhuma linha pode ser morta | **[F] Meio feito** — a assertion existe (`v2_riskmodel.py --assert`) e passa; **não existe CI para rodá-la** |
+| F-5 | Reconsiderar se o fundamento de deprioritização "low+enforcing" vale a pena com 2 de 720 combinações | Aberto |
+| F-6 | Decidir se `not_deployed` deve também barrar elegibilidade de auto-deprioritização, separado da banda | Aberto |
+
+---
+
+## Current Test Status
+
+**[F] Não existe suíte de testes.** Sem `tests/`, sem `pytest`, sem `pyproject.toml`,
+sem `.github/workflows/`, sem lint e sem type checking configurados. O
+`repository-structure.md` prevê tudo isso para a plataforma; nada disso existe hoje.
+
+**[F] O que existe como verificação executável são os gates de `phase0/README.md`.
+Todos foram executados em 2026-08-23 nesta sessão, no diretório `phase0/`,
+com Python 3.14.5:**
+
+| Comando | Resultado | Saída |
+|---|---|---|
+| `python v2_riskmodel.py --assert` | **PASS**, exit 0 | árvore total (720 combinações), sem linhas mortas (20 linhas), nenhum caminho deprioriza `exploitation=active` |
+| `python v2_riskmodel.py --selftest` | **PASS**, exit 0 | 3 exemplos de `risk-model.md` §11 batem (`act_now`, `deprioritize_candidate`, `track`) + 1 verificação de inelegibilidade |
+| `python v4_corpus.py --check --offline` | **PASS**, exit 0 | "All stratum assertions hold"; 1 `WARN` informativo (18 rule ids verificados upstream). Rodado `--offline` usando `phase0/.cache/` |
+| `python v4_kappa.py --demo` | roda, exit 0 | **Dado sintético. Não é resultado.** Ver § Current Experimental Results |
+
+**[F] Smoke test da aplicação web, executado em 2026-08-23 nesta sessão** (uvicorn na
+porta 8137, com o `.venv/` do repositório; servidor encerrado depois):
+
+| Verificação | Resultado |
+|---|---|
+| `python -c "import app.main"` | OK |
+| `GET /health` | 200 · `{"status":"ok"}` |
+| `GET /` | 200 |
+| `GET /analyses/2` | 200 |
+| `GET /analyses/2?kind=despite` | 200 |
+| `GET /analyses/2/session` | 200 |
+| `GET /analyses/999` (inexistente) | 404 |
+
+**[F] Não testado:** o caminho de upload (`POST /analyses`) com arquivo real, o limite
+de 25MB, e o parsing de CSV/JSON com um export de ferramenta de verdade. O parsing foi
+verificado apenas contra o export sintético e — segundo `design-partner-kit.md` — contra
+um CSV plano e o JSON aninhado de dismissed alerts do GitHub, em sessão anterior, sem
+teste automatizado que prove isso hoje.
+
+---
+
+## Known Bugs
+
+| # | Onde | O quê |
+|---|---|---|
+| **B1** | `app/analysis.py`, docstring de `run_analysis` | Diz retornar 6 valores (`summary, debt, despite, sample, det tuple, excl Counter`); a função retorna 5 e `app/main.py` desempacota 5. Docstring errado, código correto. Cosmético |
+
+**[F] Nenhum outro bug conhecido.** Isso não significa que não existam — significa que
+não existe suíte de testes que pudesse encontrá-los.
+
+---
+
+## Known Limitations
+
+| # | Limitação |
+|---|---|
+| **L1** | **[F] O cache da KEV nunca expira.** `load_kev()` (em `app/analysis.py` e em `phase0/v1_backtest.py`) só baixa se o arquivo não existir. O cache atual é de 2026-08-16, catálogo `2026.08.14`, 1.665 entradas, `dateAdded` máximo 2026-08-11. Numa máquina de parceiro rodando pela primeira vez isso é irrelevante (baixa fresco); numa máquina que já rodou, uma execução meses depois usa catálogo velho **em silêncio** e sub-reporta dívida de decisão. Não há aviso na tela nem no relatório |
+| **L2** | **[F] Um gatilho e meio, não sete.** V1 testa "entrou na KEV depois do fechamento" (exato) e o seu inverso. Estreitamento de faixa, exploit publicado, EPSS, alcançabilidade e mudança de dono **não são testáveis** com um export. Está declarado no `v1_backtest.py` e no protocolo — e precisa continuar sendo dito ao parceiro *antes*, não depois |
+| **L3** | **[F] Só achados com CVE entram na análise.** Achados só-de-regra (SAST, secrets) são excluídos por construção: a KEV é indexada por CVE. No export sintético isso descarta 202 de 900 linhas (22%) junto com as outras exclusões |
+| **L4** | **[F] Sem tenancy, sem autenticação, sem autorização na aplicação web.** É um instrumento local de uma pessoa. Qualquer uso multi-usuário viola ADR-0003 e ADR-0011 |
+| **L5** | **[F] Detecção de coluna é heurística.** `detect()` escolhe id/data/razão por regex sobre os nomes das colunas e imprime a escolha. Um palpite errado fica visível, não silencioso — mas continua sendo palpite |
+| **L6** | **[F] `app/` ocupa o mesmo caminho que `repository-structure.md` reserva para o monólito modular** (`app/domain/`, `app/application/`, `app/infrastructure/`, `app/interfaces/`). Hoje `app/` são 3 módulos planos. Quando o Ring 0 começar, isso precisa ser resolvido explicitamente — mover a demo para `demo/` ou reescrever o documento — e não por acidente |
+| **L7** | **[F] `app/analysis.py` lê o cache dentro de `phase0/.cache/`**, e `phase0/README.md` diz que `phase0/` é "deleted or promoted after the V1 gate". Deletar `phase0/` não quebra a aplicação (ela recria o diretório e rebaixa o catálogo), mas deixa um diretório órfão. Acoplamento por caminho, não por import |
+| **L8** | **[F] O roteiro da demo (2026-08-24) demonstra o CLI, não a aplicação web.** O roteiro foi escrito ~1h30 antes de a aplicação existir (mesmo dia, commits `f1427b9` 03:03 e `021b981` 04:38) e nunca foi atualizado. **Qual dos dois demonstrar é uma decisão em aberto** — ver `SESSION_HANDOFF.md` |
+
+---
+
+## Inconsistências registradas (encontradas nesta sessão, **não corrigidas**)
+
+Índice único do que a documentação afirma e o repositório não sustenta. Nenhuma foi
+corrigida: um checkpoint não altera código nem arquitetura.
+
+| # | Onde | A inconsistência |
+|---|---|---|
+| I1 | `README.md` "O que existe cobre o núcleo do **Ring 0**" | Verdadeiro como conceito, falso como implementação — nenhum dos sete itens R0-1…R0-7 está implementado como especificado. Ver § Current Ring e § Pending |
+| I2 | `exp-002` §8, follow-up F-3 | Diz que `risk-model.md` "atualmente publica uma árvore que não termina". **Já não é verdade** — §4.2 foi promovida com as 20 linhas e o espaço de 720 |
+| I3 | `exp-002` §8, follow-up F-4 | Pede uma assertion de CI. A assertion existe e passa; **o CI não existe** |
+| I4 | `phase0/README.md` "CI gates" | Lista três comandos como *CI gates*. Não existe CI neste repositório — são gates manuais |
+| I5 | `architecture/repository-structure.md` | Descreve `app/domain/`, `app/application/`, `app/infrastructure/`, `app/interfaces/`. O `app/` real são 3 módulos planos. Mesmo caminho, estruturas incompatíveis. Ver L6 |
+| I6 | `product/demo-presentation-outline.md` §4 e checklist | Demonstra o CLI e diz "sem subir servidor". A aplicação web existe desde 1h30 depois de o roteiro ser escrito e não está no roteiro. Ver L8 |
+| I7 | `app/db.py` + `README.md` | A escolha de SQLite/SQLAlchemy/FastAPI está justificada apenas em docstring e README. **Sem ADR**, contra CLAUDE.md §38 se a decisão for material. Ver `SESSION_HANDOFF.md` |
+| I8 | `app/analysis.py`, docstring de `run_analysis` | Assinatura de retorno errada. Ver B1 |
+| I9 | `design-partner-kit.md` §6 | Define o schema de um tracker de parceiros. **O arquivo do tracker não existe** |
+
+---
+
+## Security Considerations
+
+**[F] Verdadeiro hoje, e é uma propriedade de produto, não um acidente:**
+
+- Nenhuma credencial de entrada. Nenhum token. Nenhum acesso a repositório.
+- Uma única saída de rede: `https://www.cisa.gov/.../known_exploited_vulnerabilities.json`.
+  Sem telemetria, sem callback, sem upload.
+- Tudo o que é enviado à aplicação fica em `sdip.db`, local e gitignorado.
+- **[D]** Essa propriedade é o que torna o pedido do V0 respondível (`design-partner-kit.md`
+  §0, Modo A: *"o parceiro roda, nós não"*). **Quebrá-la quebra o argumento de venda**,
+  não só a arquitetura.
+
+**[F] O que ainda não vale para a aplicação web:** sem autenticação, sem RBAC, sem
+tenancy, sem audit log, sem rate limiting, sem headers de segurança. O upload é lido
+inteiro em memória com limite de 25MB. `docs_url=None` desativa `/docs` e `/redoc`.
+Isso é aceitável para um instrumento local de uma pessoa e **inaceitável para qualquer
+coisa exposta em rede.**
+
+**[F] Superfície de prompt injection: zero hoje** — não existe LLM no caminho. Quando
+existir, CLAUDE.md §39 e o threat model já governam.
+
+---
+
+## Current Metrics
+
+**[F] Nenhuma métrica de produto foi medida.** Não existe baseline de nenhuma
+organização, não existe tempo de triagem medido, não existe taxa de concordância de
+analista, não existe precisão de re-litígio.
+
+**[F] Os únicos números reais do projeto** são os de EXP-001 e EXP-002 (§ Current
+Experimental Results) e as contagens do export **sintético** abaixo, que medem o
+instrumento, não o mundo:
+
+| Número (dado sintético, `--demo`) | Valor |
+|---|---|
+| Linhas no export | 900 |
+| Analisadas | 698 |
+| Excluídas | 202 |
+| Dívida de decisão | 100 |
+| Fechado apesar de já estar na KEV | 88 |
+| Catálogo KEV usado | `2026.08.14` |
+
+**[F] Nenhum critério de kill pré-registrado foi avaliado ainda:**
+
+| Data | Critério | Estado |
+|---|---|---|
+| 2026-08-22 | V5 / Nucleus verificado | **[F] Prazo vencido, sem registro de conclusão** |
+| 2026-09-30 | ≥3 de 5 parceiros confirmam que queriam saber (K1) e ≥1 nomeia um achado (K2) | Não avaliado — V0 não começou |
+| 2026-10-31 | Precisão de re-litígio ≥50% (K3) | Não avaliado |
+| 2026-12-31 | ≥2 parceiros pagando ≥$30k | Não avaliado |
+| 2026-12-31 | COGS de inferência ≤$750/cliente/mês | Não aplicável ainda (não há inferência) |
+
+---
+
+## Next Exact Task
+
+**[F] Definida pela data, não por preferência: a apresentação de 2026-08-24.**
+
+1. Decidir **qual artefato demonstrar** — CLI (`python phase0/v1_backtest.py --demo`,
+   que é o que o roteiro descreve) ou a aplicação web (`python -m uvicorn app.main:app`,
+   que é mais impressionante e **não está no roteiro**). Ver L8. Se a escolha for a
+   aplicação web, atualizar `docs/product/demo-presentation-outline.md` §4 e o checklist
+   final antes da apresentação — não depois.
+2. Executar o pedido do §8 do roteiro **na apresentação**: export de 12 meses de achados
+   fechados + 60 minutos de revisão. Esse pedido *é* o item V0.
+3. Registrar o resultado num tracker de parceiros que **ainda não existe** — criar
+   `docs/product/partner-tracker.md` com os campos de `design-partner-kit.md` §6
+   (stage, sinal Q1, pilha fechada existe, sistema de origem, tamanho FP vs risco
+   aceito, resposta K1, achado K2 verbatim, resposta Q3 verbatim), incluindo as
+   negativas.
+
+## Recommended Next Steps
+
+Em ordem de valor por esforço, **depois** da demo:
+
+1. **[H] Rodar V4 de verdade.** É o único item de Phase 0 sem dependência externa, o
+   corpus está construído e validado, e o instrumento de análise está pronto e testado
+   contra dado sintético. O resultado decide se o contrato de decisão é uma pergunta
+   holística ou cinco sub-perguntas — **antes** de o schema ser escrito. Custo:
+   3 anotadores × ~4h. Está adiado desde 2026-08-16 sem razão registrada.
+2. **[F] Agendar a demo do Nucleus (V5 / T-1).** Prazo vencido. `competitive-teardown.md`
+   §191 é explícito: **não pesquise de novo** — a documentação foi exaurida em duas
+   rodadas; só o acesso ao produto responde.
+3. **[H] Consertar L1** (cache de KEV sem expiração). É pequeno, e é a diferença entre um
+   relatório correto e um relatório silenciosamente desatualizado na máquina de um
+   parceiro que rodar duas vezes.
+4. **[H] Decidir ADR-0017** (cross-tenant priors). Está *Proposed* e é decisão humana.
+5. **[F] Não começar R0-1.** O backlog exige o gate V1 antes, e V1 exige V0.
+
+## Files Currently Being Worked On
+
+**[F] Nenhum arquivo de código.** As únicas mudanças não commitadas são os dois arquivos
+de estado criados nesta sessão (`docs/PROJECT_STATE.md`, `docs/SESSION_HANDOFF.md`) e duas
+edições aditivas de descoberta (`CLAUDE.md` §0, uma linha no mapa do `README.md`).
+Detalhe em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md) § Existem mudanças não commitadas.
+
+---
+
+## Last Updated
+
+**2026-08-23** · commit base `021b981` · branch `master`

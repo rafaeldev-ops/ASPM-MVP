@@ -8,6 +8,33 @@
 
 ---
 
+## 0. Start here, every session
+
+This file holds the **permanent rules**. It does not hold the current state, and it is
+not enough on its own to know what to do next.
+
+**Read these two before acting, in this order:**
+
+| File | What it answers |
+|---|---|
+| [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) | Where the project actually is: what is done, what is pending, what is blocked, what was measured, what is a known limitation, and what the next exact task is |
+| [`docs/SESSION_HANDOFF.md`](docs/SESSION_HANDOFF.md) | What the previous session did, what it did not finish, and which decisions must not be undone |
+
+**And update them before ending a session in which the state changed.** The information
+hierarchy is: this file (permanent rules) → `PROJECT_STATE.md` (current state) →
+`SESSION_HANDOFF.md` (transition to the next session) → ADRs (why decisions exist) →
+`README.md` (overview). Do not duplicate the same fact across all of them.
+
+Two standing rules that follow from §45 and from how this repository has been built:
+
+- **Never record a result that was not produced by an execution.** A number printed by a
+  script's `--demo` mode is synthetic and is not a result. Distinguish fact, hypothesis
+  and decision explicitly.
+- **A specification that has never been executed is a draft.** Three documents in this
+  repository were executed and all three contained defects prose review had not found.
+
+---
+
 ## 1. Mission
 
 Build a commercial, enterprise-grade platform that turns large volumes of application-security findings into a small number of **defensible security decisions**.
