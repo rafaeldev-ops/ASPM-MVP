@@ -46,6 +46,23 @@ anterior — são regeneráveis e contêm dado sintético.
    **Nenhuma outra regra do `CLAUDE.md` foi tocada.**
 6. **`README.md`** ganhou uma linha no mapa do repositório apontando para os dois arquivos.
 
+Commitado como **`3fd89d0`**.
+
+**Depois desse commit, a pedido do usuário, a aplicação web foi containerizada:**
+
+7. **`Dockerfile`, `docker-compose.yml`, `.dockerignore`** — imagem `python:3.12-slim`,
+   usuário não-root (uid 10001), dependências pinadas, healthcheck via stdlib (não há
+   `curl` na slim), porta publicada em `127.0.0.1` porque a aplicação não tem
+   autenticação nem tenancy (L4).
+8. **Duas variáveis de ambiente** (`SDIP_DB_PATH`, `SDIP_CACHE_DIR`) em `app/db.py` e
+   `app/analysis.py`, para o banco e o cache saírem de caminhos fixos e irem para um
+   volume nomeado. **Os defaults são os valores antigos** — rodar sem Docker se comporta
+   exatamente como antes, e isso foi verificado imprimindo os dois caminhos com e sem as
+   variáveis. Esta é a única alteração de código da sessão.
+9. **Verificado de ponta a ponta no container** (build, `/health`, as três telas,
+   healthcheck `healthy`, análise demo, **upload de arquivo real**, e persistência do
+   volume após `restart`). Resultados em `PROJECT_STATE.md` § Current Test Status.
+
 ## O que não foi concluído?
 
 - **[F] Nada foi corrigido.** Os oito itens de § Known Limitations e o bug B1 continuam
@@ -77,7 +94,17 @@ Seis coisas que não estavam escritas em lugar nenhum do repositório antes dest
 5. **[F] O CLI e a aplicação web concordam numericamente** no mesmo export sintético
    (900 → 698 analisadas, 100 dívida, 88 "fechado apesar de"). A portabilidade da lógica
    entre os dois está verificada, não assumida.
-6. **[F] A saída de `v4_kappa.py --demo` é sintética.** Ela imprime um veredito de aparência
+6. **[F] L1 saiu do papel: o container provou a limitação do cache.** Com volume vazio ele
+   baixou a KEV `2026.08.21` (1.674 entradas) enquanto o host segue com `2026.08.14`
+   (1.665, baixada em 2026-08-16). Duas máquinas, o mesmo código, catálogos diferentes,
+   nenhum aviso em nenhuma das duas.
+7. **[F] O número do `--demo` não é reproduzível entre máquinas — o de um arquivo enviado
+   é.** O gerador sintético sorteia CVEs do próprio catálogo, então sob `2026.08.14` o
+   demo dá **100/88** e sob `2026.08.21` dá **104/84**. Mas o *mesmo* CSV enviado por
+   upload dá **100/88 nos dois catálogos**: a análise é estável, o gerador do demo é que
+   não é. Registrado como L9. **Isso importa para a apresentação de amanhã**, cujo
+   checklist pede para decorar os dois números do topo do relatório.
+8. **[F] A saída de `v4_kappa.py --demo` é sintética.** Ela imprime um veredito de aparência
    convincente ("EXPECTED RESULT. Decomposition becomes the core data model", κ_derived
    0.759) que é gerado pelo próprio script. **O V4 real nunca rodou.** É o número mais
    fácil de citar por engano em um slide, e está marcado como tal no `PROJECT_STATE.md`.
@@ -173,17 +200,23 @@ completo. **É dado sintético.** Não o cite como resultado.
 
 ## Existem mudanças não commitadas?
 
-**[F] Sim, quatro — e são exatamente os arquivos deste checkpoint:**
+**[F] O checkpoint de estado foi commitado em `3fd89d0`** (`PROJECT_STATE.md`,
+`SESSION_HANDOFF.md`, `CLAUDE.md` §0, uma linha no `README.md`).
+
+**Depois dele, a containerização ficou pendente de commit:**
 
 ```
-?? docs/PROJECT_STATE.md      (novo)
-?? docs/SESSION_HANDOFF.md    (novo)
- M CLAUDE.md                  (+1 seção: §0 "Start here, every session")
- M README.md                  (+1 linha no mapa do repositório)
+?? Dockerfile
+?? docker-compose.yml
+?? .dockerignore
+ M app/db.py                  (+2 linhas: SDIP_DB_PATH, default inalterado)
+ M app/analysis.py            (+3 linhas: SDIP_CACHE_DIR, default inalterado)
+ M README.md                  (seção "Rodar a aplicação" ganhou o modo Docker)
+ M docs/PROJECT_STATE.md      (verificação no container, L1 confirmado, L9 novo)
+ M docs/SESSION_HANDOFF.md    (este arquivo)
 ```
 
-Nada mais. O working tree estava limpo em `021b981` antes desta sessão, e **nenhum
-arquivo de código, nenhum ADR e nenhum documento de design foi tocado.**
+Nenhum ADR e nenhum documento de design foi tocado.
 
 **Ignorados, presentes no disco, e que não devem ser commitados** (`.gitignore` cobre
 todos, por decisão anterior e com a razão escrita no próprio arquivo): `sdip.db`,

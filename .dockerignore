@@ -1,0 +1,31 @@
+# A imagem carrega o minimo para rodar a aplicacao: app/ e requirements.txt.
+# Tudo abaixo e documentacao, estado local ou instrumento de validacao que a
+# aplicacao nao importa.
+
+.git/
+.gitignore
+.claude/
+.venv/
+venv/
+
+# Instrumentos Phase 0: arquivo unico, rodam fora do container por design
+# (phase0/README.md). A aplicacao nunca importa deles.
+phase0/
+
+docs/
+CLAUDE.md
+README.md
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Estado local: o container usa o volume nomeado, nunca o banco do host.
+sdip.db
+_render/
+
+__pycache__/
+*.pyc
+*.pyo
+
+.DS_Store
+Thumbs.db

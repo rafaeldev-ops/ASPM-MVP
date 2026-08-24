@@ -1,0 +1,26 @@
+# Sobe a aplicacao web de demonstracao do SDIP.
+#
+#   docker compose up -d --build      subir
+#   docker compose logs -f            acompanhar
+#   docker compose down               parar (o volume sobrevive)
+#   docker compose down -v            parar e APAGAR o historico de analises
+#
+# Depois de subir: http://127.0.0.1:8000
+
+services:
+  web:
+    build: .
+    image: sdip-web:local
+    container_name: sdip-web
+    ports:
+      # 127.0.0.1 de proposito: a aplicacao nao tem autenticacao nem tenancy
+      # (docs/PROJECT_STATE.md, L4). Nao deve ficar exposta na rede.
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - sdip-data:/data
+    restart: unless-stopped
+
+volumes:
+  # Historico de execucoes (sdip.db) e o catalogo KEV cacheado.
+  # Sobrevive a `down` e a rebuild; some com `down -v`.
+  sdip-data:

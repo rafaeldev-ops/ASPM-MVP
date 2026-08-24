@@ -192,7 +192,8 @@ falhar, Ring 1 não deve ser construído.**
 | 2026-08-19 04:38 | Commit `021b981`: aplicação web — 10 arquivos em `app/`, 13 arquivos no commit (com `requirements.txt` e o README reescrito), 1.797 linhas inseridas |
 | 2026-08-23 22:45 | **[F] Sem commit.** Regeneração de `phase0/demo-export.csv` e `phase0/decision-debt-report.html` (artefatos gitignorados, preparação da demo) |
 | 2026-08-23 22:46 | **[F] Sem commit.** Segunda execução demo gravada em `sdip.db` (gitignorado) |
-| 2026-08-23 (esta sessão) | Criação de `docs/PROJECT_STATE.md` e `docs/SESSION_HANDOFF.md`; `CLAUDE.md` ganhou o §0 "Start here, every session"; `README.md` ganhou uma linha no mapa. **Nenhuma alteração em código, arquitetura, ADR ou documento de design** |
+| 2026-08-23 (esta sessão) | Criação de `docs/PROJECT_STATE.md` e `docs/SESSION_HANDOFF.md`; `CLAUDE.md` ganhou o §0 "Start here, every session"; `README.md` ganhou uma linha no mapa. Commit `3fd89d0` |
+| 2026-08-23 (esta sessão) | **Containerização da aplicação web:** `Dockerfile`, `docker-compose.yml`, `.dockerignore`, e duas variáveis de ambiente (`SDIP_DB_PATH`, `SDIP_CACHE_DIR`) para o banco e o cache saírem de caminhos fixos. **Defaults inalterados** — rodar local se comporta exatamente como antes |
 
 ---
 
@@ -318,11 +319,22 @@ porta 8137, com o `.venv/` do repositório; servidor encerrado depois):
 | `GET /analyses/2/session` | 200 |
 | `GET /analyses/999` (inexistente) | 404 |
 
-**[F] Não testado:** o caminho de upload (`POST /analyses`) com arquivo real, o limite
-de 25MB, e o parsing de CSV/JSON com um export de ferramenta de verdade. O parsing foi
-verificado apenas contra o export sintético e — segundo `design-partner-kit.md` — contra
-um CSV plano e o JSON aninhado de dismissed alerts do GitHub, em sessão anterior, sem
-teste automatizado que prove isso hoje.
+**[F] Verificação no container, executada em 2026-08-23** (`docker compose up -d --build`,
+imagem `sdip-web:local`, volume nomeado `aspm_sdip-data` em `/data`):
+
+| Verificação | Resultado |
+|---|---|
+| `docker compose build` | OK |
+| `GET /health` · `GET /` · `/static/css/app.css` · inexistente | 200 · 200 · 200 · 404 |
+| `HEALTHCHECK` do Docker | `healthy` |
+| `POST /analyses` com `use_demo=1` | 303 → `/analyses/1`. **Baixou o catálogo KEV para o volume**, catálogo `2026.08.21`, 1.674 entradas |
+| **`POST /analyses` com upload de arquivo real** (`demo-export.csv`, 69KB, multipart) | 303 → `/analyses/2`. **Fecha a lacuna: o caminho de upload estava marcado como não testado** |
+| `docker compose restart` + releitura do banco | As duas análises sobreviveram. **Volume persiste** |
+
+**[F] Ainda não testado:** o limite de 25MB, e o parsing de um export de ferramenta real
+(DefectDojo, Jira, GitHub). O que foi testado é o CSV sintético do próprio projeto.
+Segundo `design-partner-kit.md`, um CSV plano e o JSON aninhado de dismissed alerts do
+GitHub foram verificados em sessão anterior — sem teste automatizado que prove isso hoje.
 
 ---
 
@@ -341,13 +353,14 @@ não existe suíte de testes que pudesse encontrá-los.
 
 | # | Limitação |
 |---|---|
-| **L1** | **[F] O cache da KEV nunca expira.** `load_kev()` (em `app/analysis.py` e em `phase0/v1_backtest.py`) só baixa se o arquivo não existir. O cache atual é de 2026-08-16, catálogo `2026.08.14`, 1.665 entradas, `dateAdded` máximo 2026-08-11. Numa máquina de parceiro rodando pela primeira vez isso é irrelevante (baixa fresco); numa máquina que já rodou, uma execução meses depois usa catálogo velho **em silêncio** e sub-reporta dívida de decisão. Não há aviso na tela nem no relatório |
+| **L1** | **[F] O cache da KEV nunca expira, e isso foi confirmado empiricamente em 2026-08-23.** `load_kev()` (em `app/analysis.py` e em `phase0/v1_backtest.py`) só baixa se o arquivo não existir. O cache do host é de 2026-08-16: catálogo `2026.08.14`, 1.665 entradas. O container, com volume vazio, baixou `2026.08.21` — **1.674 entradas, 9 a mais, 7 dias de diferença**. As duas máquinas rodam o mesmo código contra catálogos diferentes e nada avisa. Numa máquina de parceiro rodando pela primeira vez isso é irrelevante; numa que já rodou, uma execução meses depois sub-reporta dívida de decisão **em silêncio** |
 | **L2** | **[F] Um gatilho e meio, não sete.** V1 testa "entrou na KEV depois do fechamento" (exato) e o seu inverso. Estreitamento de faixa, exploit publicado, EPSS, alcançabilidade e mudança de dono **não são testáveis** com um export. Está declarado no `v1_backtest.py` e no protocolo — e precisa continuar sendo dito ao parceiro *antes*, não depois |
 | **L3** | **[F] Só achados com CVE entram na análise.** Achados só-de-regra (SAST, secrets) são excluídos por construção: a KEV é indexada por CVE. No export sintético isso descarta 202 de 900 linhas (22%) junto com as outras exclusões |
 | **L4** | **[F] Sem tenancy, sem autenticação, sem autorização na aplicação web.** É um instrumento local de uma pessoa. Qualquer uso multi-usuário viola ADR-0003 e ADR-0011 |
 | **L5** | **[F] Detecção de coluna é heurística.** `detect()` escolhe id/data/razão por regex sobre os nomes das colunas e imprime a escolha. Um palpite errado fica visível, não silencioso — mas continua sendo palpite |
 | **L6** | **[F] `app/` ocupa o mesmo caminho que `repository-structure.md` reserva para o monólito modular** (`app/domain/`, `app/application/`, `app/infrastructure/`, `app/interfaces/`). Hoje `app/` são 3 módulos planos. Quando o Ring 0 começar, isso precisa ser resolvido explicitamente — mover a demo para `demo/` ou reescrever o documento — e não por acidente |
 | **L7** | **[F] `app/analysis.py` lê o cache dentro de `phase0/.cache/`**, e `phase0/README.md` diz que `phase0/` é "deleted or promoted after the V1 gate". Deletar `phase0/` não quebra a aplicação (ela recria o diretório e rebaixa o catálogo), mas deixa um diretório órfão. Acoplamento por caminho, não por import |
+| **L9** | **[F] O export sintético do `--demo` depende do catálogo KEV, então os números do demo mudam quando o catálogo muda.** `demo_export_rows()` sorteia CVEs de `sorted(kev)`; um catálogo com 9 entradas a mais produz um export diferente com a mesma seed. Medido em 2026-08-23: sob `2026.08.14` o demo dá **100 dívida / 88 fechado-apesar-de**; sob `2026.08.21` dá **104 / 84**. **A análise em si é estável** — o *mesmo* CSV enviado por upload dá 100/88 nos dois catálogos. Ou seja: o número do botão "Rodar export sintético" não é reproduzível entre máquinas; o número de um arquivo enviado é |
 | **L8** | **[F] O roteiro da demo (2026-08-24) demonstra o CLI, não a aplicação web.** O roteiro foi escrito ~1h30 antes de a aplicação existir (mesmo dia, commits `f1427b9` 03:03 e `021b981` 04:38) e nunca foi atualizado. **Qual dos dois demonstrar é uma decisão em aberto** — ver `SESSION_HANDOFF.md` |
 
 ---
@@ -462,9 +475,9 @@ Em ordem de valor por esforço, **depois** da demo:
 
 ## Files Currently Being Worked On
 
-**[F] Nenhum arquivo de código.** As únicas mudanças não commitadas são os dois arquivos
-de estado criados nesta sessão (`docs/PROJECT_STATE.md`, `docs/SESSION_HANDOFF.md`) e duas
-edições aditivas de descoberta (`CLAUDE.md` §0, uma linha no mapa do `README.md`).
+**[F] O checkpoint de estado foi commitado em `3fd89d0`.** Depois dele, a
+containerização (`Dockerfile`, `docker-compose.yml`, `.dockerignore`, e as duas
+variáveis de ambiente em `app/db.py` e `app/analysis.py`) está pendente de commit.
 Detalhe em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md) § Existem mudanças não commitadas.
 
 ---

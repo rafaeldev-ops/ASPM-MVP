@@ -13,10 +13,34 @@ aspirational architecture.
 
 ## Rodar a aplicação
 
+### Com Docker (recomendado para demonstrar)
+
+```bash
+docker compose up -d --build
+```
+
+Abra <http://127.0.0.1:8000>. Para parar: `docker compose down` — o histórico de
+execuções sobrevive num volume nomeado. `docker compose down -v` apaga o histórico
+junto.
+
+A porta é publicada em `127.0.0.1` de propósito: a aplicação não tem autenticação nem
+isolamento por organização, e não deve ficar exposta na rede.
+
+Na primeira análise o container baixa o catálogo CISA KEV para o volume. É a única
+chamada externa, e depois disso ele roda offline — **inclusive nunca mais atualiza o
+catálogo sozinho** (ver a limitação L1 em [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md)).
+Para forçar um catálogo novo: `docker compose down -v` e suba de novo.
+
+### Sem Docker
+
 ```bash
 pip install -r requirements.txt
 python -m uvicorn app.main:app --reload
 ```
+
+Nesse modo o banco fica em `sdip.db` na raiz e o cache da KEV é reaproveitado de
+`phase0/.cache/`. As variáveis `SDIP_DB_PATH` e `SDIP_CACHE_DIR` mudam os dois
+caminhos; sem elas, nada muda.
 
 Abra <http://127.0.0.1:8000>. Envie um export de achados fechados (.csv ou
 .json), ou clique em **Rodar export sintético** para ver o instrumento
