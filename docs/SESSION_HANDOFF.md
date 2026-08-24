@@ -1,3 +1,32 @@
+# Session Handoff — 2026-08-24
+
+> **Adendo de 2026-08-24 — run de validação do Ring 0 com dados públicos reais.**
+> Análise completa: [`evaluation/ring0-real-data-validation.md`](evaluation/ring0-real-data-validation.md).
+> Estado por item R0-1…R0-7 e métricas: [`PROJECT_STATE.md`](PROJECT_STATE.md).
+>
+> **O que foi feito:** ingestão com proveniência e SHA-256 de CISA KEV (273 entradas),
+> CodeQL SARIF do artefato ISSTA 2025 (100.627 achados) e snapshot EPSS (359.229 CVEs);
+> motor de dívida de decisão com garantia estrutural da regra as-of; 31 testes
+> golden/adversariais/vazamento; 4 experimentos; artefatos versionados em
+> `evaluation/runs/2026-08-24/`.
+>
+> **O que NÃO mudou, e é deliberado:** `phase0/`, `app/` e os ADRs não foram tocados
+> (confirmado por `git status`). Nenhum código de produto do Ring 0 foi escrito — o que
+> existe é código de avaliação, sem banco, tenancy, API ou agendamento.
+>
+> **O achado que exige decisão humana:** `phase0/v1_backtest.py` classifica `Mitigated`
+> como `fixed` e descarta esses registros (bug **B2**). Mitigado não é corrigido — é a
+> decisão de não remediar, que é o objeto do produto, e `Mitigated` é status nativo do
+> DefectDojo. Medido: 33 de 360 decisões somem do relatório. **Não corrigido** porque é o
+> instrumento que o parceiro roda e havia apresentação no dia; a correção é uma linha de
+> regex. Ver também **B3** (`Won't Fix` → `false_positive`).
+>
+> **O que continua exatamente igual:** K1, K2 e K3 seguem **não avaliáveis**. Zero
+> parceiros. O `precision = 1,000` do run é contra rótulo de construção sintético e
+> **não é K3**. V0 continua sendo o gargalo de tudo.
+
+---
+
 # Session Handoff — 2026-08-23
 
 **Sessão anterior:** 2026-08-19 (implementação da aplicação web) e uma execução curta

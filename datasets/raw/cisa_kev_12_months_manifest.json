@@ -1,0 +1,22 @@
+{
+  "dataset": "CISA Known Exploited Vulnerabilities (KEV) Catalog",
+  "source": "https://github.com/cisagov/kev-data",
+  "source_authority": "CISA",
+  "window_start": "2025-08-24",
+  "window_end_exclusive": "2026-08-24",
+  "entries": 273,
+  "fields": [
+    "cveID",
+    "vendorProject",
+    "product",
+    "vulnerabilityName",
+    "dateAdded",
+    "shortDescription",
+    "requiredAction",
+    "dueDate",
+    "knownRansomwareCampaignUse",
+    "notes",
+    "cwes"
+  ],
+  "note": "Real public KEV entries. This is not a private organization scanner export and does not contain historical analyst decisions."
+}

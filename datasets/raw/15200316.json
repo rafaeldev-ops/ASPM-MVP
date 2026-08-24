@@ -1,0 +1,275 @@
+{
+  "access": {
+    "embargo": {
+      "active": false,
+      "reason": null
+    },
+    "files": "public",
+    "record": "public",
+    "status": "open"
+  },
+  "created": "2025-04-11T23:26:07.349123+00:00",
+  "custom_fields": {},
+  "deletion_status": {
+    "is_deleted": false,
+    "status": "P"
+  },
+  "files": {
+    "count": 1,
+    "enabled": true,
+    "entries": {
+      "issta2025-artifact.zip": {
+        "access": {
+          "hidden": false
+        },
+        "checksum": "md5:41e28ac547e847919d07bb62666d0dc4",
+        "ext": "zip",
+        "id": "620f32ac-2496-4c60-ae31-351578f1d4db",
+        "key": "issta2025-artifact.zip",
+        "links": {
+          "container": "https://zenodo.org/api/records/15200316/files/issta2025-artifact.zip/container",
+          "content": "https://zenodo.org/api/records/15200316/files/issta2025-artifact.zip/content",
+          "self": "https://zenodo.org/api/records/15200316/files/issta2025-artifact.zip"
+        },
+        "metadata": {},
+        "mimetype": "application/zip",
+        "size": 94691838,
+        "storage_class": "L"
+      }
+    },
+    "order": [],
+    "total_bytes": 94691838
+  },
+  "id": "15200316",
+  "is_draft": false,
+  "is_published": true,
+  "links": {
+    "access": "https://zenodo.org/api/records/15200316/access",
+    "access_grants": "https://zenodo.org/api/records/15200316/access/grants",
+    "access_links": "https://zenodo.org/api/records/15200316/access/links",
+    "access_request": "https://zenodo.org/api/records/15200316/access/request",
+    "access_users": "https://zenodo.org/api/records/15200316/access/users",
+    "archive": "https://zenodo.org/api/records/15200316/files-archive",
+    "archive_media": "https://zenodo.org/api/records/15200316/media-files-archive",
+    "communities": "https://zenodo.org/api/records/15200316/communities",
+    "communities-suggestions": "https://zenodo.org/api/records/15200316/communities-suggestions",
+    "doi": "https://doi.org/10.5281/zenodo.15200316",
+    "draft": "https://zenodo.org/api/records/15200316/draft",
+    "file_modification": "https://zenodo.org/api/records/15200316/file-modification",
+    "files": "https://zenodo.org/api/records/15200316/files",
+    "latest": "https://zenodo.org/api/records/15200316/versions/latest",
+    "latest_html": "https://zenodo.org/records/15200316/latest",
+    "media_files": "https://zenodo.org/api/records/15200316/media-files",
+    "parent": "https://zenodo.org/api/records/15200315",
+    "parent_doi": "https://doi.org/10.5281/zenodo.15200315",
+    "parent_doi_html": "https://zenodo.org/doi/10.5281/zenodo.15200315",
+    "parent_html": "https://zenodo.org/records/15200315",
+    "preview_html": "https://zenodo.org/records/15200316?preview=1",
+    "quota_increase": "https://zenodo.org/api/records/15200316/quota-increase",
+    "request_deletion": "https://zenodo.org/api/records/15200316/request-deletion",
+    "requests": "https://zenodo.org/api/records/15200316/requests",
+    "reserve_doi": "https://zenodo.org/api/records/15200316/draft/pids/doi",
+    "self": "https://zenodo.org/api/records/15200316",
+    "self_doi": "https://doi.org/10.5281/zenodo.15200316",
+    "self_doi_html": "https://zenodo.org/doi/10.5281/zenodo.15200316",
+    "self_html": "https://zenodo.org/records/15200316",
+    "self_iiif_manifest": "https://zenodo.org/api/iiif/record:15200316/manifest",
+    "self_iiif_sequence": "https://zenodo.org/api/iiif/record:15200316/sequence/default",
+    "versions": "https://zenodo.org/api/records/15200316/versions"
+  },
+  "media_files": {
+    "count": 0,
+    "enabled": false,
+    "entries": {},
+    "order": [],
+    "total_bytes": 0
+  },
+  "metadata": {
+    "creators": [
+      {
+        "affiliations": [
+          {
+            "id": "edmo:3782",
+            "identifiers": [
+              {
+                "identifier": "edmo:3782",
+                "scheme": "edmo"
+              }
+            ],
+            "name": "Purdue University"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Shen",
+          "given_name": "Mingjie",
+          "name": "Shen, Mingjie",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "id": "edmo:3782",
+            "identifiers": [
+              {
+                "identifier": "edmo:3782",
+                "scheme": "edmo"
+              }
+            ],
+            "name": "Purdue University"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Pillai",
+          "given_name": "Akul Abhilash",
+          "name": "Pillai, Akul Abhilash",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "id": "edmo:3782",
+            "identifiers": [
+              {
+                "identifier": "edmo:3782",
+                "scheme": "edmo"
+              }
+            ],
+            "name": "Purdue University"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Yuan",
+          "given_name": "Brian A.",
+          "name": "Yuan, Brian A.",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "id": "edmo:3782",
+            "identifiers": [
+              {
+                "identifier": "edmo:3782",
+                "scheme": "edmo"
+              }
+            ],
+            "name": "Purdue University"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Davis",
+          "given_name": "James C.",
+          "name": "Davis, James C.",
+          "type": "personal"
+        }
+      },
+      {
+        "affiliations": [
+          {
+            "id": "edmo:3782",
+            "identifiers": [
+              {
+                "identifier": "edmo:3782",
+                "scheme": "edmo"
+              }
+            ],
+            "name": "Purdue University"
+          }
+        ],
+        "person_or_org": {
+          "family_name": "Machiry",
+          "given_name": "Aravind",
+          "name": "Machiry, Aravind",
+          "type": "personal"
+        }
+      }
+    ],
+    "description": "<div>\n<div>This artifact contains the GitHub workflows to run CodeQL on EMBOSS repositories in our dataset, the results of running CodeQL on these repositories, and our manual analysis of CodeQL results.</div>\n</div>",
+    "publication_date": "2025-04-11",
+    "publisher": "Zenodo",
+    "resource_type": {
+      "id": "dataset",
+      "title": {
+        "de": "Datensatz",
+        "en": "Dataset"
+      }
+    },
+    "rights": [
+      {
+        "description": {
+          "en": "The Creative Commons Attribution license allows re-distribution and re-use of a licensed work on the condition that the creator is appropriately credited."
+        },
+        "icon": "cc-by-icon",
+        "id": "cc-by-4.0",
+        "props": {
+          "scheme": "spdx",
+          "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+        },
+        "title": {
+          "en": "Creative Commons Attribution 4.0 International"
+        }
+      }
+    ],
+    "title": "Finding 709 Defects in 258 Projects: An Experience Report on Applying CodeQL to Open-Source Embedded Software (Experience Paper)"
+  },
+  "parent": {
+    "access": {
+      "owned_by": {
+        "user": "545523"
+      },
+      "settings": {
+        "accept_conditions_text": null,
+        "allow_guest_requests": false,
+        "allow_user_requests": false,
+        "secret_link_expiration": 0
+      }
+    },
+    "communities": {},
+    "id": "15200315",
+    "pids": {
+      "doi": {
+        "client": "datacite",
+        "identifier": "10.5281/zenodo.15200315",
+        "provider": "datacite"
+      }
+    }
+  },
+  "pids": {
+    "doi": {
+      "client": "datacite",
+      "identifier": "10.5281/zenodo.15200316",
+      "provider": "datacite"
+    },
+    "oai": {
+      "identifier": "oai:zenodo.org:15200316",
+      "provider": "oai"
+    }
+  },
+  "revision_id": 6,
+  "stats": {
+    "all_versions": {
+      "data_volume": 7007196012.0,
+      "downloads": 74,
+      "unique_downloads": 70,
+      "unique_views": 141,
+      "views": 164
+    },
+    "this_version": {
+      "data_volume": 7007196012.0,
+      "downloads": 74,
+      "unique_downloads": 70,
+      "unique_views": 141,
+      "views": 164
+    }
+  },
+  "status": "published",
+  "swh": {},
+  "updated": "2025-04-17T01:45:26.593954+00:00",
+  "versions": {
+    "index": 1,
+    "is_latest": true
+  }
+}

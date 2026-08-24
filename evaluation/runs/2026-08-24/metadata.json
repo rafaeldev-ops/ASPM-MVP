@@ -1,0 +1,91 @@
+{
+  "run_date": "2026-08-24",
+  "generated_at": "2026-08-24T03:43:28+00:00",
+  "python": "3.14.5",
+  "platform": "win32",
+  "cutoff_as_of": "2026-08-21",
+  "kev_window": [
+    "2025-08-25",
+    "2026-08-21"
+  ],
+  "datasets": [
+    {
+      "dataset_id": "codeql-emboss-issta2025",
+      "dataset_name": "CodeQL SARIF sobre repositorios EMBOSS (artefato ISSTA 2025)",
+      "source": "Zenodo — ISSTA 2025 artifact, purs3lab/ISSTA-2025-EMBOSS-Artifact",
+      "source_url": "https://zenodo.org/records/15200316",
+      "retrieved_at": "2026-08-24T03:43:09+00:00",
+      "version": "zenodo record 15200316 (2025-04-11)",
+      "classification": "REAL_EXTERNAL_DATA",
+      "record_count": 100627,
+      "file_path": "datasets/processed/codeql_emboss_findings.json",
+      "file_sha256": "2859364ad11cd4c7ec623110c7a947c1d6dd6468fe1ad835bf00a76c1eee96e8",
+      "content_sha256": "fd7a5c78d9e789feceb3be7f50ca4846f6c25fe477d7a2b11301f37bfba78a26",
+      "license_or_usage_notes": "Artefato academico publico. O registro Zenodo nao declara licenca explicita (metadata.license = null); usado aqui como dado de pesquisa citado.",
+      "derived_from": [],
+      "notes": "Lido direto do zip, que nao foi extraido nem modificado. 187 arquivos SARIF. Fingerprints colidentes: 3627. CodeQL nao emite CVE: o campo cve e None em 100% dos registros, por construcao."
+    },
+    {
+      "dataset_id": "epss-snapshot-2026-08-14",
+      "dataset_name": "EPSS daily snapshot (modelo v2026.06.15)",
+      "source": "FIRST.org EPSS",
+      "source_url": "https://www.first.org/epss/data_stats",
+      "retrieved_at": "2026-08-24T03:43:28+00:00",
+      "version": "v2026.06.15 @ 2026-08-14T12:00:27Z",
+      "classification": "REAL_EXTERNAL_DATA",
+      "record_count": 359229,
+      "file_path": "phase0/.cache/epss-2026-08-14.csv.gz",
+      "file_sha256": "3b2750d08767fb700fdf1db031db37d3b3a409560b314ff9fdf606a54e1b51a6",
+      "content_sha256": null,
+      "license_or_usage_notes": "Dado publico do FIRST.org. Usado apenas como medida negativa: EPSS NAO e gatilho neste sistema.",
+      "derived_from": [],
+      "notes": "Snapshot unico. Nao permite medir uma fronteira real de versao de modelo; o deslocamento deste experimento e simulado e esta rotulado DERIVED_DATA."
+    },
+    {
+      "dataset_id": "kev-12m-2025-08-24_2026-08-23",
+      "dataset_name": "CISA Known Exploited Vulnerabilities Catalog — janela de 12 meses",
+      "source": "CISA",
+      "source_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "retrieved_at": "2026-08-24T03:43:04+00:00",
+      "version": "window 2025-08-24..2026-08-23",
+      "classification": "REAL_EXTERNAL_DATA",
+      "record_count": 273,
+      "file_path": "datasets/processed/kev_12m_snapshot.json",
+      "file_sha256": "3c2ebd555fe0deac749cc59781d3bf5ecd6b3ae3c170a52c57d28522da8da870",
+      "content_sha256": "983ff0f1e9133824d5095b56f6d868f63bc1513e9d846f1581af9d2421588e49",
+      "license_or_usage_notes": "Dado publico do governo dos EUA (CISA). Uso publico. Nao contem export de scanner de organizacao privada nem decisoes historicas de analista.",
+      "derived_from": [],
+      "notes": "Ingerido de dois arquivos que foram exigidos a concordar. sha256 CSV=41924a462986a9b8ef5b1a2a90b4bffdfa98800c1458f8a36152ad6992946b10 sha256 JSON=b2e38cc2aaefceefe330124e6478a9d43c416f24ff41f4e175e48b93a2d2e77d"
+    },
+    {
+      "dataset_id": "synthetic-decision-history-v1",
+      "dataset_name": "Historico de decisoes sintetico para o experimento de divida de decisao",
+      "source": "gerado por evaluation/ring0/synthetic_history.py",
+      "source_url": "",
+      "retrieved_at": "2026-08-24T03:43:12+00:00",
+      "version": "seed=20260824 cutoff=2026-08-21",
+      "classification": "SYNTHETIC_DATA",
+      "record_count": 360,
+      "file_path": "datasets/processed/synthetic_decision_history.json",
+      "file_sha256": "636fa71395c8cf5c7368d06d7e5534c6bfcab51001bfff44aae9fd6661d44076",
+      "content_sha256": "2a9f5dd49160dc16a91be081f9fb6db22e41ac166988735b244ab6882cf94554",
+      "license_or_usage_notes": "Sem licenca: dado fabricado.",
+      "derived_from": [
+        "kev-12m-2025-08-24_2026-08-23"
+      ],
+      "notes": "NAO SAO DECISOES DE ANALISTA REAL. Nenhuma organizacao foi observada. Os CVEs e as datas de entrada no KEV sao reais (CISA); a decisao, a data dela e a razao sao fabricadas para exercitar o motor. A distribuicao de razoes de fechamento nao mede nada sobre o mundo."
+    }
+  ],
+  "code": {
+    "codeql_eval.py": "87779e43b99d60c0",
+    "correlate.py": "8467a3652a8e1a7f",
+    "decision_debt.py": "eb1e21e626df93d3",
+    "epss_inflation.py": "0159809337126eee",
+    "ingest_kev.py": "0ba8ab62925276f2",
+    "ingest_sarif.py": "6f36c82d8496ff16",
+    "provenance.py": "233a91ec6cc4baba",
+    "run_all.py": "5be0cec359233037",
+    "synthetic_history.py": "ce6d094e4551ef4a",
+    "test_ring0.py": "380a5eca35f0f8d7"
+  }
+}

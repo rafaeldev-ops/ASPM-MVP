@@ -152,19 +152,25 @@ no documento continuam desmarcados, mas os artefatos existem com esse timestamp.
 | **V5** — verificação competitiva | **[F] Parcialmente quitado em 2026-08-16** (Brinqa, Phoenix, Cycode, Semgrep verificados; Seemplicity, Apiiro, OX indisponíveis publicamente). **Resta T-1: as quatro perguntas Nucleus numa demo — prazo era 2026-08-22, que já passou, e não há registro de ter acontecido** | Agendar a demo |
 | **V6** — instrumento de baseline | **[F] Não executado, e não existe script.** Só o método em `phase-0-protocols.md` §6 | V0 |
 
-### Ring 0 — o que a aplicação web *não* implementa
+### Ring 0 — status por item, após o run de 2026-08-24
 
-Nenhum dos sete itens está implementado como especificado no backlog:
+**Nada disto é código de produto:** não há banco, migration, tenancy, API nem
+agendamento. O que existe em `evaluation/ring0/` é código de avaliação, e os
+"parciais" abaixo são todos parciais na mesma direção — **existe a lógica, não
+existe a plataforma.**
 
-| Item | Especificado | Implementado hoje |
+| Item | Especificado | Estado |
 |---|---|---|
-| R0-1 | Migration #1, `org_id` em chaves compostas, RLS + FORCE, enums, gate de migration no CI | **Não.** SQLite, duas tabelas, `Base.metadata.create_all()`, sem migrations, sem tenancy |
-| R0-2 | Import de decisões fechadas → registros `decision` + `suppression` canônicos com `source_system` | **Parcial e diferente.** Detecção heurística de colunas + classificação por regex de razão; não produz `decision`/`suppression` canônicos |
-| R0-3 | KEV + EPSS (versão pinada) + OSV/GHSA com **snapshots, content hashes e authority tiers** | **Não.** Só KEV, sem snapshot, sem hash, sem tier, sem pin de versão |
-| R0-4 | Detector de estreitamento de faixa afetada (diff entre snapshots) | **Não** |
-| R0-5 | Avaliador de condições de invalidação (watch-worker) | **Não.** A comparação é uma passada única, não um worker |
-| R0-6 | `reopen_event` + reconstrução de `evidence_availability` | **Não** |
-| R0-7 | `GET /v1/decision-debt` + artefato estático | **Parcial.** Existe o artefato (HTML) e as telas; não existe o endpoint versionado |
+| R0-1 | Migration #1, `org_id` em chaves compostas, RLS + FORCE, enums, gate de CI | **Não.** Nada feito |
+| R0-2 | Import de decisões fechadas → `decision` + `suppression` canônicos com `source_system` | **Parcial (avaliação).** Modelo de decisão com `classification` obrigatória e importador de export sintético. Não produz registros canônicos, não persiste |
+| R0-3 | KEV + EPSS (versão pinada) + OSV/GHSA com **snapshots, content hashes e authority tiers** | **Parcial.** KEV e EPSS ingeridos com snapshot, SHA-256, versão e `source_authority`. Falta OSV/GHSA |
+| R0-4 | Detector de estreitamento de faixa afetada | **Não.** Nenhuma fonte deste run tem histórico de advisory |
+| R0-5 | Avaliador de condições de invalidação (watch-worker) | **Parcial.** O avaliador existe, com materiais e não-materiais separados e justificados. Não é worker: passada única, sem estado |
+| R0-6 | `reopen_event` + reconstrução de `evidence_availability` | **Parcial.** `evidence_availability` reconstruído e testado. Sem tabela `reopen_event`, sem persistência |
+| R0-7 | `GET /v1/decision-debt` + artefato estático | **Parcial.** Artefatos versionados em `evaluation/runs/`. Sem endpoint |
+
+**[F] Ring 0 ainda não passou.** E o gate não é a lista acima — é **precisão de
+re-litígio ≥50% em dado histórico de parceiro**, que continua sem nenhum dado.
 
 ### Ring 1
 
@@ -193,7 +199,8 @@ falhar, Ring 1 não deve ser construído.**
 | 2026-08-23 22:45 | **[F] Sem commit.** Regeneração de `phase0/demo-export.csv` e `phase0/decision-debt-report.html` (artefatos gitignorados, preparação da demo) |
 | 2026-08-23 22:46 | **[F] Sem commit.** Segunda execução demo gravada em `sdip.db` (gitignorado) |
 | 2026-08-23 (esta sessão) | Criação de `docs/PROJECT_STATE.md` e `docs/SESSION_HANDOFF.md`; `CLAUDE.md` ganhou o §0 "Start here, every session"; `README.md` ganhou uma linha no mapa. Commit `3fd89d0` |
-| 2026-08-23 (esta sessão) | **Containerização da aplicação web:** `Dockerfile`, `docker-compose.yml`, `.dockerignore`, e duas variáveis de ambiente (`SDIP_DB_PATH`, `SDIP_CACHE_DIR`) para o banco e o cache saírem de caminhos fixos. **Defaults inalterados** — rodar local se comporta exatamente como antes |
+| 2026-08-23 | **Containerização da aplicação web:** `Dockerfile`, `docker-compose.yml`, `.dockerignore`, e duas variáveis de ambiente (`SDIP_DB_PATH`, `SDIP_CACHE_DIR`). **Defaults inalterados.** Commit `326840a` |
+| 2026-08-24 | **Run de validação do Ring 0 com dados públicos reais.** Ingestão de CISA KEV (273 entradas), CodeQL SARIF do artefato ISSTA 2025 (100.627 achados) e snapshot EPSS (359.229 CVEs), todos com proveniência e SHA-256. Motor de dívida de decisão, 31 testes golden/adversariais, 4 experimentos. **Dois defeitos encontrados em `phase0/v1_backtest.py`.** Relatório: [`evaluation/ring0-real-data-validation.md`](evaluation/ring0-real-data-validation.md) |
 
 ---
 
@@ -254,6 +261,7 @@ usa dado de organização.**
 |---|---|---|---|
 | EXP-001 | 2026-08-16 | 71.885 vs 306 cruzamentos de limiar (235×); 0,0% dos scores EPSS inalterados na fronteira de modelo | EPSS excluído do V1; ADR-0013 confirmado com número |
 | EXP-002 | 2026-08-17 | Árvore de risco: 19,4% do espaço de entrada sem regra; 1 regra morta; 36% sem discriminação num corpus realista | 2 defeitos corrigidos; o terceiro achado permanece aberto |
+| **Ring 0 run** | **2026-08-24** | Ver [`evaluation/ring0-real-data-validation.md`](evaluation/ring0-real-data-validation.md). 100.627 achados CodeQL e 273 entradas KEV reais ingeridos; **100% unmatched por identidade** (CodeQL não emite CVE); **22.358 CVEs a ±10% do limiar 0,01 de EPSS**; 31 testes passam, 0 vazamentos temporais em 642 consultas | **2 defeitos abertos em `phase0/v1_backtest.py`** (§ Known Bugs, B2 e B3) |
 
 **[F] O que NÃO é resultado experimental, e não pode ser citado como se fosse:**
 a saída de `python v4_kappa.py --demo` (κ_holistic 0.190, κ_derived 0.759, delta +0.570).
@@ -319,6 +327,17 @@ porta 8137, com o `.venv/` do repositório; servidor encerrado depois):
 | `GET /analyses/2/session` | 200 |
 | `GET /analyses/999` (inexistente) | 404 |
 
+**[F] Testes do Ring 0, executados em 2026-08-24** (`python evaluation/ring0/test_ring0.py`,
+Python 3.14.5, exit 0):
+
+| Grupo | Resultado |
+|---|---|
+| Casos positivos P1–P3 | **6/6** |
+| Casos negativos N1–N7 | **10/10** |
+| Adversariais A–F | **7/7 executáveis**; **E declarado NÃO TESTÁVEL** (sem histórico de advisory nas fontes) |
+| Vazamento temporal L1–L4 | **7/7**, incluindo varredura das 642 consultas do run: **0 revelaram data futura** |
+| **Total** | **31 passaram, 0 falharam, 1 skip declarado** |
+
 **[F] Verificação no container, executada em 2026-08-23** (`docker compose up -d --build`,
 imagem `sdip-web:local`, volume nomeado `aspm_sdip-data` em `/data`):
 
@@ -343,9 +362,16 @@ GitHub foram verificados em sessão anterior — sem teste automatizado que prov
 | # | Onde | O quê |
 |---|---|---|
 | **B1** | `app/analysis.py`, docstring de `run_analysis` | Diz retornar 6 valores (`summary, debt, despite, sample, det tuple, excl Counter`); a função retorna 5 e `app/main.py` desempacota 5. Docstring errado, código correto. Cosmético |
+| **B2** | `phase0/v1_backtest.py`, `FIXED_WORDS` | **`classify_reason("Mitigated")` → `"fixed"`**, então achados mitigados são descartados como "não é uma decisão de não agir". **Mitigado não é corrigido:** um achado fechado porque existe controle compensatório é exatamente a decisão de não remediar, e a ADR-0016 diz que essa supressão é perecível. `Mitigated` é status do DefectDojo — a primeira fonte listada no `design-partner-kit.md`. Medido em 2026-08-24: **33 de 360 decisões sumiram do relatório**, e removê-las do motor novo reproduz o resultado do instrumento exatamente (94/92). **Aberto** |
+| **B3** | `phase0/v1_backtest.py`, `FP_WORDS` | **`classify_reason("Won't Fix")` → `"false_positive"`**. Não altera o total de dívida (ambos ficam em escopo), mas corrompe a divisão entre as duas pilhas — que é exatamente a suposição **A4** de `competitive-positioning.md` §7, a que o protocolo diz nunca ter sido medida. **Aberto** |
+
+**[F] B2 e B3 não foram corrigidos.** `v1_backtest.py` é o instrumento que um parceiro
+roda, e havia uma apresentação em 2026-08-24. A correção é de uma linha em cada regex e
+é decisão de quem apresenta — mas **B2 sub-reporta dívida de decisão em silêncio** em
+qualquer export com status `Mitigated`.
 
 **[F] Nenhum outro bug conhecido.** Isso não significa que não existam — significa que
-não existe suíte de testes que pudesse encontrá-los.
+não existe suíte de testes de produto que pudesse encontrá-los.
 
 ---
 
@@ -360,6 +386,9 @@ não existe suíte de testes que pudesse encontrá-los.
 | **L5** | **[F] Detecção de coluna é heurística.** `detect()` escolhe id/data/razão por regex sobre os nomes das colunas e imprime a escolha. Um palpite errado fica visível, não silencioso — mas continua sendo palpite |
 | **L6** | **[F] `app/` ocupa o mesmo caminho que `repository-structure.md` reserva para o monólito modular** (`app/domain/`, `app/application/`, `app/infrastructure/`, `app/interfaces/`). Hoje `app/` são 3 módulos planos. Quando o Ring 0 começar, isso precisa ser resolvido explicitamente — mover a demo para `demo/` ou reescrever o documento — e não por acidente |
 | **L7** | **[F] `app/analysis.py` lê o cache dentro de `phase0/.cache/`**, e `phase0/README.md` diz que `phase0/` é "deleted or promoted after the V1 gate". Deletar `phase0/` não quebra a aplicação (ela recria o diretório e rebaixa o catálogo), mas deixa um diretório órfão. Acoplamento por caminho, não por import |
+| **L10** | **[F] Os dois corpora reais do run de 2026-08-24 não se juntam.** 100% unmatched por identidade: o CodeQL não emite CVE em nenhum dos 100.627 achados, e o KEV é indexado por CVE. Consequência de desenho: os achados reais do CodeQL **não podem ser sujeito** do teste de dívida de decisão, e foi por isso que o experimento usou histórico sintético sobre CVEs reais. Vínculo por CWE é de **classe**, não identidade, e não autoriza re-litígio. **Um export de SCA de parceiro (Trivy, Snyk, Dependabot) traria CVE e resolveria isso** — é a diferença entre SAST e SCA |
+| **L11** | **[F] Não há ground truth de falso positivo no artefato ISSTA.** Verificado: o zip traz os SARIF, `embedded-repos.json` e dois PDFs. Os 709 defeitos confirmados do paper estão em prosa, não em arquivo de labels. Nenhuma métrica de qualidade de detecção do CodeQL é reportável a partir dele |
+| **L12** | **[F] Janela de KEV de 12 meses deixa 31% da população indeterminável.** 111 de 360 decisões do run caem em `UNKNOWN_OUTSIDE_WINDOW` — o motor recusa dizer `NOT_IN_KEV` para um CVE que pode ter entrado antes da janela. O catálogo completo (1.674 entradas desde 2021-11) eliminaria isso |
 | **L9** | **[F] O export sintético do `--demo` depende do catálogo KEV, então os números do demo mudam quando o catálogo muda.** `demo_export_rows()` sorteia CVEs de `sorted(kev)`; um catálogo com 9 entradas a mais produz um export diferente com a mesma seed. Medido em 2026-08-23: sob `2026.08.14` o demo dá **100 dívida / 88 fechado-apesar-de**; sob `2026.08.21` dá **104 / 84**. **A análise em si é estável** — o *mesmo* CSV enviado por upload dá 100/88 nos dois catálogos. Ou seja: o número do botão "Rodar export sintético" não é reproduzível entre máquinas; o número de um arquivo enviado é |
 | **L8** | **[F] O roteiro da demo (2026-08-24) demonstra o CLI, não a aplicação web.** O roteiro foi escrito ~1h30 antes de a aplicação existir (mesmo dia, commits `f1427b9` 03:03 e `021b981` 04:38) e nunca foi atualizado. **Qual dos dois demonstrar é uma decisão em aberto** — ver `SESSION_HANDOFF.md` |
 
@@ -381,6 +410,8 @@ corrigida: um checkpoint não altera código nem arquitetura.
 | I7 | `app/db.py` + `README.md` | A escolha de SQLite/SQLAlchemy/FastAPI está justificada apenas em docstring e README. **Sem ADR**, contra CLAUDE.md §38 se a decisão for material. Ver `SESSION_HANDOFF.md` |
 | I8 | `app/analysis.py`, docstring de `run_analysis` | Assinatura de retorno errada. Ver B1 |
 | I9 | `design-partner-kit.md` §6 | Define o schema de um tracker de parceiros. **O arquivo do tracker não existe** |
+| I10 | `phase0/v1_backtest.py` × `docs/adr/0016` | O instrumento descarta achados `Mitigated` como corrigidos; a ADR-0016 trata mitigação como supressão perecível — o caso central do produto. Ver B2 |
+| I11 | `datasets/raw/ISSTA-2025-EMBOSS-Artifact-main.zip` | É o export do GitHub e **não contém os SARIF** (`OSSEmbeddedResults/` só existe no Zenodo). O artefato correto foi baixado e verificado por md5; o arquivo antigo foi preservado mas não é usado |
 
 ---
 
@@ -426,11 +457,30 @@ instrumento, não o mundo:
 | Fechado apesar de já estar na KEV | 88 |
 | Catálogo KEV usado | `2026.08.14` |
 
+**[F] Métricas do run do Ring 0 de 2026-08-24** — todas contra **histórico de decisões
+sintético**, não contra organização nenhuma:
+
+| Métrica | Valor | Contra o quê |
+|---|---:|---|
+| Decision-debt precision | 1,000 (109/109) | **rótulo de construção do dataset sintético** |
+| Decision-debt recall | 1,000 (109/109) | idem |
+| False re-litigation rate | 0,000 | idem |
+| Candidate inflation sob 360 eventos de EPSS | 1,00× | medida do motor |
+| Evidence coverage | 1,000 | evidência real, rastreável |
+| Temporal correctness | 1,000 (642 consultas, 0 vazamentos) | auditoria de consultas |
+
+> **[F] Precision 1,0 não é resultado de produto e não pode ir para slide.** O ground
+> truth é o rótulo com que o próprio dataset foi construído — as decisões do bucket A
+> foram fabricadas para serem anteriores à entrada no KEV. Prova que a implementação
+> segue a especificação em 321 casos. **Não é K3**, e não diz nada sobre frequência de
+> dívida de decisão no mundo.
+
 **[F] Nenhum critério de kill pré-registrado foi avaliado ainda:**
 
 | Data | Critério | Estado |
 |---|---|---|
 | 2026-08-22 | V5 / Nucleus verificado | **[F] Prazo vencido, sem registro de conclusão** |
+| — | **K1 / K2 / K3** | **[F] Continuam NÃO AVALIÁVEIS após o run de 2026-08-24.** Zero parceiros. O 1,000 acima é contra rótulo sintético e não é K3 |
 | 2026-09-30 | ≥3 de 5 parceiros confirmam que queriam saber (K1) e ≥1 nomeia um achado (K2) | Não avaliado — V0 não começou |
 | 2026-10-31 | Precisão de re-litígio ≥50% (K3) | Não avaliado |
 | 2026-12-31 | ≥2 parceiros pagando ≥$30k | Não avaliado |
@@ -459,6 +509,10 @@ instrumento, não o mundo:
 
 Em ordem de valor por esforço, **depois** da demo:
 
+0. **[F] Decidir sobre B2 e B3** (`phase0/v1_backtest.py`). B2 é o urgente: sub-reporta
+   dívida de decisão em silêncio em qualquer export com status `Mitigated`, que é status
+   nativo do DefectDojo. Uma linha de regex em cada. **Não corrigido nesta sessão porque
+   é o instrumento que o parceiro roda e havia apresentação no dia.**
 1. **[H] Rodar V4 de verdade.** É o único item de Phase 0 sem dependência externa, o
    corpus está construído e validado, e o instrumento de análise está pronto e testado
    contra dado sintético. O resultado decide se o contrato de decisão é uma pergunta
@@ -484,4 +538,4 @@ Detalhe em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md) § Existem mudanças não 
 
 ## Last Updated
 
-**2026-08-23** · commit base `021b981` · branch `master`
+**2026-08-24** · commit base `326840a` + run do Ring 0 pendente de commit · branch `master`

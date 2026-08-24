@@ -1,0 +1,887 @@
+{
+  "decision_debt": {
+    "ground_truth_note": "Precision e recall abaixo sao contra o rotulo de CONSTRUCAO do historico sintetico. Medem se o motor implementa a regra as-of corretamente. NAO sao uma medida de prevalencia de divida de decisao em nenhuma organizacao real, e nao devem ser citados como tal.",
+    "population": {
+      "decisions_total": 360,
+      "in_scope": 321,
+      "excluded_closed_as_fixed": 39
+    },
+    "decision_debt_precision": {
+      "value": 1.0,
+      "valid_candidates": 109,
+      "suggested_candidates": 109,
+      "ground_truth": "DERIVED_FROM_CONSTRUCTION"
+    },
+    "decision_debt_recall": {
+      "value": 1.0,
+      "found": 109,
+      "should_have_found": 109,
+      "missed": 0,
+      "ground_truth": "DERIVED_FROM_CONSTRUCTION"
+    },
+    "false_re_litigation_rate": {
+      "value": 0.0,
+      "invalid_candidates": 0,
+      "suggested": 109
+    },
+    "candidate_inflation_epss": {
+      "baseline_candidates": 109,
+      "after_epss_change_on_every_decision": 109,
+      "delta": 0,
+      "inflation_x": 1.0,
+      "events_injected": 360,
+      "meaning": "Um evento de EPSS foi injetado em TODAS as decisoes com CVE. Se EPSS fosse gatilho, a contagem explodiria."
+    },
+    "evidence_coverage": {
+      "candidates_with_traceable_evidence": 109,
+      "candidates": 109,
+      "value": 1.0
+    },
+    "temporal_correctness": {
+      "knowledge_queries": 642,
+      "future_leaks": 0,
+      "value": 1.0
+    },
+    "pile_split": {
+      "decision_debt": 109,
+      "closed_despite_already_in_kev": 101,
+      "unknown_outside_window": 111,
+      "excluded_not_a_decision_to_not_act": 39,
+      "note": "Os dois primeiros nunca se somam. Fundi-los inflaria o numero principal com achados que contam outra historia."
+    },
+    "close_reason_distribution": {
+      "false_positive": 157,
+      "risk_accepted": 84,
+      "wont_fix": 47,
+      "fixed": 39,
+      "mitigated": 33
+    }
+  },
+  "baseline_comparison": {
+    "instrument": "phase0/v1_backtest.py",
+    "evidence": "identica (janela de 273 entradas injetada no cache do instrumento)",
+    "rows_read": 360,
+    "analysed": 288,
+    "excluded": 72,
+    "exclusion_reasons": {
+      "closed as fixed (not a decision to not act)": 72
+    },
+    "decision_debt": 94,
+    "closed_despite": 92,
+    "reason_classification": {
+      "engine": {
+        "false_positive": 157,
+        "risk_accepted": 84,
+        "wont_fix": 47,
+        "fixed": 39,
+        "mitigated": 33
+      },
+      "v1_backtest": {
+        "false_positive": 204,
+        "risk_accepted": 84,
+        "fixed": 72
+      },
+      "divergences": [
+        {
+          "input": "Mitigated",
+          "engine": "mitigated (decisao de nao agir -> em escopo)",
+          "v1_backtest": "fixed",
+          "impact": "exclui do escopo",
+          "assessment": "Mitigado nao e corrigido. Um achado fechado porque existe um controle compensatorio e exatamente uma decisao de NAO remediar -- e ADR-0016 diz que essa supressao e perecivel: o controle pode deixar de valer, ou o CVE pode entrar no KEV. O regex FIXED_WORDS do v1_backtest contem 'mitigated', entao esses registros somem do relatorio. DefectDojo usa 'Mitigated' como status, entao isso morde em dado real de parceiro."
+        },
+        {
+          "input": "Won't Fix",
+          "engine": "wont_fix",
+          "v1_backtest": "false_positive",
+          "impact": "nao muda a contagem de divida; corrompe a divisao de piles",
+          "assessment": "'Won't fix' e aceitacao de risco, nao falso positivo. Nao altera o total porque ambos ficam em escopo, mas contamina exatamente a medida que competitive-positioning chama de A4 -- o tamanho da pilha de falso positivo contra a de risco aceito, que o protocolo diz nunca ter sido medida."
+        }
+      ]
+    },
+    "agrees_with_engine": false
+  },
+  "correlation": {
+    "kev_entries": 273,
+    "codeql_findings": 100627,
+    "codeql_projects": 150,
+    "cve_key": {
+      "codeql_findings_with_cve": 0,
+      "matched": 0,
+      "verdict": "NAO APLICAVEL: CodeQL nao emite CVE. 0 de 100627 achados carregam um identificador de vulnerabilidade. Nao existe juncao por identidade entre estes dois corpora."
+    },
+    "cwe_key": {
+      "kev_distinct_cwes": 79,
+      "codeql_distinct_cwes": 57,
+      "shared_cwes": 13,
+      "shared_cwe_list": [
+        "CWE-120",
+        "CWE-476",
+        "CWE-787",
+        "CWE-190",
+        "CWE-125",
+        "CWE-367",
+        "CWE-119",
+        "CWE-290",
+        "CWE-416",
+        "CWE-611",
+        "CWE-415",
+        "CWE-121",
+        "CWE-843"
+      ],
+      "codeql_findings_in_shared_class": 1129,
+      "codeql_findings_in_shared_class_pct": 1.12,
+      "kev_entries_in_shared_class": 43,
+      "kev_entries_in_shared_class_pct": 15.75,
+      "relationship_type": "CLASS_LEVEL_ONLY",
+      "verdict": "Vinculo de CLASSE, nunca de identidade. Um achado do CodeQL com CWE-787 e um CVE do KEV com CWE-787 compartilham categoria de defeito e nada mais. Isto NAO autoriza re-litigar o achado do CodeQL porque o CVE entrou no KEV."
+    },
+    "repository_key": {
+      "candidate_pairs": 19,
+      "candidates": [
+        {
+          "kev_cve": "CVE-2025-48543",
+          "kev_vendor": "Android",
+          "kev_product": "Runtime",
+          "codeql_project": "bytecodealliance/wasm-micro-runtime",
+          "shared_tokens": [
+            "runtime"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2025-59689",
+          "kev_vendor": "Libraesva",
+          "kev_product": "Email Security Gateway",
+          "codeql_project": "wifidog/wifidog-gateway",
+          "shared_tokens": [
+            "gateway"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2025-41244",
+          "kev_vendor": "Broadcom",
+          "kev_product": "VMware Aria Operations and VMware Tools",
+          "codeql_project": "vmware/splinterdb",
+          "shared_tokens": [
+            "vmware"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2024-37079",
+          "kev_vendor": "Broadcom",
+          "kev_product": "VMware vCenter Server",
+          "codeql_project": "vmware/splinterdb",
+          "shared_tokens": [
+            "vmware"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-22719",
+          "kev_vendor": "Broadcom",
+          "kev_product": "VMware Aria Operations",
+          "codeql_project": "vmware/splinterdb",
+          "shared_tokens": [
+            "vmware"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2012-1854",
+          "kev_vendor": "Microsoft",
+          "kev_product": "Visual Basic for Applications (VBA)",
+          "codeql_project": "paladin-t/my_basic",
+          "shared_tokens": [
+            "basic"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-34197",
+          "kev_vendor": "Apache",
+          "kev_product": "ActiveMQ",
+          "codeql_project": "apache/mynewt-core",
+          "shared_tokens": [
+            "apache"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-34197",
+          "kev_vendor": "Apache",
+          "kev_product": "ActiveMQ",
+          "codeql_project": "apache/mynewt-nimble",
+          "shared_tokens": [
+            "apache"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-34197",
+          "kev_vendor": "Apache",
+          "kev_product": "ActiveMQ",
+          "codeql_project": "apache/nuttx",
+          "shared_tokens": [
+            "apache"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-34926",
+          "kev_vendor": "Trend Micro",
+          "kev_product": "Apex One",
+          "codeql_project": "bytecodealliance/wasm-micro-runtime",
+          "shared_tokens": [
+            "micro"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-34926",
+          "kev_vendor": "Trend Micro",
+          "kev_product": "Apex One",
+          "codeql_project": "ryankurte/micro-gui",
+          "shared_tokens": [
+            "micro"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-9082",
+          "kev_vendor": "Drupal",
+          "kev_product": "Core",
+          "codeql_project": "apache/mynewt-core",
+          "shared_tokens": [
+            "core"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-50751",
+          "kev_vendor": "Check Point",
+          "kev_product": "Security Gateway",
+          "codeql_project": "wifidog/wifidog-gateway",
+          "shared_tokens": [
+            "gateway"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-60137",
+          "kev_vendor": "WordPress",
+          "kev_product": "Core",
+          "codeql_project": "apache/mynewt-core",
+          "shared_tokens": [
+            "core"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-63030",
+          "kev_vendor": "WordPress",
+          "kev_product": "Core",
+          "codeql_project": "apache/mynewt-core",
+          "shared_tokens": [
+            "core"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-34486",
+          "kev_vendor": "Apache",
+          "kev_product": "Tomcat",
+          "codeql_project": "apache/mynewt-core",
+          "shared_tokens": [
+            "apache"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-34486",
+          "kev_vendor": "Apache",
+          "kev_product": "Tomcat",
+          "codeql_project": "apache/mynewt-nimble",
+          "shared_tokens": [
+            "apache"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-34486",
+          "kev_vendor": "Apache",
+          "kev_product": "Tomcat",
+          "codeql_project": "apache/nuttx",
+          "shared_tokens": [
+            "apache"
+          ]
+        },
+        {
+          "kev_cve": "CVE-2026-59310",
+          "kev_vendor": "Broadcom",
+          "kev_product": "VMware vCenter",
+          "codeql_project": "vmware/splinterdb",
+          "shared_tokens": [
+            "vmware"
+          ]
+        }
+      ],
+      "verdict": "Pares por token compartilhado sao PISTAS para inspecao humana, nao vinculos. Nenhum foi promovido a relacionamento: o KEV nomeia um produto comercial, o SARIF nomeia um repositorio do GitHub, e coincidencia de token nao prova que sao o mesmo artefato."
+    },
+    "summary": {
+      "matched_by_identity": 0,
+      "unmatched": 100627,
+      "unmatched_pct": 100.0,
+      "conclusion": "100% unmatched por identidade. Os dois datasets reais deste run nao se juntam: o KEV e indexado por CVE e o CodeQL nao emite CVE. Isso e uma propriedade das fontes, nao um defeito do correlacionador -- e e a razao pela qual o experimento de divida de decisao nao pode usar os achados do CodeQL como sujeito."
+    }
+  },
+  "codeql_corpus": {
+    "provenance": {
+      "dataset_id": "codeql-emboss-issta2025",
+      "sha256": "ada3dd3c194dc2584f236175b31d8081b1ba9a340eaafb6bb9fbba9ee4b782f7",
+      "classification": "REAL_EXTERNAL_DATA"
+    },
+    "totals": {
+      "findings": 100627,
+      "projects": 150,
+      "commits": 168,
+      "distinct_rules_fired": 116
+    },
+    "field_coverage": {
+      "repository": {
+        "present": 100627,
+        "pct": 100.0
+      },
+      "commit": {
+        "present": 100627,
+        "pct": 100.0
+      },
+      "file": {
+        "present": 100627,
+        "pct": 100.0
+      },
+      "line": {
+        "present": 100267,
+        "pct": 99.64
+      },
+      "rule": {
+        "present": 100627,
+        "pct": 100.0
+      },
+      "message": {
+        "present": 100627,
+        "pct": 100.0
+      },
+      "severity": {
+        "present": 100627,
+        "pct": 100.0
+      },
+      "cwe": {
+        "present": 73956,
+        "pct": 73.5
+      },
+      "cve": {
+        "present": 0,
+        "pct": 0.0
+      },
+      "security_severity": {
+        "present": 2878,
+        "pct": 2.86
+      },
+      "precision": {
+        "present": 100627,
+        "pct": 100.0
+      }
+    },
+    "dedup": {
+      "distinct_fingerprints": 94762,
+      "fingerprints_with_collisions": 3627,
+      "records_in_collisions": 9492,
+      "collision_pct": 9.43,
+      "fingerprint_basis": {
+        "codeql_partial_fingerprint": 100627
+      },
+      "location_level_duplicates": 5858,
+      "note": "Colisao de fingerprint aqui NAO e prova de duplicata: o partialFingerprint do CodeQL e por linha, entao dois achados distintos da mesma regra na mesma linha colidem legitimamente. O numero e reportado como o que e -- uma taxa de colisao do esquema de identidade, nao uma taxa de duplicatas reais."
+    },
+    "classification": {
+      "security_tagged_rule_findings": 2878,
+      "security_tagged_pct": 2.86,
+      "with_security_severity": 2878,
+      "with_security_severity_pct": 2.86,
+      "levels": {
+        "note": 92763,
+        "warning": 6775,
+        "error": 1089
+      },
+      "precisions": {
+        "high": 92416,
+        "very-high": 4262,
+        "medium": 3930,
+        "low": 19
+      }
+    },
+    "concentration": {
+      "top_project": "cleanflight/cleanflight",
+      "top_project_findings": 61153,
+      "top_project_pct": 60.77,
+      "top5_pct": 75.96,
+      "note": "Concentracao alta significa que qualquer metrica agregada sobre este corpus descreve principalmente um punhado de projetos. Reportar so a media esconderia isso."
+    },
+    "grouping": {
+      "distinct_cwes": 57,
+      "findings_without_cwe": 26671,
+      "findings_without_cwe_pct": 26.5,
+      "top_cwes": [
+        [
+          "CWE-561",
+          58764
+        ],
+        [
+          "CWE-563",
+          10315
+        ],
+        [
+          "CWE-457",
+          1237
+        ],
+        [
+          "CWE-665",
+          1237
+        ],
+        [
+          "CWE-546",
+          1214
+        ],
+        [
+          "CWE-252",
+          538
+        ],
+        [
+          "CWE-120",
+          486
+        ],
+        [
+          "CWE-476",
+          359
+        ],
+        [
+          "CWE-787",
+          357
+        ],
+        [
+          "CWE-805",
+          357
+        ]
+      ],
+      "top_rules": [
+        [
+          "cpp/unused-static-function",
+          58558
+        ],
+        [
+          "cpp/commented-out-code",
+          10150
+        ],
+        [
+          "cpp/unused-static-variable",
+          10061
+        ],
+        [
+          "cpp/long-switch",
+          2243
+        ],
+        [
+          "cpp/trivial-switch",
+          2116
+        ],
+        [
+          "cpp/bitwise-sign-check",
+          1902
+        ],
+        [
+          "cpp/loop-variable-changed",
+          1286
+        ],
+        [
+          "cpp/uninitialized-local",
+          1237
+        ],
+        [
+          "cpp/fixme-comment",
+          1214
+        ],
+        [
+          "cpp/include-non-header",
+          937
+        ]
+      ]
+    },
+    "ground_truth": {
+      "available": false,
+      "reason": "O artefato Zenodo nao traz labels de analise manual em formato legivel por maquina. Ha os SARIF, `embedded-repos.json` (a lista de 300 repositorios buscados) e dois PDFs. Os 709 defeitos confirmados do paper estao em prosa. Sem arquivo de labels, nao existe ground truth de falso positivo neste run.",
+      "consequence": "Nenhuma metrica de precisao/recall sobre falso positivo do CodeQL e reportada. As metricas acima sao sobre parsing, normalizacao e identidade -- propriedades do nosso codigo, verificaveis contra o dado real."
+    }
+  },
+  "epss": {
+    "epss_snapshot": {
+      "file": "phase0/.cache/epss-2026-08-14.csv.gz",
+      "model_version": "v2026.06.15",
+      "score_date": "2026-08-14T12:00:27Z",
+      "cve_count": 359229,
+      "sha256": "3b2750d08767fb700fdf1db031db37d3b3a409560b314ff9fdf606a54e1b51a6",
+      "classification": "REAL_EXTERNAL_DATA"
+    },
+    "real_density": [
+      {
+        "threshold": 0.01,
+        "cves_above": 144522,
+        "cves_above_pct": 40.231,
+        "bands": [
+          {
+            "relative_band": 0.05,
+            "range": [
+              0.0095,
+              0.0105
+            ],
+            "cves_inside": 11277,
+            "cves_inside_below_threshold": 5747,
+            "ratio_to_above_count_pct": 7.8,
+            "meaning": "11277 CVEs estao a 5% do limiar 0.01, dos quais 5747 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 5747."
+          },
+          {
+            "relative_band": 0.1,
+            "range": [
+              0.009,
+              0.011
+            ],
+            "cves_inside": 22358,
+            "cves_inside_below_threshold": 11471,
+            "ratio_to_above_count_pct": 15.47,
+            "meaning": "22358 CVEs estao a 10% do limiar 0.01, dos quais 11471 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 11471."
+          },
+          {
+            "relative_band": 0.25,
+            "range": [
+              0.0075,
+              0.0125
+            ],
+            "cves_inside": 53805,
+            "cves_inside_below_threshold": 28652,
+            "ratio_to_above_count_pct": 37.23,
+            "meaning": "53805 CVEs estao a 25% do limiar 0.01, dos quais 28652 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 28652."
+          },
+          {
+            "relative_band": 0.5,
+            "range": [
+              0.005,
+              0.015
+            ],
+            "cves_inside": 113528,
+            "cves_inside_below_threshold": 69545,
+            "ratio_to_above_count_pct": 78.55,
+            "meaning": "113528 CVEs estao a 50% do limiar 0.01, dos quais 69545 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 69545."
+          }
+        ]
+      },
+      {
+        "threshold": 0.05,
+        "cves_above": 30623,
+        "cves_above_pct": 8.525,
+        "bands": [
+          {
+            "relative_band": 0.05,
+            "range": [
+              0.0475,
+              0.0525
+            ],
+            "cves_inside": 2601,
+            "cves_inside_below_threshold": 1401,
+            "ratio_to_above_count_pct": 8.49,
+            "meaning": "2601 CVEs estao a 5% do limiar 0.05, dos quais 1401 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 1401."
+          },
+          {
+            "relative_band": 0.1,
+            "range": [
+              0.045,
+              0.055
+            ],
+            "cves_inside": 5112,
+            "cves_inside_below_threshold": 2946,
+            "ratio_to_above_count_pct": 16.69,
+            "meaning": "5112 CVEs estao a 10% do limiar 0.05, dos quais 2946 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 2946."
+          },
+          {
+            "relative_band": 0.25,
+            "range": [
+              0.0375,
+              0.0625
+            ],
+            "cves_inside": 14416,
+            "cves_inside_below_threshold": 9222,
+            "ratio_to_above_count_pct": 47.08,
+            "meaning": "14416 CVEs estao a 25% do limiar 0.05, dos quais 9222 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 9222."
+          },
+          {
+            "relative_band": 0.5,
+            "range": [
+              0.025,
+              0.075
+            ],
+            "cves_inside": 38301,
+            "cves_inside_below_threshold": 29450,
+            "ratio_to_above_count_pct": 125.07,
+            "meaning": "38301 CVEs estao a 50% do limiar 0.05, dos quais 29450 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 29450."
+          }
+        ]
+      },
+      {
+        "threshold": 0.1,
+        "cves_above": 17303,
+        "cves_above_pct": 4.817,
+        "bands": [
+          {
+            "relative_band": 0.05,
+            "range": [
+              0.095,
+              0.105
+            ],
+            "cves_inside": 1267,
+            "cves_inside_below_threshold": 672,
+            "ratio_to_above_count_pct": 7.32,
+            "meaning": "1267 CVEs estao a 5% do limiar 0.1, dos quais 672 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 672."
+          },
+          {
+            "relative_band": 0.1,
+            "range": [
+              0.09,
+              0.11
+            ],
+            "cves_inside": 2513,
+            "cves_inside_below_threshold": 1371,
+            "ratio_to_above_count_pct": 14.52,
+            "meaning": "2513 CVEs estao a 10% do limiar 0.1, dos quais 1371 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 1371."
+          },
+          {
+            "relative_band": 0.25,
+            "range": [
+              0.075,
+              0.125
+            ],
+            "cves_inside": 6917,
+            "cves_inside_below_threshold": 4469,
+            "ratio_to_above_count_pct": 39.98,
+            "meaning": "6917 CVEs estao a 25% do limiar 0.1, dos quais 4469 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 4469."
+          },
+          {
+            "relative_band": 0.5,
+            "range": [
+              0.05,
+              0.15
+            ],
+            "cves_inside": 17735,
+            "cves_inside_below_threshold": 13320,
+            "ratio_to_above_count_pct": 102.5,
+            "meaning": "17735 CVEs estao a 50% do limiar 0.1, dos quais 13320 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 13320."
+          }
+        ]
+      },
+      {
+        "threshold": 0.5,
+        "cves_above": 4312,
+        "cves_above_pct": 1.2,
+        "bands": [
+          {
+            "relative_band": 0.05,
+            "range": [
+              0.475,
+              0.525
+            ],
+            "cves_inside": 462,
+            "cves_inside_below_threshold": 225,
+            "ratio_to_above_count_pct": 10.71,
+            "meaning": "462 CVEs estao a 5% do limiar 0.5, dos quais 225 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 225."
+          },
+          {
+            "relative_band": 0.1,
+            "range": [
+              0.45,
+              0.55
+            ],
+            "cves_inside": 970,
+            "cves_inside_below_threshold": 476,
+            "ratio_to_above_count_pct": 22.5,
+            "meaning": "970 CVEs estao a 10% do limiar 0.5, dos quais 476 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 476."
+          },
+          {
+            "relative_band": 0.25,
+            "range": [
+              0.375,
+              0.625
+            ],
+            "cves_inside": 2569,
+            "cves_inside_below_threshold": 1437,
+            "ratio_to_above_count_pct": 59.58,
+            "meaning": "2569 CVEs estao a 25% do limiar 0.5, dos quais 1437 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 1437."
+          },
+          {
+            "relative_band": 0.5,
+            "range": [
+              0.25,
+              0.75
+            ],
+            "cves_inside": 6257,
+            "cves_inside_below_threshold": 3872,
+            "ratio_to_above_count_pct": 145.11,
+            "meaning": "6257 CVEs estao a 50% do limiar 0.5, dos quais 3872 estao abaixo dele. Qualquer deslocamento dessa magnitude atravessa esses 3872."
+          }
+        ]
+      }
+    ],
+    "simulated_shift": [
+      {
+        "threshold": 0.01,
+        "shift_factor": 1.1,
+        "baseline_above": 144522,
+        "after_shift_above": 154869,
+        "newly_crossed": 10347,
+        "inflation_x": 1.07,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.01,
+        "shift_factor": 1.25,
+        "baseline_above": 144522,
+        "after_shift_above": 167399,
+        "newly_crossed": 22877,
+        "inflation_x": 1.16,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.01,
+        "shift_factor": 1.5,
+        "baseline_above": 144522,
+        "after_shift_above": 184226,
+        "newly_crossed": 39704,
+        "inflation_x": 1.27,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.01,
+        "shift_factor": 2.0,
+        "baseline_above": 144522,
+        "after_shift_above": 214067,
+        "newly_crossed": 69545,
+        "inflation_x": 1.48,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.05,
+        "shift_factor": 1.1,
+        "baseline_above": 30623,
+        "after_shift_above": 33259,
+        "newly_crossed": 2636,
+        "inflation_x": 1.09,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.05,
+        "shift_factor": 1.25,
+        "baseline_above": 30623,
+        "after_shift_above": 37291,
+        "newly_crossed": 6668,
+        "inflation_x": 1.22,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.05,
+        "shift_factor": 1.5,
+        "baseline_above": 30623,
+        "after_shift_above": 44714,
+        "newly_crossed": 14091,
+        "inflation_x": 1.46,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.05,
+        "shift_factor": 2.0,
+        "baseline_above": 30623,
+        "after_shift_above": 60073,
+        "newly_crossed": 29450,
+        "inflation_x": 1.96,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.1,
+        "shift_factor": 1.1,
+        "baseline_above": 17303,
+        "after_shift_above": 18542,
+        "newly_crossed": 1239,
+        "inflation_x": 1.07,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.1,
+        "shift_factor": 1.25,
+        "baseline_above": 17303,
+        "after_shift_above": 20674,
+        "newly_crossed": 3371,
+        "inflation_x": 1.19,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.1,
+        "shift_factor": 1.5,
+        "baseline_above": 17303,
+        "after_shift_above": 24127,
+        "newly_crossed": 6824,
+        "inflation_x": 1.39,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.1,
+        "shift_factor": 2.0,
+        "baseline_above": 17303,
+        "after_shift_above": 30623,
+        "newly_crossed": 13320,
+        "inflation_x": 1.77,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.5,
+        "shift_factor": 1.1,
+        "baseline_above": 4312,
+        "after_shift_above": 4742,
+        "newly_crossed": 430,
+        "inflation_x": 1.1,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.5,
+        "shift_factor": 1.25,
+        "baseline_above": 4312,
+        "after_shift_above": 5383,
+        "newly_crossed": 1071,
+        "inflation_x": 1.25,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.5,
+        "shift_factor": 1.5,
+        "baseline_above": 4312,
+        "after_shift_above": 6379,
+        "newly_crossed": 2067,
+        "inflation_x": 1.48,
+        "classification": "DERIVED_DATA"
+      },
+      {
+        "threshold": 0.5,
+        "shift_factor": 2.0,
+        "baseline_above": 4312,
+        "after_shift_above": 8184,
+        "newly_crossed": 3872,
+        "inflation_x": 1.9,
+        "classification": "DERIVED_DATA"
+      }
+    ],
+    "kev_baseline": {
+      "entries": 273,
+      "window_days": 361,
+      "per_month": 23.0,
+      "classification": "REAL_EXTERNAL_DATA",
+      "meaning": "O gatilho KEV produz este volume por mes, e cada entrada e um fato datado por uma autoridade, nao um score recalculado."
+    },
+    "conclusion": {
+      "threshold_examined": 0.01,
+      "cves_within_10pct_of_threshold": 22358,
+      "cves_crossing_on_25pct_shift": 22877,
+      "kev_additions_per_month": 23.0,
+      "ratio_vs_kev_month": 994.7,
+      "verdict": "Um deslocamento de 25% nos scores -- menor do que uma troca de versao de modelo -- move 22877 CVEs atraves do limiar 0.01. O KEV, no mesmo periodo, adiciona 23.0 entradas por mes. Um gatilho de limiar de EPSS produz eventos numa ordem de grandeza incompativel com revisao humana, e nenhum deles corresponde a alguem ter observado exploracao. A decisao de EXP-001 se sustenta neste dataset."
+    }
+  }
+}
