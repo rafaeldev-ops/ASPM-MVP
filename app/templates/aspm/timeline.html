@@ -1,0 +1,59 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_macros.html" as m %}
+{% set nav = 'timeline' %}
+{% block titulo %}Linha do tempo — Pride Security ASPM{% endblock %}
+{% block sub %}O que mudou, e quando{% endblock %}
+
+{% block conteudo %}
+<h1 class="tela-titulo">Linha do tempo</h1>
+
+<form class="filtros" method="get">
+  <label class="t1 check"><input type="checkbox" name="material" value="1"
+    {% if material == '1' %}checked{% endif %}> só mudanças materiais</label>
+  <button class="btn">Filtrar</button>
+</form>
+
+<p class="intro">Mudança <strong>material</strong> é a que pode tornar uma decisão antiga
+   discutível. Uma variação de score EPSS não é material e não aparece como gatilho:
+   um deslocamento de 25% move ~22.900 CVEs através do limiar 0,01, contra ~23 entradas
+   de KEV por mês — medido em <code>EXP-004</code>.</p>
+
+{% if snapshots %}
+<section class="bloco">
+  <h2>Importações</h2>
+  <table class="tabela tabela--compacta">
+    <thead><tr><th>Quando</th><th>Rótulo</th><th class="num">Achados</th>
+               <th class="num">Novos</th><th class="num">Fechados</th>
+               <th class="num">Reabertos</th><th>Catálogo KEV</th></tr></thead>
+    <tbody>
+      {% for s in snapshots %}
+      <tr><td class="mono t1">{{ s.taken_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>{{ s.label }}</td>
+          <td class="num">{{ s.findings_seen }}</td>
+          <td class="num">{{ s.findings_new }}</td>
+          <td class="num">{{ s.findings_closed }}</td>
+          <td class="num">{{ s.findings_reopened }}</td>
+          <td class="mono t1">{{ s.knowledge_versions.get('kev_catalog', '—') }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+
+<section class="bloco">
+  <h2>Eventos ({{ events|length }})</h2>
+  <ul class="eventos eventos--grande">
+    {% for e in events %}
+    <li class="{% if e.is_material %}ev--material{% endif %}">
+      <span class="ev-kind ev-kind--{{ e.kind }}">{{ e.kind|replace('_',' ') }}</span>
+      <span>{{ e.summary }}</span>
+      {% if e.finding_id %}<a class="t1" href="/aspm/findings/{{ e.finding_id }}">achado</a>{% endif %}
+      {% if e.asset_id %}<a class="t1" href="/aspm/assets/{{ e.asset_id }}">ativo</a>{% endif %}
+      <span class="t1 mono">{{ e.occurred_at.strftime('%Y-%m-%d') if e.occurred_at }}</span>
+      {% if e.is_material %}<span class="selo selo--material">material</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% if not events %}<p class="t1">Nenhum evento.</p>{% endif %}
+</section>
+{% endblock %}

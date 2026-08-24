@@ -1,0 +1,39 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_macros.html" as m %}
+{% set nav = 'findings' %}
+{% block titulo %}Riscos — Pride Security ASPM{% endblock %}
+{% block sub %}Achados priorizados pela árvore determinística{% endblock %}
+
+{% block conteudo %}
+<h1 class="tela-titulo">Riscos <span class="t1">({{ findings|length }})</span></h1>
+
+<form class="filtros" method="get">
+  <label class="t1">Banda
+    <select name="band"><option value="">todas</option>
+      {% for b in bands %}<option value="{{ b }}" {% if b == f.band %}selected{% endif %}>{{ b|replace('_',' ') }}</option>{% endfor %}
+    </select></label>
+  <label class="t1">Severidade
+    <select name="severity"><option value="">todas</option>
+      {% for s in ['critical','high','medium','low','informational'] %}
+      <option value="{{ s }}" {% if s == f.severity %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select></label>
+  <label class="t1">Estado
+    <select name="status"><option value="">todos</option>
+      {% for s in ['open','closed','reopened'] %}
+      <option value="{{ s }}" {% if s == f.status %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select></label>
+  <label class="t1">Ativo
+    <select name="asset"><option value="">todos</option>
+      {% for a in assets %}<option value="{{ a.identifier }}" {% if a.identifier == f.asset %}selected{% endif %}>{{ a.name }}</option>{% endfor %}
+    </select></label>
+  <label class="t1 check"><input type="checkbox" name="kev" value="1" {% if f.kev == '1' %}checked{% endif %}> só em exploração ativa</label>
+  <label class="t1">Busca <input type="search" name="q" value="{{ f.q }}" placeholder="CVE ou título"></label>
+  <button class="btn">Filtrar</button>
+</form>
+
+<table class="tabela">
+  <thead><tr><th>Banda</th><th>Sev.</th><th>Achado</th><th>Ativo</th><th>Fonte</th><th class="num">Score</th><th>Estado</th></tr></thead>
+  <tbody>{% for x in findings %}{{ m.linha_finding(x) }}{% endfor %}</tbody>
+</table>
+{% if not findings %}<p class="t1">Nenhum achado com esses filtros.</p>{% endif %}
+{% endblock %}

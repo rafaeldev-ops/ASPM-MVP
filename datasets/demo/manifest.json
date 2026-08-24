@@ -1,0 +1,50 @@
+{
+  "dataset_name": "MVP ASPM — dataset de demonstracao",
+  "generated_by": "app/application/demo.py",
+  "seed": 20260824,
+  "classification": "MIXED — ver components",
+  "warning": "O inventario de ativos, as decisoes historicas, os analistas e as datas de decisao sao FABRICADOS. Nao representam nenhuma organizacao. Nenhuma metrica derivada deste dataset e precisao de produto.",
+  "components": [
+    {
+      "component": "CVE, dateAdded, uso em ransomware, vendor, produto",
+      "classification": "REAL_EXTERNAL_DATA",
+      "source": "CISA KEV",
+      "version": "2026.08.14",
+      "source_url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+    },
+    {
+      "component": "score e percentil EPSS",
+      "classification": "REAL_EXTERNAL_DATA",
+      "source": "FIRST EPSS",
+      "version": "v2026.06.15",
+      "source_url": "https://www.first.org/epss/"
+    },
+    {
+      "component": "regras de SAST, CWE (formato do corpus EMBOSS)",
+      "classification": "DERIVED_DATA",
+      "source": "modelado sobre o artefato ISSTA 2025",
+      "source_url": "https://zenodo.org/records/15200316"
+    },
+    {
+      "component": "ativos, criticidade, ambiente, dono",
+      "classification": "SYNTHETIC_DATA",
+      "source": "fabricado"
+    },
+    {
+      "component": "decisoes historicas, analistas, datas, justificativas",
+      "classification": "SYNTHETIC_DATA",
+      "source": "fabricado"
+    }
+  ],
+  "counts": {
+    "assets": {
+      "created": 12,
+      "updated": 0
+    },
+    "findings": {
+      "created": 68,
+      "updated": 1
+    },
+    "groups": 66
+  }
+}

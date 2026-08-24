@@ -1,0 +1,221 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_macros.html" as m %}
+{% set nav = 'findings' %}
+{% block titulo %}{{ finding.title[:60] }} — Risco{% endblock %}
+{% block sub %}Detalhe do risco{% endblock %}
+
+{% block conteudo %}
+<p class="migalha t1"><a href="/aspm/findings">Riscos</a> / #{{ finding.id }}</p>
+
+<header class="risco-topo">
+  <div>
+    <h1 class="tela-titulo">{{ finding.title }}</h1>
+    <p class="t1">
+      {% if finding.cve %}<span class="mono">{{ finding.cve }}</span> · {% endif %}
+      {% for c in finding.cwes %}<span class="mono">{{ c }}</span> {% endfor %}
+      {% if finding.source_rule_id %}· regra <span class="mono">{{ finding.source_rule_id }}</span>{% endif %}
+    </p>
+  </div>
+  <div class="risco-topo__banda">
+    {{ m.banda(explain.band, explain.band_label) }}
+    <p class="t1">score de ordenação {{ '%.3f'|format(explain.score or 0) }}</p>
+  </div>
+</header>
+
+{% if debts and debts|selectattr('resolved', 'equalto', false)|list %}
+<section class="alerta alerta--debt">
+  <h2>Esta decisão pode ter ficado obsoleta</h2>
+  {% for d in debts if not d.resolved %}
+  <p>{{ d.explanation }}</p>
+  <p class="t1">Gatilho: <span class="mono">{{ d.trigger }}</span>
+     · evento em <span class="mono">{{ d.event_date.strftime('%Y-%m-%d') if d.event_date }}</span>
+     {% if d.days_after_decision %}· {{ d.days_after_decision }} dias depois do fechamento{% endif %}</p>
+  {% endfor %}
+  <p><a href="#revisar">Revisar a decisão →</a></p>
+</section>
+{% endif %}
+
+<div class="colunas">
+
+  <section class="bloco">
+    <h2>Por que esta prioridade</h2>
+    <ul class="razoes">
+      {% for r in explain.reasons %}<li>{{ r }}</li>{% endfor %}
+    </ul>
+    {% if explain.non_suppressible %}
+    <p class="aviso"><strong>Nunca suprimível:</strong>
+       <span class="mono">{{ explain.non_suppressible }}</span>.
+       Nenhum caminho do sistema pode silenciar este achado automaticamente.</p>
+    {% endif %}
+    <table class="tabela tabela--compacta">
+      <thead><tr><th>Ponto de decisão</th><th>Valor</th></tr></thead>
+      <tbody>
+        {% for k, v in explain.decision_points.items() %}
+        <tr><th>{{ k }}</th><td class="mono">{{ v }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="t1">Modelo <span class="mono">{{ explain.model_version }}</span>.
+       Determinístico e versionado — nenhum modelo de linguagem participa desta banda.</p>
+  </section>
+
+  <section class="bloco">
+    <h2>Ativo afetado</h2>
+    {% if asset %}
+    <table class="tabela tabela--compacta ficha">
+      <tbody>
+        <tr><th>Ativo</th><td><a href="/aspm/assets/{{ asset.id }}">{{ asset.name }}</a></td></tr>
+        <tr><th>Criticidade</th><td>{% if asset.criticality %}<span class="crit crit--{{ asset.criticality }}">{{ asset.criticality }}</span>{% else %}<span class="crit crit--none">não resolvida</span>{% endif %}</td></tr>
+        <tr><th>Ambiente</th><td>{{ asset.environment or '—' }}</td></tr>
+        <tr><th>Exposto</th><td>{% if asset.internet_facing %}internet{% elif asset.internet_facing is false %}interno{% else %}desconhecido{% endif %}</td></tr>
+        <tr><th>Dono</th><td>{{ asset.owner or '—' }}</td></tr>
+      </tbody>
+    </table>
+    {% else %}
+    <p class="t1">Nenhum ativo associado — o achado não trouxe repositório nem serviço.</p>
+    {% endif %}
+
+    {% if finding.package_name %}
+    <table class="tabela tabela--compacta ficha">
+      <tbody>
+        <tr><th>Pacote</th><td class="mono">{{ finding.package_name }}</td></tr>
+        <tr><th>Versão em uso</th><td class="mono">{{ finding.package_version or '—' }}</td></tr>
+        <tr><th>Versão corrigida</th><td class="mono">{{ finding.fixed_version or 'não declarada' }}</td></tr>
+      </tbody>
+    </table>
+    {% endif %}
+    {% if finding.file_path %}
+    <p class="t1">Local: <span class="mono">{{ finding.file_path }}{% if finding.line %}:{{ finding.line }}{% endif %}</span></p>
+    {% endif %}
+  </section>
+
+</div>
+
+<section class="bloco">
+  <h2>Remediação</h2>
+  {% if remediation %}
+  <p class="rem-acao">{{ m.confianca(remediation.confidence) }} {{ remediation.action }}</p>
+  {% if remediation.detail %}<p class="t1">{{ remediation.detail }}</p>{% endif %}
+  <p class="t1">Fonte: {{ remediation.source or 'nenhuma fonte autoritativa encontrada' }}
+     {% if remediation.source_url %}· <a href="{{ remediation.source_url }}" rel="noreferrer">advisory</a>{% endif %}
+     · gerada por <span class="mono">{{ remediation.generated_by }}</span></p>
+  {% else %}
+  <p class="t1">Sem orientação gerada.</p>
+  {% endif %}
+</section>
+
+<section class="bloco">
+  <h2>Evidência ({{ evidence|length }})</h2>
+  {% if evidence %}
+  <table class="tabela">
+    <thead><tr><th>Tipo</th><th>Fonte</th><th>Autoridade</th><th>Classe</th><th>Fato em</th><th>Lido em</th></tr></thead>
+    <tbody>
+    {% for e in evidence %}
+      <tr>
+        <td class="mono">{{ e.evidence_type }}</td>
+        <td>{{ e.source }}{% if e.source_id %} <span class="t1 mono">{{ e.source_id }}</span>{% endif %}</td>
+        <td class="t1">{{ e.source_authority }}</td>
+        <td>{{ m.classe_dado(e.classification) }}</td>
+        <td class="mono t1">{{ e.observed_at.strftime('%Y-%m-%d') if e.observed_at else '—' }}</td>
+        <td class="mono t1">{{ e.retrieved_at.strftime('%Y-%m-%d') if e.retrieved_at else '—' }}</td>
+      </tr>
+      {% if e.freshness_note %}
+      <tr class="linha-nota"><td colspan="6" class="t1">{{ e.freshness_note }}</td></tr>
+      {% endif %}
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}<p class="t1">Nenhuma evidência anexada.</p>{% endif %}
+</section>
+
+<div class="colunas">
+  <section class="bloco">
+    <h2>Histórico de decisões</h2>
+    {% if decisions %}
+    <ol class="decisoes">
+      {% for d in decisions %}
+      <li class="{% if loop.first %}decisao--atual{% endif %}">
+        <p><strong>{{ d.reason|replace('_',' ') }}</strong>
+           {{ m.classe_dado(d.classification) }}
+           {% if loop.first %}<span class="t1">— vigente</span>{% endif %}</p>
+        {% if d.rationale %}<p class="t1">{{ d.rationale }}</p>{% endif %}
+        <p class="t1 mono">{{ d.decided_at.strftime('%Y-%m-%d') }}
+           {% if d.decided_by %}· {{ d.decided_by }}{% endif %}
+           {% if d.supersedes_id %}· substitui a decisão #{{ d.supersedes_id }}{% endif %}</p>
+        {% if d.knowledge_snapshot and d.knowledge_snapshot.get('kev_state') %}
+        <p class="t1">Estado conhecido naquele dia:
+           <span class="mono">{{ d.knowledge_snapshot.kev_state }}</span></p>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+    <p class="t1">Decisões são append-only: revisar cria uma nova e preserva a anterior
+       com a fotografia do que se sabia na época.</p>
+    {% else %}<p class="t1">Nenhuma decisão registrada.</p>{% endif %}
+  </section>
+
+  <section class="bloco">
+    <h2>Achados relacionados</h2>
+    {% if related %}
+    <ul class="relacionados">
+      {% for r in related %}
+      <li><a href="/aspm/findings/{{ r.id }}">{{ r.title }}</a>
+          {% if r.asset %}<span class="t1">em {{ r.asset.name }}</span>{% endif %}
+          {{ m.banda(r.band) }}</li>
+      {% endfor %}
+    </ul>
+    <p class="t1">Correlacionados por
+       <span class="mono">{{ finding.group.correlation_basis if finding.group }}</span> —
+       o mesmo problema visto em lugares diferentes.</p>
+    {% else %}<p class="t1">Nenhuma outra ocorrência correlacionada.</p>{% endif %}
+  </section>
+</div>
+
+<section class="bloco">
+  <h2>Linha do tempo deste achado</h2>
+  {% if timeline %}
+  <ul class="eventos">
+    {% for e in timeline %}
+    <li><span class="ev-kind ev-kind--{{ e.kind }}">{{ e.kind|replace('_',' ') }}</span>
+        <span>{{ e.summary }}</span>
+        <span class="t1 mono">{{ e.occurred_at.strftime('%Y-%m-%d') if e.occurred_at }}</span></li>
+    {% endfor %}
+  </ul>
+  {% else %}<p class="t1">Sem eventos.</p>{% endif %}
+</section>
+
+<section class="bloco" id="revisar">
+  <h2>Revisar</h2>
+  <form method="post" action="/aspm/actions/review" class="form-revisao">
+    <input type="hidden" name="finding_id" value="{{ finding.id }}">
+    {% for d in debts if not d.resolved %}
+    <input type="hidden" name="debt_id" value="{{ d.id }}">
+    {% endfor %}
+    <label class="t1">Decisão
+      <select name="reason" required>
+        {% for r in reasons %}<option value="{{ r.value }}">{{ r.label }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="t1">Analista
+      <input type="text" name="analyst" value="analista" required></label>
+    <label class="t1 largo">Justificativa (obrigatória)
+      <textarea name="rationale" rows="3" required
+        placeholder="Por que esta decisão, com base em qual evidência?"></textarea></label>
+    <button class="btn btn--primario">Registrar decisão</button>
+  </form>
+  <p class="t1">A justificativa é obrigatória: uma decisão sem razão registrada não
+     alimenta memória organizacional nenhuma.</p>
+</section>
+
+<section class="bloco bloco--ia">
+  <h2>Síntese</h2>
+  <p>{{ ai.summary }}</p>
+  <p class="t1">{{ ai.risk_explanation }}</p>
+  {% if ai.uncertainty_reasons %}
+  <p class="t1"><strong>Incertezas:</strong> {{ ai.uncertainty_reasons|join('; ') }}</p>
+  {% endif %}
+  <p class="t1">Gerada por <span class="mono">{{ ai_provider.provider }}</span>{% if not ai_provider.external %}
+     — síntese determinística, sem chamada externa e sem modelo de linguagem{% endif %}.</p>
+</section>
+
+{% endblock %}

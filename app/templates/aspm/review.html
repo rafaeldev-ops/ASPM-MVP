@@ -1,0 +1,48 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_macros.html" as m %}
+{% set nav = 'review' %}
+{% block titulo %}Revisão — Pride Security ASPM{% endblock %}
+{% block sub %}A fila do analista{% endblock %}
+
+{% block conteudo %}
+<h1 class="tela-titulo">Fila de revisão <span class="t1">({{ items|length }})</span></h1>
+
+<p class="intro">Dívida de decisão vem primeiro: são decisões que a organização já tomou
+   e que o mundo pode ter invalidado. Elas valem mais que um achado novo que ninguém
+   ainda olhou, porque alguém já concluiu que estava tudo bem.</p>
+
+<section class="cartoes">
+  {{ m.cartao(stats.decisions, 'Decisões registradas') }}
+  {{ m.cartao(stats.reviews, 'Revisões de analista') }}
+  {{ m.cartao(stats.by_classification.get('REAL_EXTERNAL_DATA', 0), 'De analista real') }}
+  {{ m.cartao(stats.by_classification.get('SYNTHETIC_DATA', 0), 'Sintéticas', 'do dataset de demonstração') }}
+</section>
+
+{% if items %}
+<ul class="fila">
+{% for it in items %}
+  <li class="fila__item {% if it.kind == 'decision_debt' %}fila__item--debt{% endif %}">
+    <div class="fila__cab">
+      {% if it.kind == 'decision_debt' %}<span class="selo selo--debt">dívida de decisão</span>
+      {% else %}<span class="selo">sem decisão</span>{% endif %}
+      {{ m.banda(it.finding.band) }}
+      <a href="/aspm/findings/{{ it.finding.id }}">{{ it.finding.title }}</a>
+    </div>
+    {% if it.debt %}<p class="t1">{{ it.debt.explanation }}</p>{% endif %}
+    <form method="post" action="/aspm/actions/review" class="form-revisao form-revisao--inline">
+      <input type="hidden" name="finding_id" value="{{ it.finding.id }}">
+      {% if it.debt %}<input type="hidden" name="debt_id" value="{{ it.debt.id }}">{% endif %}
+      <select name="reason" required>
+        {% for r in reasons %}<option value="{{ r.value }}">{{ r.label }}</option>{% endfor %}
+      </select>
+      <input type="text" name="analyst" value="analista" required>
+      <input type="text" name="rationale" placeholder="Justificativa (obrigatória)" required>
+      <button class="btn">Registrar</button>
+    </form>
+  </li>
+{% endfor %}
+</ul>
+{% else %}
+<p class="t1">Fila vazia.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_macros.html" as m %}
+{% set nav = 'debt' %}
+{% block titulo %}Dívida de decisão — Pride Security ASPM{% endblock %}
+{% block sub %}Decisões que o mundo pode ter invalidado{% endblock %}
+
+{% block conteudo %}
+<h1 class="tela-titulo">Dívida de decisão <span class="t1">({{ items|length }} em aberto)</span></h1>
+
+<p class="intro">Cada linha é uma decisão que alguém tomou e que a evidência posterior
+   tornou discutível. A comparação é feita <strong>na data do fechamento</strong>, nunca
+   contra o estado de hoje — um CVE que já estava no KEV quando foi fechado conta uma
+   história diferente, e não aparece aqui.</p>
+
+{% if items %}
+<table class="tabela">
+  <thead><tr><th>Achado</th><th>CVE</th><th>Decisão</th><th>Gatilho</th>
+             <th>Evento em</th><th class="num">Dias depois</th><th>Origem</th></tr></thead>
+  <tbody>
+  {% for d in items %}
+    <tr>
+      <td class="col-titulo"><a href="/aspm/findings/{{ d.finding_id }}">{{ d.finding.title if d.finding }}</a></td>
+      <td class="mono">{{ d.finding.cve if d.finding else '—' }}</td>
+      <td>{{ d.decision.reason|replace('_',' ') if d.decision }}</td>
+      <td class="mono t1">{{ d.trigger }}</td>
+      <td class="mono">{{ d.event_date.strftime('%Y-%m-%d') if d.event_date else '—' }}</td>
+      <td class="num">{{ d.days_after_decision or '—' }}</td>
+      <td>{{ m.classe_dado(d.decision.classification) if d.decision }}</td>
+    </tr>
+    <tr class="linha-nota"><td colspan="7" class="t1">{{ d.explanation }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="t1">Nenhuma dívida de decisão em aberto.</p>
+{% endif %}
+
+{% if resolved %}
+<section class="bloco">
+  <h2>Resolvidas ({{ resolved|length }})</h2>
+  <table class="tabela tabela--compacta">
+    <thead><tr><th>Achado</th><th>Gatilho</th><th>Resolvida em</th></tr></thead>
+    <tbody>
+      {% for d in resolved %}
+      <tr><td><a href="/aspm/findings/{{ d.finding_id }}">{{ d.finding.title if d.finding }}</a></td>
+          <td class="mono t1">{{ d.trigger }}</td>
+          <td class="mono t1">{{ d.resolved_at.strftime('%Y-%m-%d') if d.resolved_at }}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endif %}
+{% endblock %}

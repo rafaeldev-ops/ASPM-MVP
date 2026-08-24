@@ -1,0 +1,55 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_macros.html" as m %}
+{% set nav = 'assets' %}
+{% block titulo %}Ativos — Pride Security ASPM{% endblock %}
+{% block sub %}Qual ativo está afetado, e qual a criticidade dele{% endblock %}
+
+{% block conteudo %}
+<h1 class="tela-titulo">Ativos <span class="t1">({{ rows|length }})</span></h1>
+
+<form class="filtros" method="get">
+  <label class="t1">Criticidade
+    <select name="criticality" onchange="this.form.submit()">
+      <option value="">todas</option>
+      {% for c in crits %}<option value="{{ c }}" {% if c == criticality %}selected{% endif %}>{{ c }}</option>{% endfor %}
+    </select>
+  </label>
+  <label class="t1">Ambiente
+    <select name="environment" onchange="this.form.submit()">
+      <option value="">todos</option>
+      {% for e in envs %}<option value="{{ e }}" {% if e == environment %}selected{% endif %}>{{ e }}</option>{% endfor %}
+    </select>
+  </label>
+  <noscript><button class="btn">Filtrar</button></noscript>
+</form>
+
+<table class="tabela">
+  <thead>
+    <tr><th>Ativo</th><th>Tipo</th><th>Criticidade</th><th>Ambiente</th>
+        <th>Exposição</th><th>Dono</th><th class="num">Achados</th><th>Pior banda</th></tr>
+  </thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td><a href="/aspm/assets/{{ r.asset.id }}">{{ r.asset.name }}</a></td>
+      <td class="t1">{{ r.asset.type }}</td>
+      <td>
+        {% if r.asset.criticality %}<span class="crit crit--{{ r.asset.criticality }}">{{ r.asset.criticality }}</span>
+        {% else %}<span class="crit crit--none" title="Criticidade não resolvida: o modelo de risco falha fechado e assume crítico.">não resolvida</span>{% endif %}
+      </td>
+      <td class="t1">{{ r.asset.environment or '—' }}</td>
+      <td class="t1">{% if r.asset.internet_facing %}internet{% elif r.asset.internet_facing is false %}interno{% else %}—{% endif %}</td>
+      <td class="t1">{{ r.asset.owner or '—' }}</td>
+      <td class="num">{{ r.findings }}</td>
+      <td>{{ m.banda(r.worst) }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% if rows|selectattr('asset.criticality', 'none')|list %}
+<p class="t1 aviso">Ativos sem criticidade resolvida fazem o modelo de risco
+   <strong>falhar fechado</strong>: ele assume crítico em vez de barato. Resolver a
+   criticidade é o que faz a priorização parar de superestimar.</p>
+{% endif %}
+{% endblock %}

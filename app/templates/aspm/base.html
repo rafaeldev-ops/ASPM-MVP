@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Pride Security — ASPM{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/app.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/aspm.css') }}">
+</head>
+<body class="aspm">
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<div class="aspm-wrap">
+
+  <header class="aspm-topo">
+    <div>
+      <p class="aspm-marca"><a href="/aspm">Pride Security · ASPM</a></p>
+      <p class="t1 aspm-sub">{% block sub %}{% endblock %}</p>
+    </div>
+    <nav class="aspm-nav" aria-label="Navegação principal">
+      <a href="/aspm" {% if nav == 'overview' %}aria-current="page"{% endif %}>Visão geral</a>
+      <a href="/aspm/assets" {% if nav == 'assets' %}aria-current="page"{% endif %}>Ativos</a>
+      <a href="/aspm/findings" {% if nav == 'findings' %}aria-current="page"{% endif %}>Riscos</a>
+      <a href="/aspm/debt" {% if nav == 'debt' %}aria-current="page"{% endif %}>Dívida de decisão</a>
+      <a href="/aspm/review" {% if nav == 'review' %}aria-current="page"{% endif %}>Revisão</a>
+      <a href="/aspm/timeline" {% if nav == 'timeline' %}aria-current="page"{% endif %}>Linha do tempo</a>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="aspm-rodape t1">
+    <p>Instrumento local. Nenhum dado sai desta máquina; a única saída de rede é o
+       catálogo CISA KEV, cacheado.</p>
+    {% block rodape %}{% endblock %}
+  </footer>
+
+</div>
+</body>
+</html>

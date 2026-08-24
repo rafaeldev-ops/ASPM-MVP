@@ -19,6 +19,19 @@ app = FastAPI(title="SDIP — Security Decision Intelligence Platform", docs_url
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
+# O MVP ASPM vive sob /aspm e /api/v1. O instrumento de backtest legado continua
+# em / -- as duas superficies compartilham o mesmo banco e nenhuma tabela do
+# backtest foi alterada.
+#
+# A forma `from ... import` e obrigatoria aqui: `import app.domain.models`
+# religaria o nome `app` ao PACOTE e sobrescreveria a instancia FastAPI acima.
+from app.domain import models as _aspm_models  # noqa: E402,F401
+from app.interfaces.routes import api as aspm_api  # noqa: E402
+from app.interfaces.routes import web as aspm_web  # noqa: E402
+
+app.include_router(aspm_web)
+app.include_router(aspm_api)
+
 init_db()
 
 

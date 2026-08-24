@@ -1,7 +1,7 @@
 # Project State — SDIP
 
-**Última atualização:** 2026-08-23
-**Commit no momento do checkpoint:** `021b981` · branch `master` · working tree limpo
+**Última atualização:** 2026-08-24
+**Commit base:** `8bbd040` + MVP da Sprint 3 · branch `master`
 **Como este arquivo deve ser lido:** é o estado *persistente* do projeto. A transição
 específica entre sessões está em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md); as regras
 permanentes estão em [`../CLAUDE.md`](../CLAUDE.md); as decisões arquiteturais e suas
@@ -15,34 +15,43 @@ justificativas estão em [`adr/`](adr/). Nada aqui substitui esses arquivos.
 
 ## Current Phase
 
-**[F] Phase 0 — validação**, conforme [`evaluation/phase-0-protocols.md`](evaluation/phase-0-protocols.md).
+**[F] Duas coisas ao mesmo tempo, e confundi-las é o erro a evitar:**
 
-Nenhum código de produto (Ring 0 ou Ring 1) foi iniciado. O que existe em `app/` e
-`phase0/` são **instrumentos de validação e demonstração**, não a plataforma.
+- **Phase 0 — validação: em aberto e bloqueada em V0.** Nenhum export organizacional
+  real foi recebido. K1, K2 e K3 continuam **não avaliáveis**.
+- **Sprint 3 — MVP ASPM: entregue e testado** (2026-08-24). Aplicação funcional que
+  demonstra os cinco componentes de uma ASPM sobre dados públicos reais mais um
+  inventário fabricado.
+
+**[F] "O MVP funciona" não é "a hipótese foi validada".** O MVP não mede prevalência
+de dívida de decisão em organização nenhuma e não move nenhum critério de kill.
 
 ## Current Ring
 
-**[F] Nenhum Ring em construção.** R0-1 … R0-7 estão todos pendentes (§ Pending).
+**[F] Nenhum Ring completo.** O MVP da Sprint 3 implementa a *lógica* de vários itens
+do Ring 0 sem a *plataforma* deles (migration, RLS, worker, endpoint sob contrato).
+Estado item a item em § Pending.
 
 O `mvp-backlog.md` §3 é explícito: `V1 falsification test → R0`. O gate V1 não foi
 executado contra dado real de nenhuma organização, portanto R0-1 não deve começar.
 
-**[F] Cuidado com uma leitura fácil e errada:** o `README.md` diz que a aplicação web
-"cobre o núcleo do Ring 0". Isso é verdade como *conceito* (importar decisões fechadas →
-enriquecer com conhecimento público → diferenciar por data → relatar) e **falso como
-implementação**: nenhum dos sete itens R0-1…R0-7 está implementado conforme
-especificado. Ver § Known Limitations.
+**[F] Cuidado com uma leitura fácil e errada:** o MVP implementa a *lógica* de vários
+itens do Ring 0 — importar, correlacionar, priorizar, detectar dívida — mas **nenhum
+deles como o backlog especifica**: não há migration, RLS, worker agendado nem endpoint
+versionado sob contrato. "Existe a lógica" e "o item está feito" são coisas diferentes.
 
 ## Current Objective
 
-**[F] Objetivo imediato, com data:** apresentação/demo marcada para **2026-08-24**,
-roteiro em [`product/demo-presentation-outline.md`](product/demo-presentation-outline.md).
-Audiência citada no roteiro: **Pride Security**. O pedido explícito da apresentação
-(§8 do roteiro) é o item **V0**: um export de achados fechados dos últimos 12 meses +
-60 minutos de revisão.
+**[F] Entregue na Sprint 3:** MVP ASPM funcional e testado
+([`product/mvp-aspm.md`](product/mvp-aspm.md)).
 
-**[H] Objetivo estratégico:** converter essa apresentação em ≥1 design partner, porque
-V0 é o gargalo declarado de todo o Phase 0 e nada depois dele pode avançar sem ele.
+**[F] Continua sendo o gargalo: V0.** Um export organizacional real com achados +
+decisões + lifecycle. Sem ele, K1/K2/K3 não podem ser avaliados e o Ring 0 não pode
+passar — por mais completo que o MVP fique.
+
+**[H] O MVP muda a conversa de V0, não a substitui.** Antes o pedido era "rode este
+script e confie no resultado"; agora dá para mostrar o produto funcionando sobre dado
+público antes de pedir dado privado.
 
 ## Overall Progress
 
@@ -50,10 +59,11 @@ V0 é o gargalo declarado de todo o Phase 0 e nada depois dele pode avançar sem
 |---|---|
 | Documentação de arquitetura, produto, dados, API, ameaças, avaliação | **[F] Completa como *design*.** 43 documentos em `docs/` (+ os 2 arquivos de estado deste checkpoint), 17 ADRs |
 | Instrumentos Phase 0 (`phase0/`) | **[F] 4 instrumentos executáveis, todos rodando** |
-| Aplicação web de demonstração (`app/`) | **[F] Roda; 3 telas; só dado sintético até hoje** |
-| Experimentos executados | **[F] 2** (EXP-001, EXP-002) |
+| Instrumento de backtest (`/`, commit `021b981`) | **[F] Roda; 3 telas** |
+| **MVP ASPM (`/aspm`, Sprint 3)** | **[F] Roda.** Monólito modular, 5 componentes, 6 telas, API `/api/v1`, **101 testes passando** |
+| Experimentos executados | **[F] 3** (EXP-001, EXP-002, run do Ring 0 de 2026-08-24) |
 | Validação com organização real | **[F] Zero.** Nenhum export de parceiro foi recebido ou analisado |
-| Código de produto (Ring 0 / Ring 1) | **[F] Zero linhas** |
+| Código de produto Ring 0 / Ring 1 conforme o backlog | **[F] Zero itens completos** — ver § Pending |
 
 ---
 
@@ -125,8 +135,8 @@ V0 é o gargalo declarado de todo o Phase 0 e nada depois dele pode avançar sem
 
 ## In Progress
 
-**[F] Nada em edição.** Working tree limpo em `021b981`; não há trabalho pela metade
-em nenhum arquivo versionado.
+**[F] Nada em edição.** A Sprint 3 foi concluída e commitada; não há trabalho pela
+metade em nenhum arquivo versionado.
 
 **[F] A única atividade da sessão anterior visível no disco** é a regeneração dos
 artefatos de demo em 2026-08-23 22:45–22:46 (horário local): `phase0/demo-export.csv`,
@@ -161,16 +171,17 @@ existe a plataforma.**
 
 | Item | Especificado | Estado |
 |---|---|---|
-| R0-1 | Migration #1, `org_id` em chaves compostas, RLS + FORCE, enums, gate de CI | **Não.** Nada feito |
-| R0-2 | Import de decisões fechadas → `decision` + `suppression` canônicos com `source_system` | **Parcial (avaliação).** Modelo de decisão com `classification` obrigatória e importador de export sintético. Não produz registros canônicos, não persiste |
-| R0-3 | KEV + EPSS (versão pinada) + OSV/GHSA com **snapshots, content hashes e authority tiers** | **Parcial.** KEV e EPSS ingeridos com snapshot, SHA-256, versão e `source_authority`. Falta OSV/GHSA |
+| R0-1 | Migration #1, `org_id` em chaves compostas, RLS + FORCE, enums, gate de CI | **Não.** O MVP tem `org_id` em toda tabela (ADR-0003: a coluna é a parte que não dá para retrofitar), mas não há migration, RLS nem gate de CI |
+| R0-2 | Import de decisões fechadas → `decision` + `suppression` canônicos com `source_system` | **Parcial, e bem mais perto.** O MVP persiste `Decision` com `source_system`, `classification` obrigatória e a fotografia do conhecimento na data. Falta o objeto `suppression` separado com condições de invalidação |
+| R0-3 | KEV + EPSS (versão pinada) + OSV/GHSA com **snapshots, content hashes e authority tiers** | **Parcial.** KEV e EPSS com snapshot, SHA-256, versão e `source_authority`; o MVP grava a versão do catálogo em cada `ScanSnapshot`. Falta OSV/GHSA |
 | R0-4 | Detector de estreitamento de faixa afetada | **Não.** Nenhuma fonte deste run tem histórico de advisory |
-| R0-5 | Avaliador de condições de invalidação (watch-worker) | **Parcial.** O avaliador existe, com materiais e não-materiais separados e justificados. Não é worker: passada única, sem estado |
-| R0-6 | `reopen_event` + reconstrução de `evidence_availability` | **Parcial.** `evidence_availability` reconstruído e testado. Sem tabela `reopen_event`, sem persistência |
-| R0-7 | `GET /v1/decision-debt` + artefato estático | **Parcial.** Artefatos versionados em `evaluation/runs/`. Sem endpoint |
+| R0-5 | Avaliador de condições de invalidação (watch-worker) | **Parcial.** O avaliador roda no pipeline e no reprocessamento, com materiais e não-materiais separados. Não é worker agendado: continua sendo disparado por importação ou por botão |
+| R0-6 | `reopen_event` + reconstrução de `evidence_availability` | **Parcial, e bem mais perto.** O MVP persiste `ChangeEvent` (incluindo reabertura) e `DecisionDebt`, com o estado conhecido na data da decisão gravado em cada `Decision`. Falta o nome/contrato exato de `reopen_event` |
+| R0-7 | `GET /v1/decision-debt` + artefato estático | **Feito na forma, não no contrato.** `GET /api/v1/decision-debt` existe e responde, com aviso de dado sintético. Não é o contrato de `docs/api/openapi.yaml`, e não há testes de contrato contra aquele arquivo |
 
-**[F] Ring 0 ainda não passou.** E o gate não é a lista acima — é **precisão de
-re-litígio ≥50% em dado histórico de parceiro**, que continua sem nenhum dado.
+**[F] Ring 0 ainda não passou, e o MVP não muda isso.** O gate não é a lista acima —
+é **precisão de re-litígio ≥50% em dado histórico de parceiro**, que continua sem
+nenhum dado. Um MVP completo com dado público não é evidência sobre o gate.
 
 ### Ring 1
 
@@ -200,6 +211,7 @@ falhar, Ring 1 não deve ser construído.**
 | 2026-08-23 22:46 | **[F] Sem commit.** Segunda execução demo gravada em `sdip.db` (gitignorado) |
 | 2026-08-23 (esta sessão) | Criação de `docs/PROJECT_STATE.md` e `docs/SESSION_HANDOFF.md`; `CLAUDE.md` ganhou o §0 "Start here, every session"; `README.md` ganhou uma linha no mapa. Commit `3fd89d0` |
 | 2026-08-23 | **Containerização da aplicação web:** `Dockerfile`, `docker-compose.yml`, `.dockerignore`, e duas variáveis de ambiente (`SDIP_DB_PATH`, `SDIP_CACHE_DIR`). **Defaults inalterados.** Commit `326840a` |
+| 2026-08-24 | **Sprint 3 — MVP ASPM funcional.** Monólito modular em `app/` (domain / application / interfaces), 5 componentes ASPM, 6 telas, API `/api/v1`, dataset de demonstração com proveniência. **B2 e B3 corrigidos.** **101 testes passando.** Detalhe: [`product/mvp-aspm.md`](product/mvp-aspm.md) |
 | 2026-08-24 | **Run de validação do Ring 0 com dados públicos reais.** Ingestão de CISA KEV (273 entradas), CodeQL SARIF do artefato ISSTA 2025 (100.627 achados) e snapshot EPSS (359.229 CVEs), todos com proveniência e SHA-256. Motor de dívida de decisão, 31 testes golden/adversariais, 4 experimentos. **Dois defeitos encontrados em `phase0/v1_backtest.py`.** Relatório: [`evaluation/ring0-real-data-validation.md`](evaluation/ring0-real-data-validation.md) |
 
 ---
@@ -299,9 +311,22 @@ indicado. Reproduzidos aqui para que não sumam:
 
 ## Current Test Status
 
-**[F] Não existe suíte de testes.** Sem `tests/`, sem `pytest`, sem `pyproject.toml`,
-sem `.github/workflows/`, sem lint e sem type checking configurados. O
-`repository-structure.md` prevê tudo isso para a plataforma; nada disso existe hoje.
+**[F] Existe suíte de testes desde a Sprint 3: `tests/`, 101 testes, `unittest` da
+stdlib.** Continua sem `pytest`, sem `pyproject.toml`, sem `.github/workflows/`, sem
+lint e sem type checking. O `repository-structure.md` prevê tudo isso; só a suíte existe.
+
+```
+python tests/run.py     # 101 testes · 0 falhas · 0 erros · 0 pulados (2026-08-24)
+```
+
+| Módulo | Testes | Cobre |
+|---|---:|---|
+| `test_closure_reasons.py` | 14 | **Regressão de B2 e B3** + divergência documentada com `phase0/v1_backtest.py` |
+| `test_risk_tree.py` | 17 | Totalidade da árvore, linhas mortas, fail-closed, **paridade das 720 combinações com o instrumento do phase0**, EPSS não move banda |
+| `test_pipeline.py` | 26 | Asset discovery, ingestão idempotente, SARIF, correlação, priorização, remediação, monitoramento |
+| `test_decision_debt.py` | 18 | Regra temporal, as duas pilhas, escopo de B2/B3, revisão append-only |
+| `test_e2e.py` | 14 | Fluxo import→review e os 9 casos da demonstração |
+| `test_api.py` | 12 | 6 telas, filtros, 404, contrato JSON, backtest legado intacto |
 
 **[F] O que existe como verificação executável são os gates de `phase0/README.md`.
 Todos foram executados em 2026-08-23 nesta sessão, no diretório `phase0/`,
@@ -538,4 +563,4 @@ Detalhe em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md) § Existem mudanças não 
 
 ## Last Updated
 
-**2026-08-24** · commit base `326840a` + run do Ring 0 pendente de commit · branch `master`
+**2026-08-24** · commit base `8bbd040` + MVP da Sprint 3 · branch `master`

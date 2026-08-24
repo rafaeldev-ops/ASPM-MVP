@@ -5,9 +5,11 @@ findings into a small number of defensible security decisions — not a
 scanner, and not another dashboard on top of scanners. Full mission and
 constraints: [`CLAUDE.md`](CLAUDE.md).
 
-**Status: pre-MVP, in Phase 0 validation.** Nothing here claims to be a
-finished product. What follows is what is actually true today, not the
-aspirational architecture.
+**Status: MVP ASPM funcional (Sprint 3) · validação Phase 0 ainda em aberto.**
+As duas coisas são verdade ao mesmo tempo, e confundi-las é o erro a evitar: o
+produto roda e é testado, mas nenhuma organização real forneceu dados ainda, então
+a hipótese central continua **não validada**. O que segue é o que é verdade hoje,
+não a arquitetura aspiracional.
 
 ---
 
@@ -19,7 +21,15 @@ aspirational architecture.
 docker compose up -d --build
 ```
 
-Abra <http://127.0.0.1:8000>. Para parar: `docker compose down` — o histórico de
+Duas superfícies, no mesmo processo e no mesmo banco:
+
+| URL | O que é |
+|---|---|
+| <http://127.0.0.1:8000/aspm> | **O MVP ASPM.** Ativos, riscos priorizados, evidência, remediação, dívida de decisão, revisão e linha do tempo. Clique em **Carregar dataset de demonstração** para popular |
+| <http://127.0.0.1:8000/> | O instrumento de backtest de dívida de decisão (anterior, intacto) |
+| <http://127.0.0.1:8000/api/v1/overview> | API JSON — todo número das telas é conferível aqui |
+
+Para parar: `docker compose down` — o histórico de
 execuções sobrevive num volume nomeado. `docker compose down -v` apaga o histórico
 junto.
 
@@ -42,11 +52,10 @@ Nesse modo o banco fica em `sdip.db` na raiz e o cache da KEV é reaproveitado d
 `phase0/.cache/`. As variáveis `SDIP_DB_PATH` e `SDIP_CACHE_DIR` mudam os dois
 caminhos; sem elas, nada muda.
 
-Abra <http://127.0.0.1:8000>. Envie um export de achados fechados (.csv ou
-.json), ou clique em **Rodar export sintético** para ver o instrumento
-funcionando sem precisar de dado real.
+### O instrumento de backtest, em `/`
 
-Cada execução vira uma folha no livro de registro, com histórico navegável:
+Envie um export de achados fechados (.csv ou .json), ou clique em **Rodar export
+sintético**. Cada execução vira uma folha no livro de registro:
 
 | Tela | O que faz |
 |---|---|
@@ -56,6 +65,12 @@ Cada execução vira uma folha no livro de registro, com histórico navegável:
 
 Nenhuma requisição externa além de uma chamada ao catálogo CISA KEV, cacheada
 localmente após a primeira vez. Nada do que é enviado sai da máquina.
+
+### Testes
+
+```bash
+python tests/run.py      # 101 testes, sem instalar framework nenhum
+```
 
 ### O instrumento de linha de comando
 
@@ -102,23 +117,45 @@ specifically to find out where they were wrong, and both were:
 | Path | What's in it |
 |---|---|
 | [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · [`docs/SESSION_HANDOFF.md`](docs/SESSION_HANDOFF.md) | **Comece por aqui.** Estado atual do projeto e a transição da última sessão: o que existe, o que falta, o que está bloqueado e o próximo passo exato. |
-| [`app/`](app/) | A aplicação web: motor de análise, persistência (SQLite) e as três telas. |
+| [`app/`](app/) | A aplicação. `domain/` (modelo e árvore de risco, sem I/O), `application/` (os cinco componentes ASPM), `interfaces/` (telas e API), e o instrumento de backtest anterior. |
+| [`tests/`](tests/) | 101 testes, só stdlib: `python tests/run.py`. |
 | [`phase0/`](phase0/) | Instrumentos de validação: arquivo único, só biblioteca padrão, sem instalação — de propósito, para rodar na máquina de um parceiro. |
 | [`docs/adr/`](docs/adr/) | 17 architecture decisions, with alternatives and consequences, not just conclusions. |
-| [`docs/product/`](docs/product/) | Product critique, competitive teardown, MVP backlog (MoSCoW), design-partner recruitment kit. |
+| [`docs/product/`](docs/product/) | Product critique, competitive teardown, MVP backlog (MoSCoW), design-partner recruitment kit, [escopo e limitações do MVP ASPM](docs/product/mvp-aspm.md). |
 | [`docs/evaluation/`](docs/evaluation/) | Pre-registered Phase 0 validation protocols, and the two experiments above. |
 | [`docs/architecture/`](docs/architecture/) | Architecture critique, diagrams, repository structure for the eventual platform. |
 | [`docs/data/`](docs/data/) | Domain model and database schema for the full platform. |
 | [`docs/api/`](docs/api/) | OpenAPI contract for the full platform. |
 | [`docs/threat-model/`](docs/threat-model/) | Threat model and OWASP ASVS 5.0.0 verification mapping. |
 
+## O MVP ASPM
+
+Entregue na Sprint 3 (2026-08-24). Demonstra os cinco componentes de uma ASPM —
+Asset Discovery, Risk Correlation, Prioritization, Remediation Guidance e
+Continuous Monitoring — mais o diferencial do projeto: evidência com procedência,
+histórico de decisões append-only, dívida de decisão e revisão humana.
+
+A priorização é a árvore determinística de
+[`docs/decisions/risk-model.md`](docs/decisions/risk-model.md) §4.2 — **não um
+LLM**, e os testes comparam as 720 combinações contra o instrumento do `phase0`
+para as duas cópias não divergirem em silêncio.
+
+Escopo, decisões e **limitações** em
+[`docs/product/mvp-aspm.md`](docs/product/mvp-aspm.md).
+
+> **"O MVP funciona" não é "a hipótese foi validada".** O inventário e as decisões
+> do dataset de demonstração são fabricados e marcados como tais em cada tela.
+> Nenhum número derivado deles é precisão de produto.
+
 ## What is deliberately not built yet
 
-Sem LLM, sem integração com scanner, sem motor de correlação, sem
-multi-tenancy. O que existe cobre o núcleo do **Ring 0** do backlog
-([`docs/product/mvp-backlog.md`](docs/product/mvp-backlog.md)): importar
-decisões fechadas, enriquecer com conhecimento público, diferenciar por data
-e relatar. O **Ring 1** (~62 semanas de engenheiro: a plataforma completa)
+Sem LLM no caminho de decisão, sem integração com scanner ao vivo, sem
+multi-tenancy ativa. O MVP implementa a *lógica* de vários itens do **Ring 0**
+([`docs/product/mvp-backlog.md`](docs/product/mvp-backlog.md)) — importar decisões
+fechadas, enriquecer, diferenciar por data e relatar — mas **nenhum como o backlog
+especifica**: não há migration, RLS, worker agendado nem endpoint sob o contrato de
+`docs/api/openapi.yaml`. "Existe a lógica" e "o item está feito" são coisas
+diferentes. O **Ring 1** (~62 semanas de engenheiro: a plataforma completa)
 não vale ser construído enquanto a tese do Ring 0 não for confirmada contra
 dado organizacional real — construí-lo antes é literalmente o modo de falha
 que este projeto tenta evitar.

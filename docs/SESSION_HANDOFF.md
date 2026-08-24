@@ -1,4 +1,33 @@
-# Session Handoff — 2026-08-24
+# Session Handoff — 2026-08-24 (Sprint 3)
+
+> **Sprint 3 — MVP ASPM entregue.** Escopo, decisões, defeitos encontrados e
+> limitações: [`product/mvp-aspm.md`](product/mvp-aspm.md). Estado por item:
+> [`PROJECT_STATE.md`](PROJECT_STATE.md).
+>
+> **O que existe agora:** monólito modular em `app/` (`domain/`, `application/`,
+> `interfaces/`), os cinco componentes ASPM, 6 telas em `/aspm`, API `/api/v1`,
+> dataset de demonstração com manifesto de proveniência, e **101 testes passando**
+> (`python tests/run.py`).
+>
+> **B2 e B3 corrigidos** em `app/domain/enums.py`: seis razões de fechamento, com
+> `mitigated` tratado como decisão de não agir (perecível, ADR-0016) e `wont_fix`
+> distinto de `false_positive`. `phase0/v1_backtest.py` **não foi alterado** — é o
+> instrumento que o parceiro roda; um teste documenta a divergência e falha se ele
+> for corrigido.
+>
+> **Um padrão de defeito apareceu três vezes** (S1, S5, S6 em `mvp-aspm.md` §5):
+> `session.add()` com chave estrangeira solta não atualiza a coleção já carregada
+> no SQLAlchemy. Escondeu 60% das decisões, fez a remediação concluir `uncertain`
+> para achados com advisory, e quebrou a cadeia `supersedes`. **Anexe sempre pela
+> relação** (`finding.decisions.append(...)`), nunca por `session.add()` com FK.
+>
+> **O que NÃO mudou:** V0 continua bloqueado. K1, K2 e K3 continuam **não
+> avaliáveis**. Ring 0 continua não passando. O MVP roda sobre dado público real
+> mais inventário fabricado — nenhum número dele é precisão de produto.
+
+---
+
+# Session Handoff — 2026-08-24 (run do Ring 0)
 
 > **Adendo de 2026-08-24 — run de validação do Ring 0 com dados públicos reais.**
 > Análise completa: [`evaluation/ring0-real-data-validation.md`](evaluation/ring0-real-data-validation.md).

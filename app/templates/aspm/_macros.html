@@ -1,0 +1,50 @@
+{# Componentes reutilizados pelas telas do ASPM. #}
+
+{% macro banda(b, label=None) -%}
+  {%- if b -%}
+  <span class="banda banda--{{ b }}">{{ label or b|replace('_',' ') }}</span>
+  {%- else -%}
+  <span class="banda banda--none">sem banda</span>
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro sev(s) -%}
+  {%- if s -%}<span class="sev sev--{{ s }}">{{ s }}</span>{%- else -%}<span class="sev sev--none">—</span>{%- endif -%}
+{%- endmacro %}
+
+{% macro classe_dado(c) -%}
+  {%- if c == 'SYNTHETIC_DATA' -%}
+    <span class="selo selo--sintetico" title="Dado fabricado. Não representa nenhuma organização.">sintético</span>
+  {%- elif c == 'DERIVED_DATA' -%}
+    <span class="selo selo--derivado" title="Calculado por uma regra deste sistema.">derivado</span>
+  {%- elif c == 'REAL_EXTERNAL_DATA' -%}
+    <span class="selo selo--real" title="Fonte externa real.">real</span>
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro confianca(c) -%}
+  <span class="conf conf--{{ c }}">{{ c }}</span>
+{%- endmacro %}
+
+{% macro cartao(valor, rotulo, nota=None, tom='') %}
+<div class="cartao {{ tom }}">
+  <p class="cartao__n">{{ valor }}</p>
+  <p class="cartao__r">{{ rotulo }}</p>
+  {% if nota %}<p class="cartao__nota t1">{{ nota }}</p>{% endif %}
+</div>
+{% endmacro %}
+
+{% macro linha_finding(f) %}
+<tr>
+  <td>{{ banda(f.band, f.assessment.get('band_label')) }}</td>
+  <td>{{ sev(f.severity) }}</td>
+  <td class="col-titulo">
+    <a href="/aspm/findings/{{ f.id }}">{{ f.title }}</a>
+    {% if f.cve %}<span class="t1 mono">{{ f.cve }}</span>{% endif %}
+  </td>
+  <td>{% if f.asset %}<a href="/aspm/assets/{{ f.asset.id }}">{{ f.asset.name }}</a>{% else %}—{% endif %}</td>
+  <td class="t1">{{ f.source_system }}</td>
+  <td class="num">{{ '%.3f'|format(f.ordering_score or 0) }}</td>
+  <td class="t1">{{ f.status }}</td>
+</tr>
+{% endmacro %}

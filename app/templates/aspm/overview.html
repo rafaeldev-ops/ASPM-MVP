@@ -1,0 +1,144 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_macros.html" as m %}
+{% set nav = 'overview' %}
+{% block titulo %}Visão geral — Pride Security ASPM{% endblock %}
+{% block sub %}O que é perigoso, por quê, o que mudou, o que fazer{% endblock %}
+
+{% block conteudo %}
+
+{% if d.findings == 0 %}
+<section class="vazio">
+  <h1>Nenhum dado carregado</h1>
+  <p>Carregue o dataset de demonstração para percorrer o fluxo completo, ou envie
+     um export próprio.</p>
+  <div class="acoes">
+    <form method="post" action="/aspm/actions/demo">
+      <button class="btn btn--primario">Carregar dataset de demonstração</button>
+    </form>
+    <form method="post" action="/aspm/actions/import" enctype="multipart/form-data">
+      <label class="t1">Export de achados (.csv, .json, .sarif)
+        <input type="file" name="file" accept=".csv,.json,.sarif" required>
+      </label>
+      <input type="hidden" name="kind" value="findings">
+      <button class="btn">Importar</button>
+    </form>
+  </div>
+  <p class="t1 aviso">O dataset de demonstração combina CVEs, datas de KEV e scores
+     EPSS <strong>reais</strong> com inventário e decisões <strong>fabricados</strong>.
+     A distinção fica visível em cada tela.</p>
+</section>
+{% else %}
+
+<h1 class="tela-titulo">Visão geral</h1>
+
+<section class="cartoes">
+  {{ m.cartao(d.bands.act_now, 'Agir agora', 'exige ação imediata', 'cartao--urgente') }}
+  {{ m.cartao(d.bands.act_soon, 'Agir em breve') }}
+  {{ m.cartao(d.open_debt, 'Dívida de decisão', 'decisões que o mundo pode ter invalidado', 'cartao--debt') }}
+  {{ m.cartao(d.kev_findings, 'Em exploração ativa', 'CVE no catálogo CISA KEV') }}
+  {{ m.cartao(d.assets, 'Ativos', d.critical_assets ~ ' críticos') }}
+  {{ m.cartao(d.findings, 'Achados') }}
+</section>
+
+<div class="colunas">
+
+  <section class="bloco">
+    <h2>Distribuição por prioridade</h2>
+    <table class="tabela">
+      <thead><tr><th>Banda</th><th class="num">Achados</th><th>Proporção</th></tr></thead>
+      <tbody>
+      {% for b, n in d.bands.items() %}
+        <tr>
+          <td>{{ m.banda(b) }}</td>
+          <td class="num">{{ n }}</td>
+          <td class="barra-td">
+            <span class="barra barra--{{ b }}"
+                  style="width: {{ (n / d.findings * 100) if d.findings else 0 }}%"></span>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <p class="t1">A banda vem da árvore determinística de <code>risk-model.md §4.2</code>,
+       não de um modelo de linguagem.</p>
+  </section>
+
+  <section class="bloco">
+    <h2>Mudanças recentes que importam</h2>
+    {% if d.recent_changes %}
+    <ul class="eventos">
+      {% for e in d.recent_changes %}
+      <li>
+        <span class="ev-kind ev-kind--{{ e.kind }}">{{ e.kind|replace('_',' ') }}</span>
+        <span>{{ e.summary }}</span>
+        {% if e.finding_id %}<a class="t1" href="/aspm/findings/{{ e.finding_id }}">ver achado</a>{% endif %}
+        <span class="t1 mono">{{ e.occurred_at.strftime('%Y-%m-%d') if e.occurred_at }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="t1">Nenhuma mudança material registrada ainda.</p>
+    {% endif %}
+    <p><a href="/aspm/timeline">Linha do tempo completa →</a></p>
+  </section>
+
+</div>
+
+<div class="colunas">
+  <section class="bloco">
+    <h2>Procedência dos dados</h2>
+    <table class="tabela tabela--compacta">
+      <tbody>
+        <tr><th>Catálogo CISA KEV</th><td class="mono">{{ d.knowledge.kev_catalog }}</td></tr>
+        <tr><th>Janela do KEV</th><td class="mono">{{ d.knowledge.kev_window[0] }} … {{ d.knowledge.kev_window[1] }}</td></tr>
+        <tr><th>Modelo EPSS</th><td class="mono">{{ d.knowledge.epss_model }}</td></tr>
+        <tr><th>Provedor de IA</th>
+            <td class="mono">{{ d.ai.provider }}{% if not d.ai.external %} (nenhuma chamada externa){% endif %}</td></tr>
+      </tbody>
+    </table>
+    <p class="t1">EPSS é usado como <strong>sinal contextual de ordenação</strong> e nunca
+       como gatilho de re-litígio — ver <code>EXP-001</code> e <code>EXP-004</code>.</p>
+  </section>
+
+  <section class="bloco">
+    <h2>Decisões registradas</h2>
+    <table class="tabela tabela--compacta">
+      <tbody>
+        <tr><th>Total</th><td class="num">{{ d.review_stats.decisions }}</td></tr>
+        <tr><th>Revisões de analista</th><td class="num">{{ d.review_stats.reviews }}</td></tr>
+        {% for c, n in d.review_stats.by_classification.items() %}
+        <tr><th>{{ m.classe_dado(c) }}</th><td class="num">{{ n }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if d.review_stats.by_classification.get('SYNTHETIC_DATA') %}
+    <p class="t1 aviso">Há decisões <strong>sintéticas</strong> nesta base. Elas exercitam
+       o fluxo; nenhuma métrica derivada delas é precisão de produto.</p>
+    {% endif %}
+    <p><a href="/aspm/review">Fila de revisão →</a></p>
+  </section>
+</div>
+
+<section class="bloco">
+  <h2>Ações</h2>
+  <div class="acoes">
+    <form method="post" action="/aspm/actions/import" enctype="multipart/form-data">
+      <label class="t1">Importar export (.csv, .json, .sarif)
+        <input type="file" name="file" accept=".csv,.json,.sarif" required></label>
+      <input type="hidden" name="kind" value="findings">
+      <button class="btn">Importar achados</button>
+    </form>
+    <form method="post" action="/aspm/actions/reprocess">
+      <button class="btn">Reprocessar com o conhecimento atual</button>
+    </form>
+    <form method="post" action="/aspm/actions/simulate-change">
+      <button class="btn">Simular mudança de contexto de ativo</button>
+    </form>
+  </div>
+  <p class="t1">Reprocessar recalcula correlação, prioridade, remediação e dívida de
+     decisão sem reimportar — é o caso em que o conhecimento externo mudou e os
+     achados não.</p>
+</section>
+
+{% endif %}
+{% endblock %}
