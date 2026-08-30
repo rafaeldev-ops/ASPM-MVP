@@ -57,7 +57,7 @@ público antes de pedir dado privado.
 
 | Camada | Estado |
 |---|---|
-| Documentação de arquitetura, produto, dados, API, ameaças, avaliação | **[F] Completa como *design*.** 43 documentos em `docs/` (+ os 2 arquivos de estado deste checkpoint), 17 ADRs |
+| Documentação de arquitetura, produto, dados, API, ameaças, avaliação | **[F] Completa como *design*.** 48 arquivos em `docs/` — 46 de design mais os 2 de estado — e **18 ADRs** |
 | Instrumentos Phase 0 (`phase0/`) | **[F] 4 instrumentos executáveis, todos rodando** |
 | Instrumento de backtest (`/`, commit `021b981`) | **[F] Roda; 3 telas** |
 | **MVP ASPM (`/aspm`, Sprint 3)** | **[F] Roda.** Monólito modular, 5 componentes, 6 telas, API `/api/v1`, **101 testes passando** |
@@ -72,8 +72,9 @@ público antes de pedir dado privado.
 ### Documentação (commit `f1427b9`, 2026-08-19)
 
 - **[F] 43 documentos** em `docs/` no commit `f1427b9`, incluindo:
-- **[F] 17 ADRs** (`docs/adr/0001`…`0017`), 16 com status *Accepted*, **1 com status
+- **[F] 18 ADRs** (`docs/adr/0001`…`0018`), 17 com status *Accepted*, **1 com status
   *Proposed*: ADR-0017 (cross-tenant priors) — decisão humana pendente, ver § Blocked.**
+  A ADR-0018 (2026-08-24) **emenda a 0015 §1** e é o passo 0 da Fase A.
 - **[F] 4 críticas** (arquitetura, produto, segurança, AI/RAG) em `docs/*/critique-*.md`.
 - **[F] Modelo de domínio e schema PostgreSQL completos** (`docs/data/`), incluindo
   estratégia de retenção. Nada disso foi implementado.
@@ -211,6 +212,7 @@ falhar, Ring 1 não deve ser construído.**
 | 2026-08-23 22:46 | **[F] Sem commit.** Segunda execução demo gravada em `sdip.db` (gitignorado) |
 | 2026-08-23 (esta sessão) | Criação de `docs/PROJECT_STATE.md` e `docs/SESSION_HANDOFF.md`; `CLAUDE.md` ganhou o §0 "Start here, every session"; `README.md` ganhou uma linha no mapa. Commit `3fd89d0` |
 | 2026-08-23 | **Containerização da aplicação web:** `Dockerfile`, `docker-compose.yml`, `.dockerignore`, e duas variáveis de ambiente (`SDIP_DB_PATH`, `SDIP_CACHE_DIR`). **Defaults inalterados.** Commit `326840a` |
+| 2026-08-24 | **Fase A, passo 0 — governança.** `docs/adr/0018-local-first-provider-selection.md` (emenda a ADR-0015 §1): egresso é escolha do usuário, teto de três providers imposto por teste, `confidence` continua determinístico, `raw_json` fora de alcance em todo tier. A linha WON'T de `mvp-backlog.md` §2.5 ganhou o registro do gatilho que disparou, com o texto original preservado |
 | 2026-08-24 | **Sprint 3 — MVP ASPM funcional.** Monólito modular em `app/` (domain / application / interfaces), 5 componentes ASPM, 6 telas, API `/api/v1`, dataset de demonstração com proveniência. **B2 e B3 corrigidos.** **101 testes passando.** Detalhe: [`product/mvp-aspm.md`](product/mvp-aspm.md) |
 | 2026-08-24 | **Run de validação do Ring 0 com dados públicos reais.** Ingestão de CISA KEV (273 entradas), CodeQL SARIF do artefato ISSTA 2025 (100.627 achados) e snapshot EPSS (359.229 CVEs), todos com proveniência e SHA-256. Motor de dívida de decisão, 31 testes golden/adversariais, 4 experimentos. **Dois defeitos encontrados em `phase0/v1_backtest.py`.** Relatório: [`evaluation/ring0-real-data-validation.md`](evaluation/ring0-real-data-validation.md) |
 

@@ -137,7 +137,7 @@ Ring 0 has **no model, no scanner adapter, no correlation, no vector store, and 
 | **Learning Engine as a subsystem (§15)** | At MVP it is an append-only revision table plus a nightly aggregate | Measurement justifies it |
 | **NLI contradiction model** | ~20 deterministic rules cover the majority at zero cost; 30–40% false contradictions would flood `needs_review` | Rule-table recall measured inadequate **and** ≥300 labelled conflict pairs |
 | **Multi-agent / critic pipeline (§14)** | Must beat both the single-model baseline **and** the deterministic-only ablation | Measured improvement on the frozen set |
-| **Multi-provider LLM abstraction (§13)** | Sampling params, logprobs, refusals and retention terms are not abstractable | Never as briefed; one adapter, one fallback |
+| **Multi-provider LLM abstraction (§13)** | Sampling params, logprobs, refusals and retention terms are not abstractable. **Still true — ADR-0018 does not contradict it** | ~~Never as briefed; one adapter, one fallback~~ → **FIRED 2026-08-24, for a different reason.** See below |
 | **Graph database** | One polymorphic edge table + one precomputed closure covers the known query set | A measured ≥4-hop pattern Postgres cannot serve |
 | **Fine-tuning / custom embeddings** | No data; would fossilize the cold-start problem into weights | ≥50,000 labelled decisions |
 | **Kafka, Kubernetes, multi-region HA** | Redis-backed workers on one Postgres are sufficient at this scale | Demonstrated need, not aesthetics |
@@ -145,6 +145,15 @@ Ring 0 has **no model, no scanner adapter, no correlation, no vector store, and 
 | **Automatic suppression without human review** | This is where the entire liability exposure lives | Per-tenant opt-in after §3 gates pass |
 | **Repo-read credentials** | An org-wide source-code exfiltration capability held by a Series-A startup | Customer demands pull, with a scoped GitHub App |
 | **Category creation for "Security Decision Intelligence"** | No analyst-relations budget, no category | Never at this stage |
+
+### 2.5.1 Triggers that fired
+
+A rejected item silently reversed is worse than one never written down. The original
+wording above stays visible; this is what changed and why.
+
+| Date | Item | What fired it |
+|---|---|---|
+| 2026-08-24 | **Multi-provider LLM abstraction** | Not the trigger anyone expected, because it is **not the same decision**. The WON'T rejected *vendor optionality* — six adapters to smooth a procurement conversation, bought with a month of engineering and an abstraction that leaks on five axes. What fired is *egress topology*: the product became a desktop application, so the question "does this data leave the machine" moved from us, once, to the user, per analysis. One local runtime plus one cloud vendor are not two interchangeable suppliers; they are two answers to that question. **Capped at three adapters and enforced by a test**, so the next one is a new decision rather than an increment. Every reason the original gave remains true, and the adapters do not pretend the providers are equivalent. See [ADR-0018](../adr/0018-local-first-provider-selection.md) |
 
 ---
 

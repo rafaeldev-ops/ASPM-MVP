@@ -45,6 +45,7 @@ An ADR exists here only if the decision is (a) hard to reverse, (b) contested by
 | [0009](0009-evidence-contract-and-retrieval.md) | Typed evidence slots, gap records, drop log; no reranker/NLI/abstractive compression in MVP | Accepted |
 | [0010](0010-confidence-calibration-and-audit-sampling.md) | Deterministic + calibrated confidence; empirical agreement bands; randomized audit with propensity logging | Accepted |
 | [0015](0015-model-provider-strategy.md) | One provider, one adapter; benchmark includes refusal rate and ZDR availability | Accepted |
+| [0018](0018-local-first-provider-selection.md) | Local-first: egress topology is the user's choice. Three providers, capped by test; egress class replaces `is_external`; confidence stays deterministic | Accepted — **amends 0015 §1** |
 
 ### Knowledge and storage
 
