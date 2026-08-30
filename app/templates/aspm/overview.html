@@ -93,7 +93,8 @@
         <tr><th>Janela do KEV</th><td class="mono">{{ d.knowledge.kev_window[0] }} … {{ d.knowledge.kev_window[1] }}</td></tr>
         <tr><th>Modelo EPSS</th><td class="mono">{{ d.knowledge.epss_model }}</td></tr>
         <tr><th>Provedor de IA</th>
-            <td class="mono">{{ d.ai.provider }}{% if not d.ai.external %} (nenhuma chamada externa){% endif %}</td></tr>
+            <td class="mono">{{ d.ai.provider }}{% if d.ai.model %} · {{ d.ai.model }}{% endif %}
+                <span class="egr egr--{{ d.ai.egress }}">{{ d.ai.egress_label }}</span></td></tr>
       </tbody>
     </table>
     <p class="t1">EPSS é usado como <strong>sinal contextual de ordenação</strong> e nunca

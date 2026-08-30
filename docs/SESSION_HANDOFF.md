@@ -1,3 +1,85 @@
+# Session Handoff — 2026-08-30 (Fase A — camada de IA)
+
+> **Fase A entregue: a camada de IA com escolha de provider.** Governança:
+> [`adr/0018-local-first-provider-selection.md`](adr/0018-local-first-provider-selection.md).
+> Estado e limitações: [`PROJECT_STATE.md`](PROJECT_STATE.md).
+>
+> **A coisa mais importante desta sessão não foi construída — foi consertada.**
+> `routes.py` chamava `ai.get_provider().summarize_risk(...)` **dentro do handler GET**
+> de `/aspm/findings/{id}`. Enquanto só existia o `NullProvider` isso era inofensivo. No
+> instante em que um provider cloud pudesse ser selecionado, **cada visualização de
+> página — cada F5, cada prefetch de navegador — enviaria dados de achado para a OpenAI
+> num GET idempotente**, sem consentimento, sem registro e sem limite. Não era uma
+> consequência da Fase A: era uma armadilha já armada esperando a configuração que a
+> Fase A introduz. O conserto entrou **no mesmo commit** que tornou o egresso possível,
+> nunca depois. Hoje a renderização chama a síntese determinística direto, e análise com
+> modelo só acontece por **POST consentido**, com tela de pré-voo.
+>
+> **O que existe agora:** `app/application/ai/` (settings, provider, context, detectors,
+> redaction, prompt, contract, providers, service), `app/infrastructure/http.py` e
+> `credentials.py`, `app/db_migrations.py`, as tabelas `Setting` e `ai_analyses`, a tela
+> `/aspm/settings`, o pré-voo `/aspm/findings/{id}/analyze` e os endpoints
+> `/api/v1/.../analyze`. **169 testes passando**, **zero dependência nova** — o
+> `requirements.txt` continua com os mesmos 5 pins.
+>
+> **Decisões que não devem ser desfeitas sem ler a ADR-0018:**
+>
+> - **Três providers, teto imposto por teste.** `test_teto_de_tres_providers` afirma
+>   `len(registry()) == 3`. Um quarto exige editar a ADR e o teste no mesmo commit. É o
+>   mecanismo concreto que honra a entrada WON'T de `mvp-backlog.md` §2.5 enquanto faz o
+>   trabalho — a ADR-0015 rejeita *opcionalidade de fornecedor*, e isto aqui é *escolha
+>   de topologia de egresso*, que é outra pergunta.
+> - **`localhost` é verificado, não declarado.** O adaptador Ollama resolve o host e
+>   recusa se algum endereço não for loopback, **e** constrói o opener com
+>   `ProxyHandler({})`. Os dois, não um: sem o segundo, uma máquina com `HTTP_PROXY`
+>   rotearia o pedido "127.0.0.1" pelo proxy corporativo — para fora da máquina —
+>   enquanto a interface exibe o selo `local`. Há um teste com dois servidores falsos
+>   que afirma que o proxy recebe **zero**.
+> - **A fronteira de redação é um tipo.** `FindingContext → redact() → RedactedContext`;
+>   `analyze()` é template method **final** que faz o `isinstance` e delega para `_call`.
+>   Não sobrescreva `analyze` num provider — há um teste de reflexão que falha se
+>   alguém o fizer.
+> - **`confidence` é determinístico e não está no schema de saída.** Idem proveniência:
+>   se `provider`/`model`/`timestamp` estivessem no schema, o modelo poderia mentir sobre
+>   a própria identidade e o registro deixaria de valer como auditoria.
+> - **Nenhum outcome move a banda determinística, inclusive `ok`.** Afirmado por teste.
+> - **Análise que falha é persistida assim mesmo.** Gravar só sucesso destruiria a taxa
+>   de recusa, que a ADR-0015 §2 diz poder ser o critério que decide o fornecedor.
+> - **Com egresso a terceiros, acerto de detector falha fechado.** Nunca enviar carga
+>   parcialmente higienizada. Afrouxar depois é fácil; segredo enviado não se recolhe.
+>
+> **Uma linha do `PROJECT_STATE.md` ficou falsa e foi substituída, não removida:**
+> "superfície de prompt injection: zero". Existe LLM no caminho agora. As contenções e
+> o que ficou **deliberadamente de fora** (detector de injeção) estão em § Security
+> Considerations.
+>
+> **O que NÃO mudou, e continua sendo o que importa:** V0 continua bloqueado, K1/K2/K3
+> continuam não avaliáveis, Ring 0 continua não passando. O padrão determinístico
+> continua sendo `null`/`none` — o produto **não depende de LLM para ser útil**.
+>
+> **A limitação que quem retomar precisa ler primeiro é a L13: nenhum LLM de verdade foi
+> executado, nem uma vez.** Os 46 testes da camada rodam contra servidores falsos. Isso
+> prova transporte, retry, timeout, validação, fundamentação e a fronteira — e **não
+> prova nada** sobre qualidade de saída de modelo nenhum. Não há taxa de recusa medida,
+> nem aderência a schema, nem latência real, nem custo por achado. A camada existe para
+> tornar o benchmark da ADR-0015 §2 possível, **não para substituí-lo**.
+>
+> **A concordância analista×modelo já é gravada.** `Decision.ai_analysis_id` e
+> `ai_suggested_reason` viajam do formulário pré-preenchido — **inclusive quando o
+> analista troca a razão**, que é o caso que torna a taxa uma medida em vez de um
+> aplauso. `agreed_with_ai` distingue `None` ("não havia sugestão") de `False`
+> ("discordou"); colapsar os dois destruiria a métrica. Foi gravado agora porque é
+> impossível de reconstruir depois: com várias análises no histórico de um achado,
+> ninguém consegue dizer qual delas o analista tinha na tela.
+>
+> **Um achado de teste que vale registrar:** `test_credentials.py` foi escrito contra o
+> Credential Manager real (grava sob `PrideSecurity/ai/teste-…` e apaga no `tearDown`) e
+> encontrou duas suposições erradas *no teste*, não no módulo — `available` é atributo,
+> não método, e a chave é `"openai"`. Escrever esse teste contra um cofre falso teria
+> provado que o cofre falso funciona.
+
+---
+
 # Session Handoff — 2026-08-24 (Sprint 3)
 
 > **Sprint 3 — MVP ASPM entregue.** Escopo, decisões, defeitos encontrados e

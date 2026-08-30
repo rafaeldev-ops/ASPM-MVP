@@ -69,7 +69,7 @@ localmente após a primeira vez. Nada do que é enviado sai da máquina.
 ### Testes
 
 ```bash
-python tests/run.py      # 101 testes, sem instalar framework nenhum
+python tests/run.py      # 169 testes, sem instalar framework nenhum
 ```
 
 ### O instrumento de linha de comando
@@ -117,8 +117,8 @@ specifically to find out where they were wrong, and both were:
 | Path | What's in it |
 |---|---|
 | [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · [`docs/SESSION_HANDOFF.md`](docs/SESSION_HANDOFF.md) | **Comece por aqui.** Estado atual do projeto e a transição da última sessão: o que existe, o que falta, o que está bloqueado e o próximo passo exato. |
-| [`app/`](app/) | A aplicação. `domain/` (modelo e árvore de risco, sem I/O), `application/` (os cinco componentes ASPM), `interfaces/` (telas e API), e o instrumento de backtest anterior. |
-| [`tests/`](tests/) | 101 testes, só stdlib: `python tests/run.py`. |
+| [`app/`](app/) | A aplicação. `domain/` (modelo e árvore de risco, sem I/O), `application/` (os cinco componentes ASPM e a camada de IA), `infrastructure/` (transporte e cofre de credencial), `interfaces/` (telas e API), e o instrumento de backtest anterior. |
+| [`tests/`](tests/) | 169 testes, só stdlib: `python tests/run.py`. Dois módulos são artefato de segurança legível isolado: `test_ai_privacy.py` (a fronteira de redação) e `test_credentials.py`. |
 | [`phase0/`](phase0/) | Instrumentos de validação: arquivo único, só biblioteca padrão, sem instalação — de propósito, para rodar na máquina de um parceiro. |
 | [`docs/adr/`](docs/adr/) | 18 architecture decisions, with alternatives and consequences, not just conclusions. |
 | [`docs/product/`](docs/product/) | Product critique, competitive teardown, MVP backlog (MoSCoW), design-partner recruitment kit, [escopo e limitações do MVP ASPM](docs/product/mvp-aspm.md). |
@@ -147,10 +147,40 @@ Escopo, decisões e **limitações** em
 > do dataset de demonstração são fabricados e marcados como tais em cada tela.
 > Nenhum número derivado deles é precisão de produto.
 
+## A camada de IA: o egresso é escolha sua
+
+O padrão é **nenhum**. Sem configurar nada, a aplicação não fala com modelo nenhum
+e a síntese que aparece na tela é determinística — derivada da mesma árvore de risco,
+sem I/O. É esse o estado em que o produto é distribuído, e ele é **útil assim**.
+
+Três opções, e três é teto imposto por teste, não por intenção:
+
+| Opção | O que sai da máquina |
+|---|---|
+| `null` (padrão) | Nada. Sem I/O. |
+| `ollama` | Nada sai da **máquina**. O host é resolvido e o envio é recusado se algum endereço não for loopback. |
+| `openai` | Sai, para um terceiro — depois de uma tela de pré-voo que mostra **a carga redigida de verdade**, não uma descrição dela. |
+
+O que o modelo **nunca** recebe, em nenhuma opção, nem na local: a linha crua do
+scanner (`raw_json`), o texto livre da decisão do analista, e o caminho completo de
+arquivo. Um detector de segredo roda em cada folha textual; com egresso a terceiros,
+qualquer acerto **bloqueia o envio** em vez de higienizar parcialmente.
+
+E o limite que mais importa: **o modelo não decide nada.** Ele resume, explica e
+pré-preenche o formulário de revisão. A banda, o score e a versão do modelo de risco
+continuam sendo da árvore determinística — nenhum resultado de IA os altera, e há um
+teste que afirma isso inclusive para o caso de sucesso.
+
+> **Nenhum LLM de verdade foi executado ainda.** Os testes da camada rodam contra
+> servidores falsos: eles provam o transporte, a validação e a fronteira de privacidade,
+> e **não provam nada** sobre a qualidade de saída de modelo nenhum. Ver L13 em
+> [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
+
 ## What is deliberately not built yet
 
-Sem LLM no caminho de decisão, sem integração com scanner ao vivo, sem
-multi-tenancy ativa. O MVP implementa a *lógica* de vários itens do **Ring 0**
+Sem integração com scanner ao vivo, sem multi-tenancy ativa, e **sem LLM no caminho
+de decisão** — existe LLM no caminho de *síntese* desde 2026-08-30, mas ele não move
+banda nem estado. O MVP implementa a *lógica* de vários itens do **Ring 0**
 ([`docs/product/mvp-backlog.md`](docs/product/mvp-backlog.md)) — importar decisões
 fechadas, enriquecer, diferenciar por data e relatar — mas **nenhum como o backlog
 especifica**: não há migration, RLS, worker agendado nem endpoint sob o contrato de

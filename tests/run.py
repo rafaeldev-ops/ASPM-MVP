@@ -25,6 +25,10 @@ MODULOS = [
     "tests.test_pipeline",          # ingestao, correlacao, priorizacao, monitoramento
     "tests.test_decision_debt",     # regra temporal e revisao
     "tests.test_e2e",               # fluxo completo e os 9 casos da demo
+    "tests.test_migrations",        # versionamento de schema, banco antigo
+    "tests.test_credentials",       # cofre de credencial, round-trip real
+    "tests.test_ai_provider",       # selecao de provider, falhas, egresso
+    "tests.test_ai_privacy",        # a fronteira de redacao
     "tests.test_api",               # contrato das telas e da API
 ]
 

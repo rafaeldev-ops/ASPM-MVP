@@ -1,0 +1,79 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_ai.html" as m %}
+{% set nav = 'findings' %}
+{% block titulo %}Confirmar análise — Pride Security ASPM{% endblock %}
+{% block sub %}Antes de executar{% endblock %}
+
+{% block conteudo %}
+<p class="migalha t1"><a href="/aspm/findings/{{ finding.id }}">← voltar ao achado</a></p>
+<h1 class="tela-titulo">Confirmar análise</h1>
+
+<section class="alerta alerta--{{ 'debt' if provider.egress.value == 'third_party' else 'ok' }}">
+  <h2>Onde este dado vai ser processado</h2>
+  <p class="pre-voo">
+    {{ m.egresso(provider.egress.value, provider.egress.label) }}
+    <strong>{{ provider.egress.explanation }}</strong>
+  </p>
+  <table class="tabela tabela--compacta ficha">
+    <tbody>
+      <tr><th>Provider</th><td class="mono">{{ provider.name }}</td></tr>
+      <tr><th>Modelo</th><td class="mono">{{ cfg.model or '— nenhum selecionado —' }}</td></tr>
+      <tr><th>Tier de conteúdo</th><td class="mono">{{ cfg.tier }}</td></tr>
+      <tr><th>Disponível agora</th><td>{{ 'sim' if status.available else 'não' }}
+        <span class="t1">— {{ status.detail }}</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+{% if blocked %}
+<section class="alerta alerta--erro">
+  <h2>Bloqueado antes de qualquer envio</h2>
+  <p>{{ blocked }}</p>
+  <p class="t1">O portão falha fechado de propósito: nunca enviar carga
+     parcialmente higienizada a um fornecedor. Afrouxar depois é fácil; segredo
+     enviado não se recolhe.</p>
+</section>
+{% else %}
+
+<section class="bloco">
+  <h2>Exatamente o que será enviado</h2>
+  <p class="t1">Esta é a carga real, depois da redação — não uma descrição dela.
+     É o único jeito de conferir a promessa acima, e faz um defeito de redação
+     aparecer para um humano antes de virar incidente.</p>
+
+  {% if redacted.redactions %}
+  <p class="aviso"><strong>{{ redacted.redactions|length }} campo(s) redigido(s):</strong>
+    {% for r in redacted.redactions %}<code>{{ r.field_path }}</code> ({{ r.detector }}){% if not loop.last %} · {% endif %}{% endfor %}
+  </p>
+  {% endif %}
+
+  <details class="carga" open>
+    <summary>Carga ({{ payload|length }} caracteres)</summary>
+    <pre class="carga__pre">{{ payload }}</pre>
+  </details>
+
+  <p class="t1">Fora, sempre: o payload bruto do scanner, a justificativa livre do
+     analista, o caminho completo do arquivo e o dono do ativo. Ver a tabela em
+     <code>app/application/ai/context.py</code>.</p>
+</section>
+
+<section class="bloco">
+  <h2>Executar</h2>
+  <form method="post" action="/aspm/findings/{{ finding.id }}/analyze">
+    <input type="hidden" name="confirm_egress" value="{{ provider.egress.value }}">
+    <button class="btn btn--primario" {% if not status.available %}disabled{% endif %}>
+      Analisar com {{ provider.name }}
+      {% if provider.egress.value == 'third_party' %} e enviar para fora{% endif %}
+    </button>
+  </form>
+  {% if not status.available %}
+  <p class="t1 aviso">O provider está indisponível. Ajuste em
+     <a href="/aspm/settings">Configuração</a>, ou siga sem IA — o motor
+     determinístico não depende dela.</p>
+  {% endif %}
+  <p class="t1">A confirmação vale para <strong>esta</strong> análise. Se a
+     configuração mudar entre esta tela e o clique, o envio é recusado em vez de
+     ir para o provider errado.</p>
+</section>
+{% endif %}
+{% endblock %}

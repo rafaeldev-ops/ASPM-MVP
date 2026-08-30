@@ -141,6 +141,10 @@ class TestApi(ServidorVivo):
             self.assertIn(k, d)
         self.assertGreater(d["findings"], 0)
         self.assertFalse(d["ai"]["external"], "o MVP nao deve depender de IA externa")
+        # A afirmacao mais forte que a linha acima tentava fazer: `external` e
+        # falso tanto para `none` quanto para `localhost`, e so `none` significa
+        # que nao houve I/O nenhum.
+        self.assertEqual(d["ai"]["egress"], "none")
 
     def test_findings_expoe_a_versao_do_modelo_de_risco(self):
         _, body = self.get("/api/v1/findings?limit=5")

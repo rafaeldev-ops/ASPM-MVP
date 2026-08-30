@@ -1,0 +1,111 @@
+{# Componentes da camada de IA. #}
+
+{% macro egresso(cls, label=None) -%}
+  <span class="egr egr--{{ cls }}" title="{{ label or cls }}">{{ label or cls }}</span>
+{%- endmacro %}
+
+{% macro outcome(o, label) -%}
+  <span class="oc oc--{{ o }}">{{ label or o }}</span>
+{%- endmacro %}
+
+{% macro confianca(a) %}
+<div class="conf-band">
+  <span class="conf-band__f conf-band__f--{{ a.confidence_band }}">{{ a.confidence_band }}</span>
+  <span class="t1">confiança determinística
+    ({{ '%.2f'|format(a.confidence or 0) }}) · {{ a.confidence_model_version }}</span>
+</div>
+<p class="t1">Calculada por completude de evidência, não pelo modelo. A
+   <code>ADR-0010</code> proíbe o modelo emitir confiança, e proíbe renderizar um
+   número solto para um humano.</p>
+{% endmacro %}
+
+{% macro bloco_analise(a, finding, reasons) %}
+<section class="bloco" id="analise">
+  <h2>Análise com modelo</h2>
+
+  {% if not a %}
+  <p class="t1">Nenhuma análise executada para este achado.</p>
+  <p><a class="btn" href="/aspm/findings/{{ finding.id }}/analyze">Analisar com IA →</a></p>
+  {% else %}
+
+  <div class="an-topo">
+    {{ outcome(a.outcome, a.outcome|replace('_',' ')) }}
+    {{ egresso(a.egress) }}
+    {% if a.contains_synthetic %}
+    <span class="selo selo--sintetico"
+          title="Derivada de decisões fabricadas. Não é resultado sobre nenhuma organização.">sintético</span>
+    {% endif %}
+  </div>
+
+  {% if a.ok %}
+    <p class="an-sumario">{{ a.summary }}</p>
+    {% if a.risk_explanation %}<p>{{ a.risk_explanation }}</p>{% endif %}
+
+    {% if a.recommended_action %}
+    <div class="an-acao">
+      <p class="ancora__r">Ação recomendada</p>
+      <p>{{ a.recommended_action }}</p>
+    </div>
+    {% endif %}
+
+    {% if a.evidence_ids %}
+    <p class="t1">Evidência citada:
+      {% for eid in a.evidence_ids %}<a class="mono" href="#ev-{{ eid }}">#{{ eid }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+    </p>
+    {% endif %}
+    {% if a.contradicting_evidence_ids %}
+    <p class="t1">Evidência contraditória:
+      {% for eid in a.contradicting_evidence_ids %}<a class="mono" href="#ev-{{ eid }}">#{{ eid }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+    </p>
+    {% endif %}
+
+    {{ confianca(a) }}
+
+    {% if a.suggested_reason %}
+    <div class="an-sugestao">
+      <p><strong>Razão sugerida:</strong> {{ a.suggested_reason|replace('_',' ') }}</p>
+      <p class="t1">É sugestão. A decisão gravada continua sendo do analista, e a
+         sugestão fica registrada ao lado para dar para medir concordância depois.</p>
+      <a class="btn" href="#revisar"
+         onclick="document.querySelector('[name=reason]').value='{{ a.suggested_reason }}';">
+        Usar esta sugestão na revisão</a>
+    </div>
+    {% endif %}
+
+  {% else %}
+    <p class="aviso"><strong>{{ a.outcome|replace('_',' ') }}.</strong>
+       {{ a.error_detail or 'Sem detalhe.' }}</p>
+    <p class="t1">A síntese determinística acima continua válida: a banda de risco,
+       o score e a versão do modelo <strong>não foram alterados</strong> por esta
+       tentativa. Nenhum resultado de IA move a prioridade.</p>
+  {% endif %}
+
+  {% if a.uncertainty_reasons %}
+  <p class="t1"><strong>Incertezas:</strong> {{ a.uncertainty_reasons|join('; ') }}</p>
+  {% endif %}
+  {% if a.evidence_gaps %}
+  <p class="t1"><strong>Lacunas de evidência:</strong> {{ a.evidence_gaps|join('; ') }}</p>
+  {% endif %}
+  {% if a.redactions %}
+  <p class="t1"><strong>{{ a.redactions|length }} campo(s) redigido(s)</strong> antes do envio.
+     O valor casado nunca é gravado, só o nome do detector.</p>
+  {% endif %}
+
+  <table class="tabela tabela--compacta ficha">
+    <tbody>
+      <tr><th>Provider · modelo</th><td class="mono">{{ a.provider }} · {{ a.model or '—' }}</td></tr>
+      <tr><th>Egresso · tier</th><td class="mono">{{ a.egress }} · {{ a.redaction_tier }}</td></tr>
+      {% if a.key_source %}<tr><th>Origem da chave</th><td class="mono">{{ a.key_source }}</td></tr>{% endif %}
+      <tr><th>Versão da análise</th><td class="mono">{{ a.analysis_version }}</td></tr>
+      <tr><th>Prompt · contexto</th><td class="mono">{{ a.prompt_hash }} · {{ a.context_hash }}</td></tr>
+      <tr><th>Banda determinística</th><td class="mono">{{ a.deterministic_band }} ({{ a.risk_model_version }})</td></tr>
+      <tr><th>Quando</th><td class="mono">{{ a.created_at.strftime('%Y-%m-%d %H:%M') }}
+        · {{ a.latency_ms }}ms · {{ a.attempts }} tentativa(s)</td></tr>
+      {% if a.tokens_in %}<tr><th>Tokens</th><td class="mono">{{ a.tokens_in }} / {{ a.tokens_out or 0 }}</td></tr>{% endif %}
+    </tbody>
+  </table>
+
+  <p><a class="btn" href="/aspm/findings/{{ finding.id }}/analyze">Analisar de novo →</a></p>
+  {% endif %}
+</section>
+{% endmacro %}

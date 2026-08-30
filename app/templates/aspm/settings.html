@@ -1,0 +1,123 @@
+{% extends "aspm/base.html" %}
+{% import "aspm/_ai.html" as m %}
+{% set nav = 'settings' %}
+{% block titulo %}Configuração — Pride Security ASPM{% endblock %}
+{% block sub %}Onde a análise roda, e o que sai desta máquina{% endblock %}
+
+{% block conteudo %}
+<h1 class="tela-titulo">Configuração de IA</h1>
+
+<p class="intro">O produto funciona nos três modos, e os três são legítimos. Sem
+   modelo, o motor determinístico já classifica, explica e detecta dívida de
+   decisão — a IA sintetiza, nunca decide.</p>
+
+<div class="colunas">
+
+  <section class="bloco">
+    <h2>Provider</h2>
+    <form method="post" action="/aspm/actions/settings/ai" class="form-revisao">
+      <div class="largo">
+        {% for p in providers %}
+        <label class="prov {% if p.name == cfg.provider %}prov--on{% endif %}">
+          <input type="radio" name="provider" value="{{ p.name }}"
+                 {% if p.name == cfg.provider %}checked{% endif %}>
+          <span class="prov__n">{{ p.name }}</span>
+          {{ m.egresso(p.egress, p.egress_label) }}
+          <span class="prov__d">{{ p.explanation }}</span>
+        </label>
+        {% endfor %}
+      </div>
+
+      <label class="t1">Modelo
+        <input type="text" name="model" value="{{ cfg.model }}"
+               placeholder="{% if status.models %}{{ status.models[0] }}{% else %}nome do modelo{% endif %}"></label>
+      <label class="t1">URL base (opcional)
+        <input type="text" name="base_url" value="{{ cfg.base_url }}"
+               placeholder="padrão do provider"></label>
+      <label class="t1">Timeout (s)
+        <input type="text" name="timeout_s" value="{{ cfg.timeout_s }}"></label>
+      <label class="t1">Quem alterou
+        <input type="text" name="analyst" value="analista"></label>
+
+      <button class="btn btn--primario">Salvar</button>
+    </form>
+
+    {% if status.models %}
+    <p class="t1">Modelos detectados neste runtime:
+      {% for mm in status.models %}<code>{{ mm }}</code>{% if not loop.last %} · {% endif %}{% endfor %}
+    </p>
+    {% endif %}
+
+    {% if env_locked %}
+    <p class="t1 aviso"><strong>Variáveis de ambiente estão sobrepondo a
+       configuração:</strong> {{ env_locked.values()|join(', ') }}. O que você
+       salvar aqui não vale enquanto elas existirem.</p>
+    {% endif %}
+  </section>
+
+  <section class="bloco">
+    <h2>Estado</h2>
+    <table class="tabela tabela--compacta ficha">
+      <tbody>
+        <tr><th>Provider ativo</th><td class="mono">{{ info.provider }}</td></tr>
+        {% if info.requested != info.provider %}
+        <tr><th>Pedido</th><td class="mono aviso">{{ info.requested }} — desconhecido,
+          caiu para o determinístico</td></tr>
+        {% endif %}
+        <tr><th>Egresso</th><td>{{ m.egresso(info.egress, info.egress_label) }}</td></tr>
+        <tr><th>Disponível</th><td>{{ 'sim' if info.available else 'não' }}
+          {% if info.stale %}<span class="t1">(status em cache)</span>{% endif %}</td></tr>
+        <tr><th>Detalhe</th><td class="t1">{{ status.detail }}</td></tr>
+      </tbody>
+    </table>
+    <form method="post" action="/aspm/actions/settings/ai/test">
+      <button class="btn">Testar conexão</button>
+    </form>
+    <p class="t1">O teste só sonda disponibilidade. <strong>Nenhum dado de achado
+       é enviado</strong> por este botão.</p>
+  </section>
+</div>
+
+<section class="bloco">
+  <h2>Chave de API</h2>
+  <p class="t1">{{ credential.detail }}</p>
+  {% if credential.writable %}
+  <form method="post" action="/aspm/actions/settings/ai/key" class="form-revisao">
+    <label class="t1 largo">Chave (OpenAI)
+      <input type="password" name="api_key" placeholder="sk-…" autocomplete="off"></label>
+    <button class="btn btn--primario">Salvar no cofre do Windows</button>
+    <button class="btn" name="remove" value="1">Remover</button>
+  </form>
+  {% else %}
+  <p class="aviso">Cofre somente leitura nesta plataforma.</p>
+  {% endif %}
+  <p class="t1">Chave presente: <strong>{{ 'sim' if info.key_present else 'não' }}</strong>.
+     Ela nunca é gravada no banco, nunca aparece em log e nenhum endpoint a devolve
+     — nem os últimos dígitos.</p>
+</section>
+
+<section class="bloco">
+  <h2>O que já rodou, por provider</h2>
+  {% if rollup %}
+  <table class="tabela">
+    <thead><tr><th>Provider</th><th class="num">Análises</th>
+               <th>Resultados</th><th class="num">Latência média</th></tr></thead>
+    <tbody>
+      {% for name, r in rollup.items() %}
+      <tr>
+        <td class="mono">{{ name }}</td>
+        <td class="num">{{ r.total }}</td>
+        <td class="t1">{% for o, n in r.outcomes.items() %}{{ o }}={{ n }}{% if not loop.last %} · {% endif %}{% endfor %}</td>
+        <td class="num">{{ r.avg_ms }}ms</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <p class="t1">Análise que falhou também é gravada, de propósito. Um provider que
+     recusa metade de um corpus de segurança precisa ser visível — registrar só
+     sucesso destruiria exatamente essa medida.</p>
+  {% else %}
+  <p class="t1">Nenhuma análise executada ainda.</p>
+  {% endif %}
+</section>
+{% endblock %}

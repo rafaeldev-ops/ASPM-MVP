@@ -242,7 +242,28 @@ class Decision(Base, JsonMixin):
     supersedes_id = Column(Integer, ForeignKey("decisions.id"))
     is_review = Column(Boolean, default=False, nullable=False)
 
+    # Concordancia analista x modelo. Gravada no momento da decisao porque e
+    # impossivel de reconstruir depois: quando a analise que sugeriu esta razao
+    # for uma entre varias no historico do achado, ninguem consegue dizer qual
+    # delas o analista tinha na tela. Nulo quando a decisao nao veio de sugestao
+    # nenhuma -- que e o caso padrao, e precisa continuar distinguivel de
+    # "veio de sugestao e o analista concordou".
+    ai_analysis_id = Column(Integer, ForeignKey("ai_analyses.id"))
+    ai_suggested_reason = Column(String(30))
+
     finding = relationship("Finding", back_populates="decisions", foreign_keys=[finding_id])
+
+    @property
+    def agreed_with_ai(self):
+        """`True`, `False` ou `None` -- e os tres significam coisas diferentes.
+
+        `None` nao e "discordou": e "nao havia sugestao". Colapsar os dois
+        arruinaria a taxa de concordancia, que e a metrica pela qual esta coluna
+        existe (CLAUDE.md §31).
+        """
+        if not self.ai_suggested_reason:
+            return None
+        return self.reason == self.ai_suggested_reason
 
     @property
     def knowledge_snapshot(self):
@@ -327,6 +348,156 @@ class ScanSnapshot(Base, JsonMixin):
     @property
     def knowledge_versions(self):
         return self._load(self.knowledge_versions_json, {})
+
+
+class Setting(Base, JsonMixin):
+    """Configuracao persistida, uma linha por chave.
+
+    Linha por chave em vez de tabela larga de proposito: acrescentar um ajuste
+    depois nao exige `ALTER TABLE`, o que importa muito quando o banco ja e dado
+    instalado na maquina de alguem.
+
+    **Segredo nunca entra aqui.** A configuracao guarda uma *referencia*
+    (`ai.key_ref`); a chave vive no cofre de credenciais do sistema
+    (`app/infrastructure/credentials.py`). E a mesma regra da ADR-0011 §5: token
+    e somente-escrita, nenhum endpoint jamais devolve um.
+    """
+
+    __tablename__ = "settings"
+    __table_args__ = (UniqueConstraint("org_id", "key", name="uq_setting_org_key"),)
+
+    id = Column(Integer, primary_key=True)
+    org_id = Column(String(60), nullable=False, default=DEFAULT_ORG, index=True)
+    key = Column(String(80), nullable=False)
+    value_json = Column(Text)
+    updated_at = Column(DateTime, default=utcnow, onupdate=utcnow, nullable=False)
+    updated_by = Column(String(120))
+
+    @property
+    def value(self):
+        return self._load(self.value_json, None)
+
+
+class AIAnalysis(Base, JsonMixin):
+    """Uma execucao de analise por modelo.
+
+    Serve a dois propositos ao mesmo tempo: e o resultado que a tela mostra e o
+    registro de observabilidade. Append-only por convencao (ADR-0001):
+    reanalisar insere, nunca atualiza.
+
+    **Analise que falhou tambem e gravada.** Um provider que recusa 40% de um
+    corpus de seguranca precisa ser visivel, e a ADR-0015 §2 diz que taxa de
+    recusa pode ser o criterio que decide o fornecedor. Registrar so sucesso
+    destrói exatamente essa metrica.
+
+    O que NUNCA entra: texto do prompt, resposta alem dos campos validados, a
+    chave, qualquer valor de segredo casado pelo detector, `raw_json`, caminho
+    de arquivo completo.
+    """
+
+    __tablename__ = "ai_analyses"
+    __table_args__ = (
+        Index("ix_ai_org_finding", "org_id", "finding_id"),
+        Index("ix_ai_org_outcome", "org_id", "outcome"),
+    )
+
+    id = Column(Integer, primary_key=True)
+    org_id = Column(String(60), nullable=False, default=DEFAULT_ORG, index=True)
+    finding_id = Column(Integer, ForeignKey("findings.id"), nullable=False, index=True)
+    created_at = Column(DateTime, default=utcnow, nullable=False)
+
+    outcome = Column(String(30), nullable=False)
+
+    # Proveniencia emitida pelo SISTEMA, nunca pelo modelo. Se estes campos
+    # estivessem no schema de saida, o modelo poderia mentir sobre a propria
+    # identidade e o registro deixaria de valer como auditoria.
+    provider = Column(String(40), nullable=False)
+    model = Column(String(120))
+    egress = Column(String(20), nullable=False)
+    redaction_tier = Column(String(20), nullable=False)
+    key_source = Column(String(20))
+
+    prompt_version = Column(String(40))
+    prompt_hash = Column(String(16))
+    context_schema_version = Column(String(40))
+    context_hash = Column(String(16))
+    analysis_version = Column(String(120))
+
+    # Prova que o modelo nao mexeu na banda: o valor deterministico e gravado
+    # junto, e um teste afirma que nenhum outcome o altera.
+    deterministic_band = Column(String(30))
+    risk_model_version = Column(String(60))
+
+    confidence = Column(Float)
+    confidence_model_version = Column(String(60))
+
+    latency_ms = Column(Integer)
+    attempts = Column(Integer, default=1, nullable=False)
+    tokens_in = Column(Integer)
+    tokens_out = Column(Integer)
+    estimated_cost_usd = Column(Float)
+
+    summary = Column(Text)
+    risk_explanation = Column(Text)
+    recommended_action = Column(Text)
+    suggested_reason = Column(String(30))
+
+    evidence_ids_json = Column(Text, default="[]")
+    contradicting_evidence_ids_json = Column(Text, default="[]")
+    uncertainty_reasons_json = Column(Text, default="[]")
+    evidence_gaps_json = Column(Text, default="[]")
+    evidence_dropped_json = Column(Text, default="[]")
+    # Campo + detector + contagem. NUNCA o valor casado.
+    redactions_json = Column(Text, default="[]")
+
+    contains_synthetic = Column(Boolean, default=False, nullable=False)
+    error_detail = Column(String(300))
+
+    finding = relationship("Finding")
+
+    @property
+    def evidence_ids(self):
+        return self._load(self.evidence_ids_json, [])
+
+    @property
+    def contradicting_evidence_ids(self):
+        return self._load(self.contradicting_evidence_ids_json, [])
+
+    @property
+    def uncertainty_reasons(self):
+        return self._load(self.uncertainty_reasons_json, [])
+
+    @property
+    def evidence_gaps(self):
+        return self._load(self.evidence_gaps_json, [])
+
+    @property
+    def evidence_dropped(self):
+        return self._load(self.evidence_dropped_json, [])
+
+    @property
+    def redactions(self):
+        return self._load(self.redactions_json, [])
+
+    @property
+    def ok(self):
+        return self.outcome in ("ok", "ok_degraded")
+
+    @property
+    def confidence_band(self):
+        """Faixa, nao numero solto.
+
+        A ADR-0010 §2 e explicita: nunca renderizar confianca como numero cru
+        para um humano. A faixa vem com os insumos a vista na tela.
+        """
+        c = self.confidence
+        if c is None:
+            return "desconhecida"
+        if c >= 0.75:
+            return "alta"
+        if c >= 0.45:
+            return "media"
+        return "baixa"
 
 
 class ChangeEvent(Base, JsonMixin):

@@ -91,7 +91,15 @@ class DebtItem(Base):
 
 
 def init_db():
+    """Cria o que falta e aplica as migracoes pendentes.
+
+    A ordem importa: `create_all` primeiro, entao um banco novo ja nasce na forma
+    final e as migracoes rodam sobre ele. E por isso que toda migracao precisa
+    ser idempotente -- ver `app/db_migrations.py`.
+    """
     Base.metadata.create_all(engine)
+    from app.db_migrations import migrate
+    return migrate(engine)
 
 
 def save_analysis(source_name, is_demo, summary, debt, despite, sample, excl):

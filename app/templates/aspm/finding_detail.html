@@ -1,5 +1,6 @@
 {% extends "aspm/base.html" %}
 {% import "aspm/_macros.html" as m %}
+{% import "aspm/_ai.html" as ia %}
 {% set nav = 'findings' %}
 {% block titulo %}{{ finding.title[:60] }} — Risco{% endblock %}
 {% block sub %}Detalhe do risco{% endblock %}
@@ -111,8 +112,8 @@
     <thead><tr><th>Tipo</th><th>Fonte</th><th>Autoridade</th><th>Classe</th><th>Fato em</th><th>Lido em</th></tr></thead>
     <tbody>
     {% for e in evidence %}
-      <tr>
-        <td class="mono">{{ e.evidence_type }}</td>
+      <tr id="ev-{{ e.id }}">
+        <td class="mono">#{{ e.id }} {{ e.evidence_type }}</td>
         <td>{{ e.source }}{% if e.source_id %} <span class="t1 mono">{{ e.source_id }}</span>{% endif %}</td>
         <td class="t1">{{ e.source_authority }}</td>
         <td>{{ m.classe_dado(e.classification) }}</td>
@@ -191,11 +192,26 @@
     {% for d in debts if not d.resolved %}
     <input type="hidden" name="debt_id" value="{{ d.id }}">
     {% endfor %}
+    {# O que a IA sugeriu viaja junto, mesmo quando o analista troca a razao no
+       select acima. E a discordancia que torna a taxa de concordancia uma
+       medida, e nao um aplauso. #}
+    {% if analysis and analysis.ok and analysis.suggested_reason %}
+    <input type="hidden" name="ai_analysis_id" value="{{ analysis.id }}">
+    <input type="hidden" name="ai_suggested_reason" value="{{ analysis.suggested_reason }}">
+    {% endif %}
     <label class="t1">Decisão
       <select name="reason" required>
-        {% for r in reasons %}<option value="{{ r.value }}">{{ r.label }}</option>{% endfor %}
+        {% for r in reasons %}<option value="{{ r.value }}"
+          {% if analysis and analysis.ok and analysis.suggested_reason == r.value %}selected{% endif %}
+          >{{ r.label }}</option>{% endfor %}
       </select>
     </label>
+    {% if analysis and analysis.ok and analysis.suggested_reason %}
+    <p class="t1 ia-prefill">Pré-selecionado pela análise de
+       <strong>{{ analysis.provider }}</strong>. Trocar é o comportamento esperado
+       sempre que a evidência disser outra coisa: a decisão é sua, e a divergência
+       fica registrada.</p>
+    {% endif %}
     <label class="t1">Analista
       <input type="text" name="analyst" value="analista" required></label>
     <label class="t1 largo">Justificativa (obrigatória)
@@ -207,6 +223,8 @@
      alimenta memória organizacional nenhuma.</p>
 </section>
 
+{{ ia.bloco_analise(analysis, finding, reasons) }}
+
 <section class="bloco bloco--ia">
   <h2>Síntese</h2>
   <p>{{ ai.summary }}</p>
@@ -214,8 +232,10 @@
   {% if ai.uncertainty_reasons %}
   <p class="t1"><strong>Incertezas:</strong> {{ ai.uncertainty_reasons|join('; ') }}</p>
   {% endif %}
-  <p class="t1">Gerada por <span class="mono">{{ ai_provider.provider }}</span>{% if not ai_provider.external %}
-     — síntese determinística, sem chamada externa e sem modelo de linguagem{% endif %}.</p>
+  <p class="t1">Síntese determinística, montada dos mesmos campos que o motor de
+     risco calculou. <strong>Não passa por provider nenhum</strong> e não faz
+     chamada de rede — é por isso que ela está sempre aqui, inclusive quando uma
+     análise com modelo falha.</p>
 </section>
 
 {% endblock %}

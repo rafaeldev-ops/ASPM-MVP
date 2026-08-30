@@ -60,10 +60,13 @@ An ADR exists here only if the decision is (a) hard to reverse, (b) contested by
 |---|---|---|
 | [0016](0016-perishable-suppressions.md) | No terminal suppression: `deprioritized_until(conditions[])` and evidence-triggered re-litigation | Accepted |
 | [0017](0017-cross-tenant-priors.md) | Cross-tenant aggregate priors vs strict isolation | **Proposed — decision required** |
+| [0018](0018-local-first-provider-selection.md) | Local-first: egress class is a user choice, capped at three providers by test; amends 0015 §1 | Accepted |
 
 ## Reading order for a new engineer
 
 0001 → 0003 → 0007 → 0016. Those four determine the shape of everything else. 0017 is the one open question and it blocks the moat narrative, not the build.
+
+If you are touching the AI layer, read **0011 → 0015 → 0018** in that order. 0018 amends 0015 rather than replacing it, and it is explicit about the one place where reality differs from 0011: the redaction boundary is enforced structurally at runtime, because this repository has no MyPy and no CI to enforce it at build time.
 
 ## Provenance
 

@@ -21,6 +21,11 @@ from app.application import (
     ai, decision_debt, demo, ingestion, knowledge, monitoring, pipeline,
     prioritization, remediation, review,
 )
+from app.application.ai import redaction as ai_redaction
+from app.application.ai import service as ai_service
+from app.application.ai import settings as ai_settings
+from app.application.ai.context import build_context
+from app.infrastructure import credentials
 from app.db import SessionLocal
 from app.domain.enums import Band, ClosureReason
 from app.domain.models import (
@@ -88,7 +93,7 @@ def overview_data(session, org_id=DEFAULT_ORG):
         "snapshots": monitoring.snapshots(session, org_id, 5),
         "review_stats": review.stats(session, org_id),
         "knowledge": knowledge.versions(),
-        "ai": ai.provider_info(),
+        "ai": ai.provider_info(session),
     }
 
 
@@ -201,14 +206,25 @@ def finding_detail(request: Request, finding_id: int):
         if f is None:
             raise HTTPException(404, "Achado nao encontrado.")
         v = _finding_view(s, f)
-        v["ai"] = ai.get_provider().summarize_risk({
+        # A sintese desta tela e DETERMINISTICA e nao passa por provider nenhum.
+        #
+        # A versao anterior chamava `ai.get_provider().summarize_risk(...)` aqui
+        # dentro. Enquanto so existia o provider nulo isso era inofensivo -- mas
+        # no instante em que um provider externo virasse selecionavel, cada
+        # visualizacao de pagina enviaria dados de achado para fora num GET
+        # idempotente, sem consentimento e sem registro, e um refresh
+        # multiplicaria. Analise com modelo acontece **somente** por POST
+        # explicito, atras da tela de pre-voo (ADR-0018 §2).
+        v["ai"] = ai.deterministic_summary({
             "title": f.title, "asset_name": f.asset.name if f.asset else None,
             "assessment": f.assessment,
             "remediation": {"action": v["remediation"].action,
                             "confidence": v["remediation"].confidence}
             if v["remediation"] else {},
             "evidence_ids": [e.id for e in f.evidence]})
-        v["ai_provider"] = ai.provider_info()
+        v["ai_provider"] = ai.provider_info(s)
+        v["analysis"] = ai_service.latest_for(s, f.id)
+        v["analysis_history"] = ai_service.history_for(s, f.id)
         v["reasons"] = list(ClosureReason)
         return templates.TemplateResponse(request, "aspm/finding_detail.html", v)
 
@@ -244,6 +260,126 @@ def timeline_view(request: Request, material: str = ""):
         return templates.TemplateResponse(request, "aspm/timeline.html", {
             "events": events, "material": material,
             "snapshots": monitoring.snapshots(s, DEFAULT_ORG, 10)})
+
+
+# --------------------------------------------------------------------------
+# Configuracao de IA
+# --------------------------------------------------------------------------
+
+@web.get("/settings", response_class=HTMLResponse)
+def settings_screen(request: Request):
+    with SessionLocal() as s:
+        cfg = ai_settings.load(s)
+        info = ai.provider_info(s)
+        status, stale = ai.provider_status(s)
+        return templates.TemplateResponse(request, "aspm/settings.html", {
+            "cfg": cfg,
+            "info": info,
+            "status": status,
+            "stale": stale,
+            "providers": [
+                {"name": n, "egress": cls.egress.value,
+                 "egress_label": cls.egress.label,
+                 "explanation": cls.egress.explanation,
+                 "requires_key": cls.requires_api_key}
+                for n, cls in sorted(ai.registry().items(),
+                                     key=lambda kv: kv[1].egress.rank)],
+            "credential": credentials.info(),
+            "env_locked": ai_settings.env_overrides(),
+            "rollup": ai_service.rollup(s),
+        })
+
+
+@web.post("/actions/settings/ai")
+def action_save_ai(provider: str = Form("null"), model: str = Form(""),
+                   base_url: str = Form(""), timeout_s: str = Form("60"),
+                   analyst: str = Form("analista")):
+    with SessionLocal() as s:
+        ai_settings.save(s, {"provider": provider, "model": model,
+                             "base_url": base_url, "timeout_s": timeout_s},
+                         updated_by=analyst)
+        s.commit()
+    ai.reset()
+    return RedirectResponse("/aspm/settings", status_code=303)
+
+
+@web.post("/actions/settings/ai/key")
+def action_save_key(api_key: str = Form(""), remove: str = Form("")):
+    """Escreve ou apaga a chave no cofre do sistema.
+
+    A chave nunca passa pelo banco, nunca vai para log e nenhum endpoint a
+    devolve -- e a regra da ADR-0011 §5 aplicada aqui.
+    """
+    store = credentials.get_store()
+    if not store.writable:
+        raise HTTPException(400, store.describe())
+    try:
+        if remove:
+            store.delete("openai")
+        elif api_key.strip():
+            store.set("openai", api_key.strip())
+    except credentials.CredentialError as exc:
+        raise HTTPException(400, str(exc))
+    ai.reset()
+    return RedirectResponse("/aspm/settings", status_code=303)
+
+
+@web.post("/actions/settings/ai/test")
+def action_test_provider():
+    """Sondagem fresca. **Nao envia dado de achado nenhum.**"""
+    with SessionLocal() as s:
+        ai.provider_status(s, probe=True)
+    return RedirectResponse("/aspm/settings", status_code=303)
+
+
+# --------------------------------------------------------------------------
+# Analise por achado
+# --------------------------------------------------------------------------
+
+@web.get("/findings/{finding_id}/analyze", response_class=HTMLResponse)
+def analyze_confirm(request: Request, finding_id: int):
+    """Tela de pre-voo.
+
+    Declara o egresso ANTES da chamada e mostra **a carga redigida de verdade**,
+    nao uma descricao dela. E o unico jeito de alguem atento verificar a
+    promessa, e torna um defeito de redacao visivel a um humano antes de virar
+    incidente.
+    """
+    with SessionLocal() as s:
+        f = s.get(Finding, finding_id)
+        if f is None:
+            raise HTTPException(404, "Achado nao encontrado.")
+        provider = ai.get_provider(s)
+        cfg = ai_settings.load(s)
+        ctx = build_context(s, f)
+
+        payload, blocked, redacted = None, None, None
+        try:
+            redacted = ai_redaction.redact(ctx, egress=provider.egress, tier=cfg.tier)
+            payload = ai_redaction.preview(redacted)
+        except ai_redaction.RedactionBlocked as exc:
+            blocked = str(exc)
+
+        status, _ = ai.provider_status(s)
+        return templates.TemplateResponse(request, "aspm/analyze_confirm.html", {
+            "finding": f, "provider": provider, "cfg": cfg, "status": status,
+            "payload": payload, "blocked": blocked, "redacted": redacted,
+            "context": ctx, "info": ai.provider_info(s),
+        })
+
+
+@web.post("/findings/{finding_id}/analyze")
+def analyze_run(finding_id: int, confirm_egress: str = Form(...)):
+    with SessionLocal() as s:
+        f = s.get(Finding, finding_id)
+        if f is None:
+            raise HTTPException(404, "Achado nao encontrado.")
+        try:
+            ai_service.analyze_finding(s, f, confirmed_egress=confirm_egress)
+        except ai_service.EgressNotConfirmed as exc:
+            raise HTTPException(409, str(exc))
+        s.commit()
+    return RedirectResponse(f"/aspm/findings/{finding_id}#analise", status_code=303)
 
 
 # --------------------------------------------------------------------------
@@ -304,14 +440,28 @@ async def action_import(file: UploadFile = FileParam(None),
     return RedirectResponse("/aspm", status_code=303)
 
 
+def _int_or_none(value):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
 @web.post("/actions/review")
 def action_review(finding_id: int = Form(...), reason: str = Form(...),
                   rationale: str = Form(...), analyst: str = Form("analista"),
-                  debt_id: str = Form("")):
+                  debt_id: str = Form(""), ai_analysis_id: str = Form(""),
+                  ai_suggested_reason: str = Form("")):
+    # Os dois ultimos vem do formulario pre-preenchido pela analise. Sao
+    # registrados como o que a IA sugeriu, e a razao gravada continua sendo a que
+    # o analista enviou -- inclusive quando ele trocou. E dessa diferenca que sai
+    # a taxa de concordancia.
     with SessionLocal() as s:
         try:
             review.submit_review(s, finding_id, reason, rationale, analyst,
-                                 resolves_debt_id=int(debt_id) if debt_id else None)
+                                 resolves_debt_id=int(debt_id) if debt_id else None,
+                                 ai_analysis_id=_int_or_none(ai_analysis_id),
+                                 ai_suggested_reason=ai_suggested_reason or None)
         except review.ReviewError as exc:
             raise HTTPException(400, str(exc))
         s.commit()
@@ -443,6 +593,78 @@ def api_timeline(limit: int = 100):
                        for e in events]}, default=str)))
 
 
+@api.get("/settings/ai")
+def api_ai_settings():
+    """Configuracao efetiva. Segredo elidido por construcao -- ele nunca esteve
+    neste objeto."""
+    with SessionLocal() as s:
+        cfg = ai_settings.load(s).as_public()
+        cfg["info"] = ai.provider_info(s)
+        cfg["credential"] = credentials.info()
+        cfg["env_overrides"] = ai_settings.env_overrides()
+    return JSONResponse(json.loads(json.dumps(cfg, default=str)))
+
+
+@api.get("/findings/{finding_id}/analysis")
+def api_finding_analysis(finding_id: int):
+    with SessionLocal() as s:
+        rows = ai_service.history_for(s, finding_id)
+        return JSONResponse(json.loads(json.dumps({
+            "count": len(rows),
+            "analyses": [_analysis_json(a) for a in rows]}, default=str)))
+
+
+@api.post("/findings/{finding_id}/analyze")
+def api_finding_analyze(finding_id: int, payload: dict):
+    """Exige confirmacao explicita do egresso.
+
+    Sem isso um cliente distraido -- ou uma pagina aberta noutra aba -- dispara
+    envio para terceiros sem ninguem ter visto para onde.
+    """
+    with SessionLocal() as s:
+        f = s.get(Finding, finding_id)
+        if f is None:
+            raise HTTPException(404, "Achado nao encontrado.")
+        confirm = (payload or {}).get("confirm_egress")
+        if not confirm:
+            raise HTTPException(
+                409, "Informe `confirm_egress` com a classe de egresso atual.")
+        try:
+            record = ai_service.analyze_finding(s, f, confirmed_egress=confirm)
+        except ai_service.EgressNotConfirmed as exc:
+            raise HTTPException(409, str(exc))
+        s.commit()
+        return JSONResponse(json.loads(json.dumps(_analysis_json(record),
+                                                  default=str)))
+
+
+def _analysis_json(a):
+    return {
+        "id": a.id, "created_at": a.created_at, "outcome": a.outcome,
+        "provider": a.provider, "model": a.model, "egress": a.egress,
+        "redaction_tier": a.redaction_tier, "key_source": a.key_source,
+        "analysis_version": a.analysis_version,
+        "prompt_hash": a.prompt_hash, "context_hash": a.context_hash,
+        "deterministic_band": a.deterministic_band,
+        "risk_model_version": a.risk_model_version,
+        "confidence": a.confidence,
+        "confidence_band": a.confidence_band,
+        "confidence_model_version": a.confidence_model_version,
+        "summary": a.summary, "risk_explanation": a.risk_explanation,
+        "recommended_action": a.recommended_action,
+        "suggested_reason": a.suggested_reason,
+        "evidence_ids": a.evidence_ids,
+        "contradicting_evidence_ids": a.contradicting_evidence_ids,
+        "uncertainty_reasons": a.uncertainty_reasons,
+        "evidence_gaps": a.evidence_gaps,
+        "redactions": a.redactions,
+        "contains_synthetic": a.contains_synthetic,
+        "latency_ms": a.latency_ms, "attempts": a.attempts,
+        "tokens_in": a.tokens_in, "tokens_out": a.tokens_out,
+        "error_detail": a.error_detail,
+    }
+
+
 @api.post("/review")
 def api_review(payload: dict):
     with SessionLocal() as s:
@@ -450,7 +672,9 @@ def api_review(payload: dict):
             d = review.submit_review(
                 s, int(payload["finding_id"]), payload["reason"],
                 payload.get("rationale", ""), payload.get("analyst", "api"),
-                resolves_debt_id=payload.get("debt_id"))
+                resolves_debt_id=payload.get("debt_id"),
+                ai_analysis_id=payload.get("ai_analysis_id"),
+                ai_suggested_reason=payload.get("ai_suggested_reason"))
         except (KeyError, ValueError) as exc:
             raise HTTPException(400, f"Payload invalido: {exc}")
         except review.ReviewError as exc:
@@ -458,4 +682,7 @@ def api_review(payload: dict):
         s.commit()
         return JSONResponse({"decision_id": d.id, "reason": d.reason,
                              "supersedes": d.supersedes_id,
-                             "classification": d.classification})
+                             "classification": d.classification,
+                             "ai_analysis_id": d.ai_analysis_id,
+                             "ai_suggested_reason": d.ai_suggested_reason,
+                             "agreed_with_ai": d.agreed_with_ai})

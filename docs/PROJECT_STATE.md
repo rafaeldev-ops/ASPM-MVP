@@ -1,7 +1,7 @@
 # Project State — SDIP
 
-**Última atualização:** 2026-08-24
-**Commit base:** `8bbd040` + MVP da Sprint 3 · branch `master`
+**Última atualização:** 2026-08-30
+**Commit base:** `2607b73` + Fase A (camada de IA) · branch `master`
 **Como este arquivo deve ser lido:** é o estado *persistente* do projeto. A transição
 específica entre sessões está em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md); as regras
 permanentes estão em [`../CLAUDE.md`](../CLAUDE.md); as decisões arquiteturais e suas
@@ -132,6 +132,58 @@ público antes de pedir dado privado.
   "fechado apesar de"**. Verificado em 2026-08-23 comparando
   `phase0/decision-debt-report.html` com a tabela `analyses` do `sdip.db`.
 
+### Camada de IA com escolha de provider — Fase A (2026-08-30)
+
+- **[F] Existe LLM no caminho pela primeira vez.** Três providers, e três é teto imposto
+  por teste (`test_teto_de_tres_providers`), não por intenção: `null` (determinístico,
+  padrão), `ollama` (loopback) e `openai` (terceiro). Governança em
+  [`adr/0018`](adr/0018-local-first-provider-selection.md), que emenda a ADR-0015 §1.
+- **[F] O bug latente de egresso foi fechado no mesmo commit que tornou o egresso
+  possível.** `routes.py` chamava `get_provider().summarize_risk(...)` dentro do handler
+  **GET** de `/aspm/findings/{id}`. Era inofensivo enquanto só o `NullProvider` existia;
+  no instante em que um provider cloud pudesse ser selecionado, cada visualização de
+  página — cada F5, cada prefetch de navegador — enviaria dados de achado para fora.
+  Hoje o caminho de renderização chama a síntese determinística diretamente e **análise
+  com modelo só acontece por POST consentido**.
+- **[F] Egresso é classe verificada, não booleano declarado.** `none` / `localhost` /
+  `third_party`. O adaptador Ollama **resolve o host e recusa** se algum endereço não for
+  loopback, e constrói o opener com `ProxyHandler({})` — sem isso, `HTTP_PROXY` rotearia
+  um pedido "127.0.0.1" pelo proxy corporativo enquanto a tela exibe o selo `local`.
+  Os dois mecanismos, cada um com teste próprio.
+- **[F] A fronteira de redação é um tipo:** `FindingContext → redact() → RedactedContext`,
+  e `analyze()` é template method **final** que faz o `isinstance`. `FindingContext` é
+  não-serializável por construção (`__reduce__` levanta). A ADR-0011 pressupõe MyPy
+  strict, **que este repositório não tem** — o substituto é estrutural em tempo de
+  execução mais um teste de reflexão que afirma que nenhum provider sobrescreve `analyze`.
+- **[F] `raw_json` está fora de alcance em todo tier e todo provider, inclusive o local.**
+  Idem `Decision.rationale` e `file_path` completo. Provado por canário: uma string única
+  plantada no `raw_json` não aparece na carga, no registro nem em nenhum `str()`.
+- **[F] Com egresso a terceiros, acerto de detector falha fechado** — `RedactionBlocked`,
+  e o contador do servidor falso fica em **zero**. Nunca enviar carga parcialmente
+  higienizada a um fornecedor.
+- **[F] `confidence` continua determinístico** (completude de evidência, versionado). O
+  schema de saída não tem `confidence`, nem proveniência: se tivesse, o modelo poderia
+  mentir sobre a própria identidade e o registro deixaria de valer como auditoria.
+- **[F] Nenhum outcome move a banda determinística** — afirmado por teste, **inclusive
+  para `ok`**. A IA sintetiza; ela não decide.
+- **[F] Análise que falha é persistida assim mesmo.** Registrar só sucesso destruiria a
+  taxa de recusa, que a ADR-0015 §2 diz poder ser o critério que decide o fornecedor.
+- **[F] Zero dependência nova.** `requirements.txt` continua com os mesmos 5 pins;
+  transporte por `urllib.request` e credencial por `ctypes` contra `advapi32`.
+- **[F] Chave de API no Windows Credential Manager**, nunca no banco e nunca no
+  `Setting`. Fora do Windows, `EnvCredentialStore` somente-leitura. `key_source` é
+  gravado; a chave nunca é logada, devolvida por endpoint, nem exibida parcialmente.
+- **[F] Existe versionamento de schema** (`app/db_migrations.py`, `schema_version` +
+  migrações idempotentes), e ele **já foi usado**: a migração 2 acrescenta
+  `ai_analysis_id` e `ai_suggested_reason` a `decisions`, que é o primeiro `ALTER` de
+  verdade do projeto. Alembic foi descartado porque descobre revisões por caminho em
+  disco, o que quebra sob PyInstaller.
+- **[F] A concordância analista×modelo é gravada no momento da decisão.** `Decision`
+  carrega o que a IA sugeriu **mesmo quando o analista escolheu outra coisa** — é da
+  divergência que sai a medida. `agreed_with_ai` devolve `True`/`False`/`None`, e `None`
+  significa "não havia sugestão", nunca "discordou": colapsar os dois arruinaria a
+  métrica (CLAUDE.md §31). Impossível de reconstruir depois, por isso foi gravado agora.
+
 ---
 
 ## In Progress
@@ -214,6 +266,7 @@ falhar, Ring 1 não deve ser construído.**
 | 2026-08-23 | **Containerização da aplicação web:** `Dockerfile`, `docker-compose.yml`, `.dockerignore`, e duas variáveis de ambiente (`SDIP_DB_PATH`, `SDIP_CACHE_DIR`). **Defaults inalterados.** Commit `326840a` |
 | 2026-08-24 | **Fase A, passo 0 — governança.** `docs/adr/0018-local-first-provider-selection.md` (emenda a ADR-0015 §1): egresso é escolha do usuário, teto de três providers imposto por teste, `confidence` continua determinístico, `raw_json` fora de alcance em todo tier. A linha WON'T de `mvp-backlog.md` §2.5 ganhou o registro do gatilho que disparou, com o texto original preservado |
 | 2026-08-24 | **Sprint 3 — MVP ASPM funcional.** Monólito modular em `app/` (domain / application / interfaces), 5 componentes ASPM, 6 telas, API `/api/v1`, dataset de demonstração com proveniência. **B2 e B3 corrigidos.** **101 testes passando.** Detalhe: [`product/mvp-aspm.md`](product/mvp-aspm.md) |
+| 2026-08-30 | **Fase A, passos 1 a 9 — camada de IA.** `app/infrastructure/http.py` e `credentials.py`, `app/db_migrations.py`, `Setting` e `AIAnalysis`, o pacote `app/application/ai/` (settings, provider, context, detectors, redaction, prompt, contract, providers, service), **o conserto do egresso em GET**, tela de configuração, tela de pré-voo e as rotas de análise. **169 testes passando** (101 + 68). Quatro módulos novos: `test_migrations.py`, `test_credentials.py`, `test_ai_provider.py` e `test_ai_privacy.py`. `Decision` ganhou `ai_analysis_id` e `ai_suggested_reason` (migração 2, o primeiro `ALTER` de verdade) para a concordância analista×modelo ser mensurável |
 | 2026-08-24 | **Run de validação do Ring 0 com dados públicos reais.** Ingestão de CISA KEV (273 entradas), CodeQL SARIF do artefato ISSTA 2025 (100.627 achados) e snapshot EPSS (359.229 CVEs), todos com proveniência e SHA-256. Motor de dívida de decisão, 31 testes golden/adversariais, 4 experimentos. **Dois defeitos encontrados em `phase0/v1_backtest.py`.** Relatório: [`evaluation/ring0-real-data-validation.md`](evaluation/ring0-real-data-validation.md) |
 
 ---
@@ -313,12 +366,17 @@ indicado. Reproduzidos aqui para que não sumam:
 
 ## Current Test Status
 
-**[F] Existe suíte de testes desde a Sprint 3: `tests/`, 101 testes, `unittest` da
+**[F] Existe suíte de testes desde a Sprint 3: `tests/`, 169 testes, `unittest` da
 stdlib.** Continua sem `pytest`, sem `pyproject.toml`, sem `.github/workflows/`, sem
 lint e sem type checking. O `repository-structure.md` prevê tudo isso; só a suíte existe.
 
+**[F] A ausência de type checking passou a ter consequência de segurança.** A ADR-0011
+impõe a fronteira de redação por tipo, *verificada por MyPy strict*. Sem MyPy o portão
+de build não existe; o substituto é estrutural e está descrito em `adr/0018` §4. Isso
+não é equivalente — é o melhor disponível, e está registrado como tal.
+
 ```
-python tests/run.py     # 101 testes · 0 falhas · 0 erros · 0 pulados (2026-08-24)
+python tests/run.py     # 169 testes · 0 falhas · 0 erros · 0 pulados (2026-08-30)
 ```
 
 | Módulo | Testes | Cobre |
@@ -328,6 +386,10 @@ python tests/run.py     # 101 testes · 0 falhas · 0 erros · 0 pulados (2026-0
 | `test_pipeline.py` | 26 | Asset discovery, ingestão idempotente, SARIF, correlação, priorização, remediação, monitoramento |
 | `test_decision_debt.py` | 18 | Regra temporal, as duas pilhas, escopo de B2/B3, revisão append-only |
 | `test_e2e.py` | 14 | Fluxo import→review e os 9 casos da demonstração |
+| `test_migrations.py` | 11 | O runner de schema, e sobretudo o **banco que já existia**: um `decisions` sem as colunas novas ganha as colunas sem perder linha, e a decisão antiga não ganha vínculo inventado. Mais: idempotência, tabela ausente sem levantar, e `SCHEMA_VERSION` acompanhando a lista |
+| `test_credentials.py` | 11 | Round-trip **real** contra o Windows Credential Manager (grava, lê, sobrescreve, apaga, unicode, blob longo), env store somente-leitura, e que `info()`/`describe()` não devolvem a chave **nem os últimos quatro caracteres dela** |
+| `test_ai_provider.py` | 23 | Seleção e precedência, teto de três, disponibilidade sem sondar o caminho quente, loopback verificado, **`HTTP_PROXY` ignorado**, timeout, malformada, recusa, `choices: []`, retry só onde deve, prompt byte-estável |
+| `test_ai_privacy.py` | 23 | **A fronteira de redação.** Canários de `raw_json` e `rationale`, `file_path` só como forma no externo, detector sem falso positivo em KEV+EPSS real, bloqueio com contador em zero, contexto cru rejeitado por tipo, reflexão sobre `analyze`, nenhum outcome move a banda, fundamentação dura de `evidence_ids` |
 | `test_api.py` | 12 | 6 telas, filtros, 404, contrato JSON, backtest legado intacto |
 
 **[F] O que existe como verificação executável são os gates de `phase0/README.md`.
@@ -417,6 +479,10 @@ não existe suíte de testes de produto que pudesse encontrá-los.
 | **L11** | **[F] Não há ground truth de falso positivo no artefato ISSTA.** Verificado: o zip traz os SARIF, `embedded-repos.json` e dois PDFs. Os 709 defeitos confirmados do paper estão em prosa, não em arquivo de labels. Nenhuma métrica de qualidade de detecção do CodeQL é reportável a partir dele |
 | **L12** | **[F] Janela de KEV de 12 meses deixa 31% da população indeterminável.** 111 de 360 decisões do run caem em `UNKNOWN_OUTSIDE_WINDOW` — o motor recusa dizer `NOT_IN_KEV` para um CVE que pode ter entrado antes da janela. O catálogo completo (1.674 entradas desde 2021-11) eliminaria isso |
 | **L9** | **[F] O export sintético do `--demo` depende do catálogo KEV, então os números do demo mudam quando o catálogo muda.** `demo_export_rows()` sorteia CVEs de `sorted(kev)`; um catálogo com 9 entradas a mais produz um export diferente com a mesma seed. Medido em 2026-08-23: sob `2026.08.14` o demo dá **100 dívida / 88 fechado-apesar-de**; sob `2026.08.21` dá **104 / 84**. **A análise em si é estável** — o *mesmo* CSV enviado por upload dá 100/88 nos dois catálogos. Ou seja: o número do botão "Rodar export sintético" não é reproduzível entre máquinas; o número de um arquivo enviado é |
+| **L13** | **[F] Nenhum LLM de verdade foi executado. Nem uma vez.** Os 46 testes da camada de IA rodam contra servidores falsos em `127.0.0.1`. Isso prova transporte, retry, timeout, validação, fundamentação e a fronteira de redação — **e não prova nada sobre qualidade de saída de modelo nenhum.** Não existe medida de taxa de recusa, de aderência a schema, de latência real, de custo por achado nem de aderência à evidência. A ADR-0015 §2 exige um benchmark antes de escolher fornecedor; esse benchmark **não foi feito**, e a camada existe para torná-lo possível, não para substituí-lo |
+| **L14** | **[F] O suporte a structured output varia por modelo no Ollama e não foi verificado em nenhum.** A tela oferece um botão que roda a análise sobre um achado sintético e reporta se o modelo respeita o schema — o botão existe, o resultado para qualquer modelo específico não está registrado |
+| **L15** | **[F] A taxa de falso negativo do detector de segredo é desconhecida.** A resposta real da ADR-0011 são canários em CI, e **não há CI**. O que sustenta a fronteira são os controles estruturais — tier `no_code` e a exclusão de `raw_json`, `rationale` e caminho completo — e o regex é defesa em profundidade, **não a fronteira**. Ler L16 junto: a fronteira não tem portão de build |
+| **L16** | **[F] A fronteira de redação da ADR-0011 é verificada em tempo de execução, não por type checker.** A ADR pressupõe MyPy strict; o repositório não tem MyPy, nem lint, nem CI. O substituto (template method final, contexto não-serializável, teste de reflexão) é o melhor disponível **e não é equivalente** — um provider novo escrito fora da suíte não é impedido de nada por ferramenta alguma |
 | **L8** | **[F] O roteiro da demo (2026-08-24) demonstra o CLI, não a aplicação web.** O roteiro foi escrito ~1h30 antes de a aplicação existir (mesmo dia, commits `f1427b9` 03:03 e `021b981` 04:38) e nunca foi atualizado. **Qual dos dois demonstrar é uma decisão em aberto** — ver `SESSION_HANDOFF.md` |
 
 ---
@@ -460,8 +526,38 @@ inteiro em memória com limite de 25MB. `docs_url=None` desativa `/docs` e `/red
 Isso é aceitável para um instrumento local de uma pessoa e **inaceitável para qualquer
 coisa exposta em rede.**
 
-**[F] Superfície de prompt injection: zero hoje** — não existe LLM no caminho. Quando
-existir, CLAUDE.md §39 e o threat model já governam.
+**[F] A superfície de prompt injection deixou de ser zero em 2026-08-30.** Até a Fase A
+esta seção dizia "zero, não existe LLM no caminho". Existe agora, e a linha antiga está
+substituída em vez de removida porque a mudança é exatamente o tipo de coisa que uma
+revisão de segurança precisa conseguir datar.
+
+O que contém a superfície hoje, e é pouco de propósito: o modelo **não tem ferramentas**,
+não tem rede a partir dele, não escreve em memória, **não altera banda, score nem
+estado**; os `evidence_ids` que ele cita são validados contra o conjunto que foi
+entregue a ele (id que existe no banco mas foi cortado pelo orçamento continua sendo
+alucinação e rejeita a resposta inteira); conteúdo não confiável vai em bloco delimitado
+e rotulado; a saída é escapada, nunca `|safe`, nunca em `href`/`src` e **não é renderizada
+como Markdown** — carregamento remoto de imagem é o canal de exfiltração sem clique que a
+ADR-0007 nomeia.
+
+**Deliberadamente fora:** detector de injeção de prompt. A ADR-0007 diz que detector não
+é controle, e um detector parcial convida a uma confiança que ele não merece.
+
+**[F] O egresso é escolha explícita do usuário e o padrão continua sendo `none`.** A
+propriedade "nenhum dado sai desta máquina" **deixa de valer por configuração** — não por
+acidente: exige selecionar um provider, e cada análise a terceiros passa por uma tela de
+pré-voo que mostra a carga redigida de verdade, não uma descrição dela. Consentimento é
+por análise; "não perguntar de novo nesta sessão" vale para `none` e `localhost` e
+**nunca** para `third_party`.
+
+**[F] O que o registro `ai_analyses` nunca grava:** o texto do prompt, a resposta além dos
+campos validados, a chave de API, qualquer valor de segredo casado pelo detector (só
+campo, detector e contagem), `raw_json` e caminho completo de arquivo.
+
+**[F] Sem cadeia de hash em `ai_analyses`.** A ADR-0012 §1.3 é explícita que cadeia sem
+ancoragem externa não vale contra quem é dono do banco, e entregar metade convidaria a
+alegação de "log de auditoria imutável" que a própria ADR chama de marketing.
+`context_hash` e `prompt_hash` entram, porque são insumo de reprodutibilidade.
 
 ---
 
@@ -517,20 +613,20 @@ sintético**, não contra organização nenhuma:
 
 ## Next Exact Task
 
-**[F] Definida pela data, não por preferência: a apresentação de 2026-08-24.**
+**[F] A apresentação de 2026-08-24 passou e o resultado dela não está registrado neste
+arquivo.** Quem retomar precisa registrá-lo antes de qualquer outra coisa — inclusive se
+o resultado foi "nada aconteceu". O item V0 vive ou morre nesse registro.
 
-1. Decidir **qual artefato demonstrar** — CLI (`python phase0/v1_backtest.py --demo`,
-   que é o que o roteiro descreve) ou a aplicação web (`python -m uvicorn app.main:app`,
-   que é mais impressionante e **não está no roteiro**). Ver L8. Se a escolha for a
-   aplicação web, atualizar `docs/product/demo-presentation-outline.md` §4 e o checklist
-   final antes da apresentação — não depois.
-2. Executar o pedido do §8 do roteiro **na apresentação**: export de 12 meses de achados
-   fechados + 60 minutos de revisão. Esse pedido *é* o item V0.
-3. Registrar o resultado num tracker de parceiros que **ainda não existe** — criar
-   `docs/product/partner-tracker.md` com os campos de `design-partner-kit.md` §6
-   (stage, sinal Q1, pilha fechada existe, sistema de origem, tamanho FP vs risco
-   aceito, resposta K1, achado K2 verbatim, resposta Q3 verbatim), incluindo as
-   negativas.
+1. **Criar `docs/product/partner-tracker.md`** com os campos de `design-partner-kit.md`
+   §6 (stage, sinal Q1, pilha fechada existe, sistema de origem, tamanho FP vs risco
+   aceito, resposta K1, achado K2 verbatim, resposta Q3 verbatim), **incluindo as
+   negativas**. Continua não existindo.
+2. **Executar o pedido do §8 do roteiro** — export de 12 meses de achados fechados +
+   60 minutos de revisão. Esse pedido *é* o item V0, e continua sendo o gargalo.
+3. **[H] Rodar um modelo de verdade uma vez** e registrar o que sair (L13). Com Ollama
+   instalado o custo é zero e o resultado decide se a camada da Fase A é utilizável ou
+   se o schema precisa mudar. Enquanto isso não acontecer, "a IA funciona" significa
+   apenas "o transporte e a fronteira funcionam".
 
 ## Recommended Next Steps
 
@@ -556,13 +652,13 @@ Em ordem de valor por esforço, **depois** da demo:
 
 ## Files Currently Being Worked On
 
-**[F] O checkpoint de estado foi commitado em `3fd89d0`.** Depois dele, a
-containerização (`Dockerfile`, `docker-compose.yml`, `.dockerignore`, e as duas
-variáveis de ambiente em `app/db.py` e `app/analysis.py`) está pendente de commit.
-Detalhe em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md) § Existem mudanças não commitadas.
+**[F] Nada pela metade.** A Fase A (passos 0 a 9) está completa e commitada; a suíte
+roda limpa. O que **não** foi feito, e é Fase B declarada: launcher, PyInstaller,
+instalador, e defesa contra CSRF no servidor local — qualquer página aberta no navegador
+pode fazer POST para `127.0.0.1`, e hoje há rotas POST que executam análise.
 
 ---
 
 ## Last Updated
 
-**2026-08-24** · commit base `8bbd040` + MVP da Sprint 3 · branch `master`
+**2026-08-30** · commit base `2607b73` + Fase A · branch `master`

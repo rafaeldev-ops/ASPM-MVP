@@ -32,9 +32,25 @@ class ReviewError(ValueError):
     pass
 
 
+def _valid_reason(value):
+    """So grava sugestao que e uma razao de fechamento de verdade.
+
+    O valor chega do formulario, ou seja, do cliente. Uma sugestao invalida
+    gravada aqui contaminaria a taxa de concordancia com uma categoria que nao
+    existe -- e a taxa e o unico motivo desta coluna existir.
+    """
+    if not value:
+        return None
+    try:
+        return ClosureReason(str(value).strip().lower()).value
+    except ValueError:
+        return None
+
+
 def submit_review(session, finding_id, reason, rationale, analyst,
                   org_id=DEFAULT_ORG, classification="REAL_EXTERNAL_DATA",
-                  resolves_debt_id=None):
+                  resolves_debt_id=None, ai_analysis_id=None,
+                  ai_suggested_reason=None):
     """Registra a decisao do analista.
 
     Exige justificativa: uma decisao sem razao registrada nao alimenta memoria
@@ -68,7 +84,9 @@ def submit_review(session, finding_id, reason, rationale, analyst,
         classification=classification, source_system="analyst-review",
         knowledge_snapshot_json=json.dumps(snap, default=str),
         supersedes_id=previous.id if previous else None,
-        is_review=previous is not None)
+        is_review=previous is not None,
+        ai_analysis_id=ai_analysis_id,
+        ai_suggested_reason=_valid_reason(ai_suggested_reason))
     # Anexar pela RELACAO. Com `session.add()` e a chave estrangeira solta, a
     # colecao `finding.decisions` fica desatualizada e a proxima revisao na
     # mesma sessao nao acha a decisao anterior -- perdendo a cadeia

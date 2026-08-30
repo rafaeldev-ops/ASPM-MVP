@@ -92,7 +92,32 @@ posterior ao `as_of`.
 
 Provider padrão `null`: síntese determinística, **nenhuma chamada externa**. A IA,
 quando ligada, reescreve explicação; nunca produz banda, estado ou lógica temporal.
-Saída sempre validada contra o contrato de 5 campos.
+Saída sempre validada contra o contrato.
+
+**Atualizado em 2026-08-30 (Fase A).** A frase acima continua verdadeira e ganhou
+mecanismo. Três providers — `null`, `ollama`, `openai` — e três é **teto imposto por
+teste**. O que mudou de substantivo:
+
+- **Egresso deixou de ser booleano e virou classe verificada:** `none`, `localhost`,
+  `third_party`. `localhost` não é uma alegação — o adaptador resolve o host e recusa se
+  algum endereço não for loopback, e ignora `HTTP_PROXY` explicitamente. Sem a segunda
+  metade, uma máquina com proxy corporativo rotearia o pedido "127.0.0.1" para fora
+  enquanto a tela exibe o selo `local`.
+- **Análise nunca é efeito colateral de renderização.** Antes da Fase A, o handler GET
+  de `/aspm/findings/{id}` chamava o provider. Era inofensivo com só o `NullProvider`
+  existindo, e viraria egresso a cada F5 no instante em que um provider cloud fosse
+  selecionável. Hoje é POST consentido, com tela de pré-voo mostrando **a carga redigida
+  de verdade**.
+- **`confidence` continua determinístico**, calculado por completude de evidência e
+  versionado. Não está no schema de saída do modelo, nem a proveniência: se estivesse,
+  o modelo poderia mentir sobre a própria identidade.
+- **A IA pré-preenche a revisão; o analista decide.** `Decision` ganhou
+  `ai_analysis_id` e `ai_suggested_reason`, para que a concordância analista×modelo
+  (CLAUDE.md §31) seja mensurável depois — é impossível de reconstruir se não for
+  gravada agora.
+
+Governança e as sete outras decisões:
+[`../adr/0018-local-first-provider-selection.md`](../adr/0018-local-first-provider-selection.md).
 
 ### 3.6 `org_id` desde a primeira tabela
 
@@ -152,9 +177,11 @@ Vale como regra do projeto, não como três consertos.
 | M3 | **Um gatilho e meio de dívida.** `KEV_LISTED` é exato. Estreitamento de faixa de advisory exige histórico OSV/GHSA, que nenhuma fonte deste MVP tem |
 | M4 | **Correlação sem reachability.** DP3 fica `unknown` na maioria dos achados, o que joga muita coisa em `track` — comportamento correto e conservador, mas significa que a discriminação depende de enriquecimento que o MVP não faz |
 | M5 | **Comparação de versão é semver simples.** Versões não numéricas devolvem `None`, não um palpite |
-| M6 | **SQLite, sem migrations.** `Base.metadata.create_all()`. R0-1 (migration, RLS, gate de CI) continua não feito |
+| M6 | **SQLite, com um runner de migração mínimo desde 2026-08-30.** `create_all()` seguido de `migrate()` (`app/db_migrations.py`, `schema_version` + migrações idempotentes). Não é Alembic — descartado porque descobre revisões por caminho em disco, o que quebra sob PyInstaller. R0-1 (migration **sob RLS**, gate de CI) continua não feito |
 | M7 | **SAST não se junta a KEV.** CodeQL não emite CVE — medido no run do Ring 0, 100% unmatched por identidade. Achados de SAST recebem prioridade e remediação `uncertain`, nunca dívida de decisão por KEV |
-| M8 | **Sem lint nem type checking.** Não há `ruff`/`mypy` configurados no projeto |
+| M8 | **Sem lint nem type checking.** Não há `ruff`/`mypy` configurados no projeto. **Desde a Fase A isso tem consequência de segurança:** a ADR-0011 impõe a fronteira de redação por tipo, verificada por MyPy strict; sem MyPy o portão de build não existe e o substituto é estrutural em tempo de execução — melhor disponível, não equivalente |
+| M9 | **Nenhum LLM de verdade foi executado.** Os 46 testes da camada de IA rodam contra servidores falsos. Provam transporte, retry, timeout, validação, fundamentação e a fronteira de privacidade; **não provam nada** sobre qualidade de saída de modelo nenhum. Sem taxa de recusa medida, sem aderência a schema, sem latência real, sem custo por achado. O benchmark que a ADR-0015 §2 exige antes de escolher fornecedor **não foi feito** |
+| M10 | **Sem defesa contra CSRF no servidor local.** Qualquer página aberta no navegador do usuário pode fazer POST para `127.0.0.1`, e existem rotas POST que executam análise. Registrado para a Fase B |
 
 ---
 
@@ -174,7 +201,7 @@ Vale como regra do projeto, não como três consertos.
 | Dashboard funcional | ✅ | 6 telas, `TestTelas` |
 | Dataset de demonstração | ✅ | `datasets/demo/manifest.json` com proveniência por componente |
 | Fluxo ponta a ponta testado | ✅ | `test_e2e.py`, os 9 casos |
-| Testes passando | ✅ | **101 testes, 0 falhas, 0 erros, 0 pulados** |
+| Testes passando | ✅ | **169 testes, 0 falhas, 0 erros, 0 pulados** (101 da Sprint 3 + 68 da Fase A) |
 | B2 corrigido | ✅ | `TestB2Mitigated` |
 | B3 corrigido | ✅ | `TestB3WontFix` |
 | Documentação atualizada | ✅ | este documento + `PROJECT_STATE.md` |
