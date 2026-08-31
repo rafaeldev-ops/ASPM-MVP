@@ -15,6 +15,7 @@
 
   {# ---------- formulário: o herói do índice ---------- #}
   <form class="folha entrada bloco" method="post" action="/analyses" enctype="multipart/form-data">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
     <h2 class="t6">Entrada de evidência</h2>
 
     <label class="rotulo" for="file">Arquivo de export de achados fechados (.csv ou .json)</label>

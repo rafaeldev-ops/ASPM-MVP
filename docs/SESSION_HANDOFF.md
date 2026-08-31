@@ -1,3 +1,74 @@
+# Session Handoff — 2026-08-31 (Fase B — o aplicativo instalavel)
+
+> **A Fase B esta entregue e foi executada, nao so escrita.** O `.exe` foi
+> construido, o instalador compilado, a instalacao rodada sem UAC, e o
+> **aplicativo instalado** exercitado — nao o da pasta de build.
+>
+> ## O que veio antes do empacotamento, e tinha que vir
+>
+> **CSRF (M10).** Enquanto isto era `python -m uvicorn` rodando quando o analista
+> quer, a janela era curta. Como aplicativo instalado o servidor fica de pe o dia
+> inteiro em `127.0.0.1`, e **qualquer pagina aberta no navegador podia enviar
+> POST para la**. A politica de mesma origem impede ler a resposta; nao impede o
+> pedido acontecer. O pior caso tem nome: trocar o provider de IA para um externo
+> e disparar analise — egresso de dado de seguranca para um terceiro escolhido
+> pelo atacante, a partir de uma aba aberta.
+>
+> Empacotar por cima disso teria distribuido o problema. Por isso veio primeiro.
+>
+> Duas camadas, em `app/interfaces/security.py`: **origem verificada** em todo
+> metodo inseguro (navegador nao consegue suprimir `Origin`, e e por isso que
+> funciona) mais **token de duplo envio** nas rotas de formulario. Uma decisao
+> precisa estar visivel: **pedido sem `Origin` e sem `Referer` passa**, de
+> proposito — quem faz isso nao e navegador, e um script local ja abre `sdip.db`
+> direto. Bloquear ali custaria a API e nao tiraria capacidade nenhuma do
+> atacante.
+>
+> ## O empacotamento
+>
+> - **`app/paths.py`** separa recurso (`sys._MEIPASS`, somente leitura) de dados
+>   (`%LOCALAPPDATA%\PrideSecurity`). **O maior risco de congelar nao sao
+>   imports, sao escritas**: import quebrado falha alto e na hora; escrita
+>   quebrada falha depois da instalacao, na maquina de outra pessoa.
+> - **`launcher.py`** resolve as quatro coisas que ninguem digita: porta livre
+>   com fallback, escuta so em loopback, abre o navegador **depois** que o
+>   servidor responde, e sobrevive a `sys.stdout is None` sob `--windowed`.
+> - **onedir, nao onefile.** `--onefile` extrai em `%TEMP%` a cada execucao, e
+>   antivirus corporativo trata isso como suspeito — exatamente o publico deste
+>   produto. UPX pelo mesmo motivo: fora.
+> - **Instalacao por usuario** (`PrivilegesRequired=lowest`, `{userpf}`): sem
+>   UAC, e sem gravar em `Program Files`, que seria somente leitura para o
+>   usuario comum. O banco ali funcionaria na maquina de quem empacota e
+>   falharia na do usuario.
+>
+> ## Tres coisas que so a execucao mostrou
+>
+> 1. **O cofre de credencial so funciona de verdade no desktop.** No container
+>    degrada para variavel de ambiente somente-leitura; no `.exe` instalado
+>    responde `wincred`, gravavel. **E a primeira capacidade que o desktop
+>    entrega e o Docker nao.**
+> 2. **O fallback de porta foi testado por acidente:** a 8000 estava ocupada pelo
+>    container e o aplicativo subiu na 25403 sozinho.
+> 3. **Um teste meu estava errado, nao o codigo:** a assercao "o launcher nao
+>    contem 0.0.0.0" falhou contra a propria docstring que explica por que ele
+>    nao usa 0.0.0.0. Refeito por AST — comentario que cita o valor proibido nao
+>    e o valor proibido.
+>
+> ## O que NAO mudou
+>
+> V0 continua bloqueado. K1/K2/K3 continuam nao avaliaveis. Ring 0 continua nao
+> passando. **A Fase B e do eixo de empacotamento e nao moveu a Phase 0 um
+> milimetro** — ela torna o produto instalavel, nao validado.
+>
+> Duas pendencias novas, registradas como M13 e M14: **o instalador nao esta
+> assinado** (SmartScreen avisa sempre, reputacao zera a cada versao, e nao ha
+> contorno tecnico — so certificado), e **nao ha autenticacao**, tambem no
+> desktop: quem tem acesso a maquina tem acesso aos dados.
+>
+> 207 testes, 0 falhas.
+
+---
+
 # Session Handoff — 2026-08-31 (primeiro modelo real, e o que ele quebrou)
 
 > **L13 fechada.** Relatório completo, com ablação:

@@ -14,10 +14,14 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
+from app.paths import caminho_do_banco
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # SDIP_DB_PATH existe para o container apontar o banco para um volume; sem ele
 # o comportamento local nao muda -- sdip.db na raiz do repositorio.
-DB_PATH = os.environ.get("SDIP_DB_PATH") or os.path.join(BASE_DIR, "..", "sdip.db")
+# Congelado, isto vira %LOCALAPPDATA%\\PrideSecurity\\sdip.db: o diretorio do
+# codigo e somente leitura sob PyInstaller. Ver `app/paths.py`.
+DB_PATH = caminho_do_banco()
 engine = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 Base = declarative_base()

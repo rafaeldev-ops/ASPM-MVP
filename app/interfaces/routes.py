@@ -11,7 +11,7 @@ numa tela pode ser conferido num endpoint.
 import json
 import os
 
-from fastapi import APIRouter, Form, HTTPException, Request, UploadFile
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, UploadFile
 from fastapi import File as FileParam
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -32,10 +32,63 @@ from app.domain.models import (
     DEFAULT_ORG, Asset, ChangeEvent, Decision, DecisionDebt, Finding, Remediation,
 )
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+from app.paths import descrever as _paths_desc
+from app.paths import recurso as _recurso
 
-web = APIRouter(prefix="/aspm", tags=["aspm-web"])
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+templates = Jinja2Templates(directory=_recurso("app", "templates"))
+
+# Mesmo tratamento do `main.py`: o token entra em toda template sem a rota
+# precisar lembrar dele. Ver `app/interfaces/security.py`.
+_render_original = templates.TemplateResponse
+
+
+def _render_com_token(request, name=None, context=None, *args, **kwargs):
+    from app.interfaces.security import token_da_requisicao
+    ctx = dict(context or {})
+    try:
+        ctx.setdefault("csrf_token", token_da_requisicao(request))
+    except Exception:
+        pass
+    return _render_original(request, name, ctx, *args, **kwargs)
+
+
+templates.TemplateResponse = _render_com_token
+
+async def exigir_csrf(request: Request):
+    """Segunda camada, nas rotas de formulario.
+
+    A divisao entre as duas superficies e deliberada:
+
+    - `/aspm/actions/*` recebe formulario HTML. Cliente de formulario e
+      navegador, ponto. Entao o token vale sempre, sem excecao -- e um script
+      que queira usar essas rotas faz um GET antes, o que e barato e honesto.
+    - `/api/v1/*` e a superficie programatica. Ali vale a checagem de origem do
+      middleware mais o preflight de CORS, que ja bloqueia POST com
+      `Content-Type: application/json` vindo de outra origem antes de o pedido
+      sair do navegador.
+
+    Formulario com `multipart/form-data` e `x-www-form-urlencoded` **nao** e
+    pre-verificado pelo navegador -- e por isso que e justamente essa metade que
+    precisa do token.
+    """
+    from app.interfaces.security import (
+        METODOS_INSEGUROS, desligado, validar_token,
+    )
+    if request.method not in METODOS_INSEGUROS or desligado():
+        return
+    try:
+        enviado = (await request.form()).get("_csrf")
+    except Exception:
+        enviado = None
+    if not validar_token(request, enviado):
+        raise HTTPException(
+            403, "Sessao expirada ou pedido nao veio desta aplicacao. "
+                 "Recarregue a pagina e tente de novo.")
+
+
+web = APIRouter(prefix="/aspm", tags=["aspm-web"],
+                dependencies=[Depends(exigir_csrf)])
 api = APIRouter(prefix="/api/v1", tags=["aspm-api"])
 
 MAX_UPLOAD_MB = 25
@@ -287,6 +340,7 @@ def settings_screen(request: Request):
             "credential": credentials.info(),
             "env_locked": ai_settings.env_overrides(),
             "rollup": ai_service.rollup(s),
+            "paths": _paths_desc(),
         })
 
 

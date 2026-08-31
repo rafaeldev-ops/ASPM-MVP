@@ -60,6 +60,7 @@
 <section class="bloco">
   <h2>Executar</h2>
   <form method="post" action="/aspm/findings/{{ finding.id }}/analyze">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
     <input type="hidden" name="confirm_egress" value="{{ provider.egress.value }}">
     <button class="btn btn--primario" {% if not status.available %}disabled{% endif %}>
       Analisar com {{ provider.name }}

@@ -20,7 +20,9 @@ from datetime import datetime, timedelta
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 # SDIP_CACHE_DIR existe para o container apontar o cache para um volume; sem
 # ele o comportamento local nao muda -- reusa o cache que phase0/ ja baixou.
-CACHE_DIR = os.environ.get("SDIP_CACHE_DIR") or os.path.join(
+from app.paths import diretorio_de_cache  # noqa: E402
+
+CACHE_DIR = diretorio_de_cache() or os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "phase0", ".cache")
 
 CVE_RE = re.compile(r"CVE-\d{4}-\d{4,7}", re.I)

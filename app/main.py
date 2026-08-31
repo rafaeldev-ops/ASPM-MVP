@@ -8,6 +8,11 @@ from sqlalchemy import desc, func, select
 
 from app.analysis import demo_export_rows, load_export_from_text, run_analysis
 from app.db import Analysis, DebtItem, SessionLocal, init_db, save_analysis
+from app.interfaces.security import (
+    SameOriginMiddleware, desligado as csrf_desligado, token_da_requisicao,
+)
+
+from app.paths import recurso
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -16,8 +21,32 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MAX_UPLOAD_MB = 25
 
 app = FastAPI(title="SDIP — Security Decision Intelligence Platform", docs_url=None, redoc_url=None)
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+
+# CSRF. Instalado aqui e nao por rota porque a garantia que interessa e
+# "nenhuma rota insegura escapa" -- e uma lista por rota esquece a proxima.
+# `/health` fica de fora por ser GET e nao ter efeito.
+if not csrf_desligado():
+    app.add_middleware(SameOriginMiddleware)
+
+app.mount("/static", StaticFiles(directory=recurso("app", "static")), name="static")
+templates = Jinja2Templates(directory=recurso("app", "templates"))
+
+# Toda template renderizada ganha `csrf_token` sem a rota precisar lembrar. A
+# alternativa -- passar no contexto de cada `TemplateResponse` -- e exatamente o
+# tipo de coisa que funciona ate alguem acrescentar uma tela.
+_render_original = templates.TemplateResponse
+
+
+def _render_com_token(request, name=None, context=None, *args, **kwargs):
+    ctx = dict(context or {})
+    try:
+        ctx.setdefault("csrf_token", token_da_requisicao(request))
+    except Exception:
+        pass
+    return _render_original(request, name, ctx, *args, **kwargs)
+
+
+templates.TemplateResponse = _render_com_token
 
 # O MVP ASPM vive sob /aspm e /api/v1. O instrumento de backtest legado continua
 # em / -- as duas superficies compartilham o mesmo banco e nenhuma tabela do
@@ -57,7 +86,10 @@ def index(request: Request):
 
 
 @app.post("/analyses")
-async def create_analysis(file: UploadFile = File(None), use_demo: str = Form(None)):
+async def create_analysis(request: Request, file: UploadFile = File(None),
+                          use_demo: str = Form(None)):
+    from app.interfaces.routes import exigir_csrf
+    await exigir_csrf(request)
     if use_demo:
         rows, source_name, is_demo = demo_export_rows(), "Export sintético (demo)", True
     else:

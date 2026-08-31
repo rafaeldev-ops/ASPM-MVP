@@ -30,6 +30,8 @@ MODULOS = [
     "tests.test_ai_provider",       # selecao de provider, falhas, egresso
     "tests.test_ai_privacy",        # a fronteira de redacao
     "tests.test_api",               # contrato das telas e da API
+    "tests.test_csrf",              # o servidor local contra pagina remota
+    "tests.test_desktop",           # caminhos congelados, launcher, empacotamento
 ]
 
 

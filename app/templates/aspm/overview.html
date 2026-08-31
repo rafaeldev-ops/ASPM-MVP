@@ -13,9 +13,11 @@
      um export próprio.</p>
   <div class="acoes">
     <form method="post" action="/aspm/actions/demo">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
       <button class="btn btn--primario">Carregar dataset de demonstração</button>
     </form>
     <form method="post" action="/aspm/actions/import" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
       <label class="t1">Export de achados (.csv, .json, .sarif)
         <input type="file" name="file" accept=".csv,.json,.sarif" required>
       </label>
@@ -124,15 +126,18 @@
   <h2>Ações</h2>
   <div class="acoes">
     <form method="post" action="/aspm/actions/import" enctype="multipart/form-data">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
       <label class="t1">Importar export (.csv, .json, .sarif)
         <input type="file" name="file" accept=".csv,.json,.sarif" required></label>
       <input type="hidden" name="kind" value="findings">
       <button class="btn">Importar achados</button>
     </form>
     <form method="post" action="/aspm/actions/reprocess">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
       <button class="btn">Reprocessar com o conhecimento atual</button>
     </form>
     <form method="post" action="/aspm/actions/simulate-change">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
       <button class="btn">Simular mudança de contexto de ativo</button>
     </form>
   </div>

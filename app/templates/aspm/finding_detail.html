@@ -188,6 +188,7 @@
 <section class="bloco" id="revisar">
   <h2>Revisar</h2>
   <form method="post" action="/aspm/actions/review" class="form-revisao">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
     <input type="hidden" name="finding_id" value="{{ finding.id }}">
     {% for d in debts if not d.resolved %}
     <input type="hidden" name="debt_id" value="{{ d.id }}">

@@ -184,6 +184,40 @@ público antes de pedir dado privado.
   significa "não havia sugestão", nunca "discordou": colapsar os dois arruinaria a
   métrica (CLAUDE.md §31). Impossível de reconstruir depois, por isso foi gravado agora.
 
+### Fase B — aplicativo Windows instalavel (2026-08-31)
+
+- **[F] O `.exe` existe, foi construido e foi executado.** `PrideSecurity.exe`
+  (9,2 MB; 35 MB com o `_internal/`), instalador `PrideSecurity-0.1.0-setup.exe`
+  (17,5 MB). Instalado de verdade em `%LOCALAPPDATA%\Programs\PrideSecurity`
+  **sem prompt de UAC**, e a aplicacao instalada respondeu 200 em `/health`,
+  `/aspm`, `/aspm/settings` e `/api/v1/overview`.
+- **[F] CSRF fechado — era a M10, e era falha de segurança de verdade.** Como
+  aplicativo instalado o servidor fica de pe o dia inteiro em `127.0.0.1`, e
+  **qualquer pagina aberta no navegador podia enviar POST para la**. O pior caso
+  tinha nome: trocar o provider de IA para um externo e disparar analise, ou
+  seja, egresso de dado de seguranca para um terceiro escolhido pelo atacante.
+  Duas camadas: origem verificada em todo metodo inseguro, mais token de duplo
+  envio nas rotas de formulario. 14 testes, e os que importam **simulam o
+  ataque**, nao o caminho feliz.
+- **[F] Nada gravavel cai no diretorio do codigo.** `app/paths.py` separa
+  recurso (`sys._MEIPASS`, somente leitura) de dados
+  (`%LOCALAPPDATA%\PrideSecurity`). Verificado no aplicativo instalado: o banco
+  e o cache apareceram na raiz de dados, nao ao lado do binario.
+- **[F] O cofre de credencial so funciona de verdade aqui.** No container ele
+  degrada para variavel de ambiente somente-leitura; no `.exe` instalado
+  responde `wincred`, gravavel — o Windows Credential Manager real. **E a
+  primeira capacidade que o desktop entrega e o Docker nao.**
+- **[F] Porta livre com fallback, verificado por acidente util:** a 8000 estava
+  ocupada pelo container e o aplicativo subiu na 25403 sozinho.
+- **[F] Instancia unica.** Clicar duas vezes nao sobe dois servidores sobre o
+  mesmo SQLite — medido: 1 processo antes, 1 depois. Trava orfa de desligamento
+  sujo **nao** impede de abrir.
+- **[F] Desinstalar nao apaga o banco por padrao.** Pergunta, e o padrao e
+  manter: historico de decisao e o ativo do produto, e perda silenciosa nele
+  seria pior que reinstalar.
+- **[F] `requirements.txt` continua com os mesmos 5 pins.** PyInstaller e Inno
+  Setup sao ferramentas de quem empacota, nao dependencias do produto.
+
 ---
 
 ## In Progress
@@ -410,7 +444,7 @@ indicado. Reproduzidos aqui para que não sumam:
 
 ## Current Test Status
 
-**[F] Existe suíte de testes desde a Sprint 3: `tests/`, 174 testes, `unittest` da
+**[F] Existe suíte de testes desde a Sprint 3: `tests/`, 207 testes, `unittest` da
 stdlib.** Continua sem `pytest`, sem `pyproject.toml`, sem `.github/workflows/`, sem
 lint e sem type checking. O `repository-structure.md` prevê tudo isso; só a suíte existe.
 
@@ -420,7 +454,7 @@ de build não existe; o substituto é estrutural e está descrito em `adr/0018` 
 não é equivalente — é o melhor disponível, e está registrado como tal.
 
 ```
-python tests/run.py     # 174 testes · 0 falhas · 0 erros · 0 pulados (2026-08-31)
+python tests/run.py     # 207 testes · 0 falhas · 0 erros · 0 pulados (2026-08-31)
 ```
 
 | Módulo | Testes | Cobre |
@@ -433,6 +467,8 @@ python tests/run.py     # 174 testes · 0 falhas · 0 erros · 0 pulados (2026-0
 | `test_migrations.py` | 11 | O runner de schema, e sobretudo o **banco que já existia**: um `decisions` sem as colunas novas ganha as colunas sem perder linha, e a decisão antiga não ganha vínculo inventado. Mais: idempotência, tabela ausente sem levantar, e `SCHEMA_VERSION` acompanhando a lista |
 | `test_credentials.py` | 11 | Round-trip **real** contra o Windows Credential Manager (grava, lê, sobrescreve, apaga, unicode, blob longo), env store somente-leitura, e que `info()`/`describe()` não devolvem a chave **nem os últimos quatro caracteres dela** |
 | `test_ai_provider.py` | 23 | Seleção e precedência, teto de três, disponibilidade sem sondar o caminho quente, loopback verificado, **`HTTP_PROXY` ignorado**, timeout, malformada, recusa, `choices: []`, retry só onde deve, prompt byte-estável |
+| `test_csrf.py` | 14 | **O servidor local contra pagina remota.** Os casos centrais simulam o ataque: origem cruzada, `Referer` de fora, origem opaca (`null`), host parecido (`127.0.0.1.evil.com`), e a tentativa de trocar o provider de IA para um externo — que e o unico ponto onde uma pagina remota conseguiria egresso |
+| `test_desktop.py` | 19 | Caminhos sob congelamento (**nada gravavel dentro do `_MEIPASS`**), porta livre com fallback, trava orfa, instancia unica, e o spec/instalador — que sao codigo e erram calados |
 | `test_ai_privacy.py` | 28 | **A fronteira de redação.** Canários de `raw_json` e `rationale`, `file_path` só como forma no externo, detector sem falso positivo em KEV+EPSS real, bloqueio com contador em zero, contexto cru rejeitado por tipo, reflexão sobre `analyze`, nenhum outcome move a banda, fundamentação dura de `evidence_ids`, e o **portão de sugestão de fechamento** que o benchmark de 2026-08-31 obrigou a existir |
 | `test_api.py` | 12 | 6 telas, filtros, 404, contrato JSON, backtest legado intacto |
 
@@ -697,6 +733,12 @@ Em ordem de valor por esforço, **depois** da demo:
 5. **[F] Não começar R0-1.** O backlog exige o gate V1 antes, e V1 exige V0.
 
 ## Files Currently Being Worked On
+
+**[F] Fase B entregue e verificada em 2026-08-31.** O `.exe` foi construido,
+o instalador compilado, a instalacao executada sem UAC e o **aplicativo
+instalado** exercitado — nao o da pasta de build. `packaging/build.py` roda a
+suite antes de empacotar, porque `.exe` construido sobre suite vermelha e um
+defeito distribuido.
 
 **[F] Build Docker verificado em 2026-08-31.** `docker compose up -d --build`,
 container `healthy`, `/health`, `/aspm`, `/aspm/settings` e a API respondendo 200.

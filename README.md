@@ -69,8 +69,29 @@ localmente após a primeira vez. Nada do que é enviado sai da máquina.
 ### Testes
 
 ```bash
-python tests/run.py      # 174 testes, sem instalar framework nenhum
+python tests/run.py      # 207 testes, sem instalar framework nenhum
 ```
+
+### Como aplicativo Windows
+
+```bash
+python packaging/build.py        # suite, .exe e instalador
+```
+
+Gera `dist/PrideSecurity/PrideSecurity.exe` e
+`dist/installer/PrideSecurity-0.1.0-setup.exe`. A instalacao e **por usuario**,
+em `%LOCALAPPDATA%`, e **nao pede UAC**.
+
+O aplicativo escolhe uma porta livre, escuta apenas em `127.0.0.1`, abre o
+navegador quando o servidor responde, e grava banco e cache em
+`%LOCALAPPDATA%\PrideSecurity` — nunca ao lado do executavel, que e somente
+leitura depois de instalado. Clicar duas vezes no icone nao sobe um segundo
+servidor.
+
+Desinstalar **pergunta** antes de apagar os dados, e o padrao e manter.
+
+> O instalador nao esta assinado: o SmartScreen avisa em toda instalacao e a
+> reputacao zera a cada versao. Nao ha contorno tecnico, so certificado.
 
 ### O instrumento de linha de comando
 
@@ -118,7 +139,7 @@ specifically to find out where they were wrong, and both were:
 |---|---|
 | [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · [`docs/SESSION_HANDOFF.md`](docs/SESSION_HANDOFF.md) | **Comece por aqui.** Estado atual do projeto e a transição da última sessão: o que existe, o que falta, o que está bloqueado e o próximo passo exato. |
 | [`app/`](app/) | A aplicação. `domain/` (modelo e árvore de risco, sem I/O), `application/` (os cinco componentes ASPM e a camada de IA), `infrastructure/` (transporte e cofre de credencial), `interfaces/` (telas e API), e o instrumento de backtest anterior. |
-| [`tests/`](tests/) | 174 testes, só stdlib: `python tests/run.py`. Dois módulos são artefato de segurança legível isolado: `test_ai_privacy.py` (a fronteira de redação) e `test_credentials.py`. |
+| [`tests/`](tests/) | 207 testes, só stdlib: `python tests/run.py`. Dois módulos são artefato de segurança legível isolado: `test_ai_privacy.py` (a fronteira de redação) e `test_credentials.py`. |
 | [`phase0/`](phase0/) | Instrumentos de validação: arquivo único, só biblioteca padrão, sem instalação — de propósito, para rodar na máquina de um parceiro. |
 | [`docs/adr/`](docs/adr/) | 18 architecture decisions, with alternatives and consequences, not just conclusions. |
 | [`docs/product/`](docs/product/) | Product critique, competitive teardown, MVP backlog (MoSCoW), design-partner recruitment kit, [escopo e limitações do MVP ASPM](docs/product/mvp-aspm.md). |

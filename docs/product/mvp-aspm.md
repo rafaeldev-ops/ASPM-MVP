@@ -183,7 +183,9 @@ Vale como regra do projeto, não como três consertos.
 | ~~M9~~ | **Resolvida em 2026-08-31.** `qwen2.5:3b` local, 48 chamadas: [`../evaluation/ollama-local-model-bench.md`](../evaluation/ollama-local-model-bench.md). Encontrou um defeito real e o corrigiu com portão estrutural |
 | M11 | **Um modelo só, 16 achados, um dia.** Nada do benchmark se transfere para modelo maior ou provider externo. **Nenhuma chamada paga foi feita**, então custo por achado e comportamento sob filtro de conteúdo continuam sem medida. E nenhum analista leu os resumos com olhar crítico |
 | M12 | **15 s por achado.** Utilizável sob demanda, inviável em lote: 400 achados levariam 1h40. A arquitetura já assume isso (análise é ação consentida, nunca varredura), mas o número limita o que a IA pode ser no produto |
-| M10 | **Sem defesa contra CSRF no servidor local.** Qualquer página aberta no navegador do usuário pode fazer POST para `127.0.0.1`, e existem rotas POST que executam análise. Registrado para a Fase B |
+| ~~M10~~ | **Resolvida em 2026-08-31.** Origem verificada em todo método inseguro, mais token de duplo envio nas rotas de formulário. 14 testes, e os centrais **simulam o ataque** |
+| M13 | **O instalador não está assinado.** SmartScreen avisa em toda instalação e a reputação zera a cada versão. Não há contorno técnico — só certificado de assinatura de código |
+| M14 | **Sem autenticação, também no desktop.** Quem tem acesso à máquina tem acesso aos dados. O CSRF protege contra *página remota dirigindo o navegador local*; não protege contra processo local, e a resposta certa para isso é sistema de arquivos, não cabeçalho HTTP |
 
 ---
 
@@ -203,7 +205,7 @@ Vale como regra do projeto, não como três consertos.
 | Dashboard funcional | ✅ | 6 telas, `TestTelas` |
 | Dataset de demonstração | ✅ | `datasets/demo/manifest.json` com proveniência por componente |
 | Fluxo ponta a ponta testado | ✅ | `test_e2e.py`, os 9 casos |
-| Testes passando | ✅ | **174 testes, 0 falhas, 0 erros, 0 pulados** (101 da Sprint 3 + 73 da Fase A) |
+| Testes passando | ✅ | **207 testes, 0 falhas, 0 erros, 0 pulados** (101 da Sprint 3 + 73 da Fase A + 33 da Fase B) |
 | B2 corrigido | ✅ | `TestB2Mitigated` |
 | B3 corrigido | ✅ | `TestB3WontFix` |
 | Documentação atualizada | ✅ | este documento + `PROJECT_STATE.md` |

@@ -16,6 +16,7 @@
   <section class="bloco">
     <h2>Provider</h2>
     <form method="post" action="/aspm/actions/settings/ai" class="form-revisao">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
       <div class="largo">
         {% for p in providers %}
         <label class="prov {% if p.name == cfg.provider %}prov--on{% endif %}">
@@ -71,6 +72,7 @@
       </tbody>
     </table>
     <form method="post" action="/aspm/actions/settings/ai/test">
+      <input type="hidden" name="_csrf" value="{{ csrf_token }}">
       <button class="btn">Testar conexão</button>
     </form>
     <p class="t1">O teste só sonda disponibilidade. <strong>Nenhum dado de achado
@@ -83,6 +85,7 @@
   <p class="t1">{{ credential.detail }}</p>
   {% if credential.writable %}
   <form method="post" action="/aspm/actions/settings/ai/key" class="form-revisao">
+    <input type="hidden" name="_csrf" value="{{ csrf_token }}">
     <label class="t1 largo">Chave (OpenAI)
       <input type="password" name="api_key" placeholder="sk-…" autocomplete="off"></label>
     <button class="btn btn--primario">Salvar no cofre do Windows</button>
@@ -119,5 +122,26 @@
   {% else %}
   <p class="t1">Nenhuma análise executada ainda.</p>
   {% endif %}
+</section>
+
+<section class="bloco">
+  <h2>Onde ficam os dados</h2>
+  <p class="t1">Num aplicativo instalado, o diretório do programa é somente leitura:
+     o banco e o cache moram em <span class="mono">%LOCALAPPDATA%\PrideSecurity</span>
+     e <strong>sobrevivem à desinstalação</strong> — a remoção pergunta antes de apagar,
+     e o padrão é manter.</p>
+  <table class="tabela tabela--compacta">
+    <tbody>
+      <tr><th>Modo</th>
+          <td class="mono">{{ "executável instalado" if paths.congelado else "código-fonte" }}</td></tr>
+      <tr><th>Banco de dados</th><td class="mono">{{ paths.banco }}</td></tr>
+      <tr><th>Cache (catálogo KEV)</th><td class="mono">{{ paths.cache }}</td></tr>
+      <tr><th>Dados da aplicação</th><td class="mono">{{ paths.dados }}</td></tr>
+      <tr><th>Programa</th><td class="mono">{{ paths.recursos }}</td></tr>
+    </tbody>
+  </table>
+  <p class="t1">Esta tela escuta apenas em <span class="mono">127.0.0.1</span>. Não há
+     autenticação nem separação por usuário: quem tem acesso a esta máquina tem acesso
+     a estes dados.</p>
 </section>
 {% endblock %}

@@ -8,6 +8,7 @@ dependencia so para testar contraria a regra de manter o MVP instalavel.
 
 import json
 import os
+import re
 import socket
 import subprocess
 import sys
@@ -79,9 +80,32 @@ class ServidorVivo(unittest.TestCase):
             except subprocess.TimeoutExpired:
                 cls.proc.kill()
 
+    # Sessao de CSRF da classe: o `post` abaixo faz o que um navegador faz --
+    # carrega uma pagina, guarda o cookie, le o campo oculto e devolve os dois
+    # no envio. Sem isso as rotas de formulario respondem 403, que e o
+    # comportamento correto e nao um defeito do teste.
+    _csrf = None
+    _cookie = None
+
     @classmethod
-    def _req(cls, path, method="GET", data=None):
+    def _sessao_csrf(cls):
+        if cls._csrf:
+            return cls._csrf, cls._cookie
+        req = urllib.request.Request(cls.base + "/aspm")
+        with urllib.request.urlopen(req, timeout=60) as r:
+            html = r.read().decode("utf-8", errors="replace")
+            bruto = r.headers.get("Set-Cookie") or ""
+        c = re.search(r"sdip_csrf=([^;]+)", bruto)
+        t = re.search(r'name="_csrf" value="([^"]+)"', html)
+        cls._csrf = t.group(1) if t else ""
+        cls._cookie = f"sdip_csrf={c.group(1)}" if c else ""
+        return cls._csrf, cls._cookie
+
+    @classmethod
+    def _req(cls, path, method="GET", data=None, headers=None):
         req = urllib.request.Request(cls.base + path, method=method, data=data)
+        for k, v in (headers or {}).items():
+            req.add_header(k, v)
         with urllib.request.urlopen(req, timeout=180) as r:
             return r.status, r.read().decode("utf-8", errors="replace")
 
@@ -91,7 +115,13 @@ class ServidorVivo(unittest.TestCase):
 
     @classmethod
     def post(cls, path, data=None):
-        return cls._req(path, "POST", data or b"")
+        token, cookie = cls._sessao_csrf()
+        corpo = data if data else f"_csrf={token}".encode()
+        if data and b"_csrf=" not in data:
+            corpo = data + f"&_csrf={token}".encode()
+        return cls._req(path, "POST", corpo, {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Cookie": cookie, "Origin": cls.base})
 
     def status(self, path):
         try:

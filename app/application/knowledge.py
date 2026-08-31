@@ -29,7 +29,9 @@ PHASE0_CACHE = os.path.join(REPO_ROOT, "phase0", ".cache")
 # SDIP_CACHE_DIR e o mesmo diretorio que o instrumento de backtest usa. No
 # container ele aponta para o volume, e `phase0/` nem existe na imagem -- sem
 # isto o MVP subiria sem catalogo e o dataset de demonstracao falharia.
-CACHE_DIR = os.environ.get("SDIP_CACHE_DIR") or PHASE0_CACHE
+from app.paths import diretorio_de_cache
+
+CACHE_DIR = diretorio_de_cache()
 
 KEV_SNAPSHOT = os.path.join(PROCESSED, "kev_12m_snapshot.json")
 KEV_FALLBACK = os.path.join(PHASE0_CACHE, "kev.json")
