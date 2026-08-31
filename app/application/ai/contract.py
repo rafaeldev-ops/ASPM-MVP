@@ -111,6 +111,23 @@ def _ints(value):
     return out
 
 
+# Bandas em que encerrar contradiz o motor deterministico.
+BANDAS_DE_ACAO = frozenset({"act_now", "act_soon"})
+
+
+def _exige_acao(redacted):
+    """A banda deterministica pede acao?
+
+    Le do contexto que FOI ENTREGUE ao modelo, nao do banco: e a mesma fotografia
+    que o modelo viu, entao o descarte e sempre explicavel a partir do que estava
+    na tela.
+    """
+    if redacted is None:
+        return False
+    assessment = (redacted.payload or {}).get("assessment") or {}
+    return str(assessment.get("band") or "").lower() in BANDAS_DE_ACAO
+
+
 def validate(raw, redacted):
     """Resposta crua -> `ValidatedAnalysis`. Nunca levanta."""
     from app.domain.enums import ClosureReason
@@ -148,6 +165,28 @@ def validate(raw, redacted):
         except ValueError:
             reasons.append("a razao sugerida pelo modelo era invalida e foi descartada")
             suggested = ""
+
+    # O portao que a regra de prompt nao substitui.
+    #
+    # Medido em 2026-08-31 (evaluation/runs/ollama-qwen2.5-3b.json): qwen2.5:3b
+    # sugeriu `accepted_risk` para 12 de 12 achados em banda act_now -- enquanto
+    # escrevia, no mesmo objeto, que exigiam acao imediata. Aderencia ao schema
+    # 100%, fundamentacao 100%, banda intacta 100%, e a sugestao errada 100% das
+    # vezes.
+    #
+    # O prompt ganhou a regra explicita, e regra de prompt e conselho: ela depende
+    # de o modelo obedecer, o que e exatamente a suposicao que a ADR-0007 proibe
+    # para propriedade de seguranca. Este descarte nao depende de modelo nenhum.
+    #
+    # E o modo de falha caro do CLAUDE.md §33: uma decisao errada de despriorizar
+    # custa muito mais que um falso positivo, e o formulario de revisao vem
+    # pre-preenchido -- um analista apressado confirma o que ja esta na tela.
+    if suggested and _exige_acao(redacted):
+        reasons.append(
+            f"o modelo sugeriu encerrar como '{suggested}', mas o motor "
+            f"deterministico colocou este achado numa banda que exige acao; "
+            f"a sugestao foi descartada")
+        suggested = ""
 
     result = ValidatedAnalysis(
         outcome=OK,

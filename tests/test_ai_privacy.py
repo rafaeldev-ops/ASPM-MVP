@@ -319,5 +319,64 @@ class TestFundamentacao(BasePriv):
         self.assertTrue(rec.contains_synthetic)
 
 
+class TestSugestaoDeFechamento(BasePriv):
+    """O portao contra o modo de falha caro (CLAUDE.md §33).
+
+    Medido em 2026-08-31 com qwen2.5:3b: 12 de 12 achados em banda `act_now`
+    receberam sugestao de `accepted_risk`, enquanto o mesmo objeto de resposta
+    dizia que exigiam acao imediata. Aderencia ao schema, fundamentacao e
+    estabilidade de banda estavam em 100% -- foi so a semantica que falhou.
+    Ver `evaluation/runs/ollama-qwen2.5-3b.json`.
+    """
+
+    def _validar(self, sugestao):
+        f = self.finding()
+        ctx = build_context(self.s, f)
+        red = redaction.redact(ctx, egress=EgressClass.NONE)
+        banda = (red.payload.get("assessment") or {}).get("band")
+        raw = analysis_payload(evidence_ids=list(ctx.evidence_ids))
+        raw["recommended_reason"] = sugestao
+        return contract.validate(raw, red), banda
+
+    def test_fechamento_e_descartado_em_banda_de_acao(self):
+        for sugestao in ("accepted_risk", "false_positive", "wont_fix", "fixed"):
+            with self.subTest(sugestao=sugestao):
+                v, banda = self._validar(sugestao)
+                self.assertIn(banda, ("act_now", "act_soon"),
+                              "o fixture parou de produzir banda de acao")
+                self.assertEqual(v.recommended_reason, "",
+                                 f"'{sugestao}' sobreviveu em banda {banda}")
+                self.assertEqual(v.outcome, contract.OK,
+                                 "descartar a sugestao nao invalida a analise")
+
+    def test_o_descarte_fica_registrado_e_nao_e_silencioso(self):
+        """Descarte silencioso esconderia justamente a metrica que diz que o
+        modelo escolhido nao serve."""
+        v, _ = self._validar("accepted_risk")
+        texto = " ".join(v.uncertainty_reasons).lower()
+        self.assertIn("accepted_risk", texto)
+        self.assertIn("descartada", texto)
+
+    def test_o_resto_da_resposta_sobrevive(self):
+        v, _ = self._validar("accepted_risk")
+        self.assertTrue(v.summary)
+        self.assertTrue(v.evidence_ids)
+
+    def test_sugestao_vazia_nao_gera_ruido(self):
+        v, _ = self._validar("")
+        self.assertEqual(v.recommended_reason, "")
+        self.assertFalse([r for r in v.uncertainty_reasons if "descartada" in r])
+
+    def test_o_portao_nao_depende_do_prompt(self):
+        """A regra existe no prompt E aqui. Se sobrevivesse so no prompt, seria
+        conselho a um modelo, que e a suposicao que a ADR-0007 proibe para
+        propriedade de seguranca."""
+        from app.application.ai.prompt import SYSTEM_PROMPT
+        self.assertIn("FECHAMENTO", SYSTEM_PROMPT,
+                      "o prompt perdeu a informacao que o benchmark mostrou faltar")
+        v, _ = self._validar("accepted_risk")
+        self.assertEqual(v.recommended_reason, "")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

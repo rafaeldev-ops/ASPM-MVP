@@ -1,3 +1,93 @@
+# Session Handoff — 2026-08-31 (primeiro modelo real, e o que ele quebrou)
+
+> **L13 fechada.** Relatório completo, com ablação:
+> [`evaluation/ollama-local-model-bench.md`](evaluation/ollama-local-model-bench.md).
+> Resumo no estado: § Current Experimental Results, EXP-005.
+>
+> **O que foi feito:** build Docker verificado, `qwen2.5:3b` executado 48 vezes via
+> Ollama em loopback, um defeito real encontrado e corrigido, uma correção medida e
+> **rejeitada**, e a documentação alinhada.
+>
+> ## O achado, e por que ele vale mais que o benchmark
+>
+> Com o prompt de então, o modelo sugeriu **`accepted_risk` para 9 de 9 achados em
+> banda de ação** — escrevendo, no mesmo objeto de resposta, que exigiam ação
+> imediata. Na primeira execução, sobre um corpus 100% KEV, foram 12 de 12.
+>
+> É o modo de falha que o `CLAUDE.md` §33 chama de o mais caro, e ele é invisível:
+> o formulário de revisão vem **pré-preenchido**. Um analista com fila grande
+> confirma o que já está na tela.
+>
+> **E nada se moveu.** Banda alterada: 0 de 16. Score: 0 de 16. Evidência inventada:
+> 0 de 16. Aderência ao schema: 16 de 16. A camada semântica falhou por completo e a
+> estrutural não cedeu em nada — que é exatamente o que a ADR-0010 §1 desenhou. Se a
+> sugestão alimentasse a decisão, este benchmark teria fechado nove vulnerabilidades
+> sob exploração ativa.
+>
+> **Essa é a prova de que "a IA não decide" não é retórica.** Vale mais que qualquer
+> número de qualidade que o benchmark pudesse ter produzido.
+>
+> ## As correções, e por que são duas
+>
+> O prompt nunca dizia que `recommended_reason` é vocabulário de **fechamento**. Isso
+> é defeito real, e virou uma frase. Mas **regra de prompt é conselho** — depende de
+> o modelo obedecer, que é a suposição que a ADR-0007 proíbe para propriedade de
+> segurança. Então `contract.validate()` ganhou um portão estrutural: razão de
+> fechamento é descartada quando a banda entregue ao modelo exige ação, e o descarte
+> **fica registrado** em `uncertainty_reasons` (descarte silencioso esconderia
+> justamente a métrica que diz que o modelo não serve).
+>
+> Cinco testes em `tests/test_ai_privacy.py::TestSugestaoDeFechamento`. Não desfaça
+> o portão sem ler o relatório.
+>
+> ## Uma correção foi medida e rejeitada
+>
+> A primeira tentativa de correção do prompt — duas regras numeradas — derrubou a
+> aderência ao schema de 100% para **50%**. As respostas falhas eram JSON válido com
+> `summary` vazio, ~70 tokens: num modelo de 3B, instrução nova compete com produção
+> de conteúdo. A versão de uma frase entrega o mesmo e ainda faz o portão disparar
+> 3 vezes em vez de 9. É o `CLAUDE.md` §30 na prática.
+>
+> **A ablação de prompt existe só no instrumento de avaliação.** Em produção o prompt
+> continua constante de módulo byte-estável (ADR-0015 §5).
+>
+> ## Dois defeitos de método corrigidos no caminho
+>
+> - **O primeiro corpus era 100% KEV** e produziu 12 de 12 em `act_now`: estar na KEV
+>   domina a árvore, então variar o ativo não mudava nada. Um corpus assim não
+>   consegue responder se o portão **dispara demais**. A metade não-KEV existe por
+>   isso, e a resposta é 0 disparos indevidos em 7 bandas calmas.
+> - **A latência da variante rejeitada era menor** — porque as respostas eram vazias.
+>   Medir uma coisa só engana.
+>
+> ## Container
+>
+> `docker compose up -d --build` verificado: `healthy`, todas as rotas 200. Duas
+> coisas que só o container mostra: o cofre degrada corretamente para `env`
+> somente-leitura em Linux, e **a migração 2 rodou sobre o banco que já existia no
+> volume** — 35 decisões de 2021 a 2025 ganharam as colunas sem perder linha e sem
+> vínculo inventado. Melhor verificação que a do teste.
+>
+> **Nota de topologia que vale registrar:** de dentro do container, `127.0.0.1` é o
+> próprio container, então a verificação de loopback impede — corretamente — alcançar
+> um Ollama que esteja em outro lugar. O modo local exige que aplicação e runtime
+> dividam a máquina, que é precisamente o alvo da Fase B.
+>
+> ## O que continua sem medida (agora L17, M11, M12)
+>
+> Um modelo, 16 achados, um dia. **Nenhuma chamada paga foi feita**, então custo por
+> achado e comportamento sob filtro de conteúdo continuam desconhecidos — e a
+> ADR-0015 §2 diz que taxa de recusa pode ser o critério que decide o fornecedor.
+> Nenhum analista leu os resumos com olhar crítico; eles são plausíveis, e plausível
+> é o que um modelo produz de graça.
+>
+> **15 s por achado**: utilizável sob demanda, inviável em lote (400 achados = 1h40).
+>
+> **E o que não mudou:** V0 continua bloqueado, K1/K2/K3 continuam não avaliáveis,
+> Ring 0 continua não passando. O padrão continua `null`/`none`.
+
+---
+
 # Session Handoff — 2026-08-30 (Fase A — camada de IA)
 
 > **Fase A entregue: a camada de IA com escolha de provider.** Governança:
@@ -19,7 +109,7 @@
 > redaction, prompt, contract, providers, service), `app/infrastructure/http.py` e
 > `credentials.py`, `app/db_migrations.py`, as tabelas `Setting` e `ai_analyses`, a tela
 > `/aspm/settings`, o pré-voo `/aspm/findings/{id}/analyze` e os endpoints
-> `/api/v1/.../analyze`. **169 testes passando**, **zero dependência nova** — o
+> `/api/v1/.../analyze`. **169 testes passando** (174 após o benchmark), **zero dependência nova** — o
 > `requirements.txt` continua com os mesmos 5 pins.
 >
 > **Decisões que não devem ser desfeitas sem ler a ADR-0018:**

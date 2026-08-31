@@ -22,10 +22,18 @@ lado da aplicacao e obrigatoria qualquer que seja o provider.
 import hashlib
 import json
 
-PROMPT_VERSION = "aspm-analysis-1"
+PROMPT_VERSION = "aspm-analysis-2"
 
 # Deliberadamente sem data, sem id, sem nome. Trocar qualquer palavra aqui muda
 # `prompt_hash`, e e assim que uma mudanca de comportamento fica rastreavel.
+#
+# A frase sobre `recommended_reason` ser razao de FECHAMENTO entrou em 2026-08-31
+# porque o primeiro benchmark contra modelo de verdade mostrou que a ausencia dela
+# custava caro: qwen2.5:3b sugeriu `accepted_risk` para 9 de 9 achados em banda de
+# acao. Uma versao mais longa da mesma correcao -- duas regras numeradas -- foi
+# medida e **rejeitada**: derrubou a aderencia ao schema de 100% para 50%, porque
+# num modelo pequeno instrucao nova compete com a producao de conteudo.
+# Ablacao completa em `docs/evaluation/ollama-local-model-bench.md`.
 SYSTEM_PROMPT = """Voce e um assistente de triagem de seguranca de aplicacoes.
 
 Seu papel e SINTETIZAR e EXPLICAR evidencia que ja foi coletada e ja foi
@@ -44,8 +52,10 @@ Regras que nao admitem excecao:
 4. Nao produza URL, imagem, HTML ou markdown. Apenas texto simples.
 5. Responda em portugues do Brasil.
 
-O campo recommended_reason, quando preenchido, e uma SUGESTAO para um analista
-humano confirmar ou recusar. Ele nunca fecha um achado sozinho."""
+O campo recommended_reason e uma razao de FECHAMENTO: deixe-o vazio ("")
+sempre que o achado deva ser corrigido em vez de encerrado. Quando preenchido, e
+uma SUGESTAO para um analista humano confirmar ou recusar, e nunca fecha um
+achado sozinho."""
 
 USER_TEMPLATE = """Analise o achado abaixo.
 

@@ -69,7 +69,7 @@ localmente após a primeira vez. Nada do que é enviado sai da máquina.
 ### Testes
 
 ```bash
-python tests/run.py      # 169 testes, sem instalar framework nenhum
+python tests/run.py      # 174 testes, sem instalar framework nenhum
 ```
 
 ### O instrumento de linha de comando
@@ -118,7 +118,7 @@ specifically to find out where they were wrong, and both were:
 |---|---|
 | [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) · [`docs/SESSION_HANDOFF.md`](docs/SESSION_HANDOFF.md) | **Comece por aqui.** Estado atual do projeto e a transição da última sessão: o que existe, o que falta, o que está bloqueado e o próximo passo exato. |
 | [`app/`](app/) | A aplicação. `domain/` (modelo e árvore de risco, sem I/O), `application/` (os cinco componentes ASPM e a camada de IA), `infrastructure/` (transporte e cofre de credencial), `interfaces/` (telas e API), e o instrumento de backtest anterior. |
-| [`tests/`](tests/) | 169 testes, só stdlib: `python tests/run.py`. Dois módulos são artefato de segurança legível isolado: `test_ai_privacy.py` (a fronteira de redação) e `test_credentials.py`. |
+| [`tests/`](tests/) | 174 testes, só stdlib: `python tests/run.py`. Dois módulos são artefato de segurança legível isolado: `test_ai_privacy.py` (a fronteira de redação) e `test_credentials.py`. |
 | [`phase0/`](phase0/) | Instrumentos de validação: arquivo único, só biblioteca padrão, sem instalação — de propósito, para rodar na máquina de um parceiro. |
 | [`docs/adr/`](docs/adr/) | 18 architecture decisions, with alternatives and consequences, not just conclusions. |
 | [`docs/product/`](docs/product/) | Product critique, competitive teardown, MVP backlog (MoSCoW), design-partner recruitment kit, [escopo e limitações do MVP ASPM](docs/product/mvp-aspm.md). |
@@ -171,10 +171,20 @@ pré-preenche o formulário de revisão. A banda, o score e a versão do modelo 
 continuam sendo da árvore determinística — nenhum resultado de IA os altera, e há um
 teste que afirma isso inclusive para o caso de sucesso.
 
-> **Nenhum LLM de verdade foi executado ainda.** Os testes da camada rodam contra
-> servidores falsos: eles provam o transporte, a validação e a fronteira de privacidade,
-> e **não provam nada** sobre a qualidade de saída de modelo nenhum. Ver L13 em
-> [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md).
+### O que aconteceu quando um modelo de verdade entrou
+
+Em 2026-08-31 rodamos `qwen2.5:3b` local sobre 16 achados. Com o prompt de então, o
+modelo sugeriu **encerrar como risco aceito 9 de 9 achados que exigiam ação** — e
+escreveu, no mesmo objeto, que exigiam ação imediata.
+
+Nenhuma banda se moveu. Nenhum score mudou. Nenhuma evidência foi inventada.
+
+Essa é a prova de que a separação entre síntese e decisão não é retórica: um modelo
+errou 100% das sugestões e não conseguiu mover uma única decisão. O defeito virou
+uma frase no prompt **e** um portão estrutural que não depende de modelo nenhum.
+
+Relatório, ablação e o que continua sem medida:
+[`docs/evaluation/ollama-local-model-bench.md`](docs/evaluation/ollama-local-model-bench.md).
 
 ## What is deliberately not built yet
 

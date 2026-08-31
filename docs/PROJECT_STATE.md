@@ -1,7 +1,7 @@
 # Project State — SDIP
 
-**Última atualização:** 2026-08-30
-**Commit base:** `2607b73` + Fase A (camada de IA) · branch `master`
+**Última atualização:** 2026-08-31
+**Commit base:** `bbe8b13` + benchmark de modelo real · branch `master`
 **Como este arquivo deve ser lido:** é o estado *persistente* do projeto. A transição
 específica entre sessões está em [`SESSION_HANDOFF.md`](SESSION_HANDOFF.md); as regras
 permanentes estão em [`../CLAUDE.md`](../CLAUDE.md); as decisões arquiteturais e suas
@@ -336,6 +336,50 @@ a saída de `python v4_kappa.py --demo` (κ_holistic 0.190, κ_derived 0.759, de
 nunca rodou. Se esse número aparecer em qualquer slide ou documento como medição, é
 fabricação.
 
+
+### EXP-005 — primeiro modelo real no caminho (2026-08-31)
+
+**[F] `qwen2.5:3b` local, 16 achados (9 em banda de ação, 7 calmas), 48 chamadas.**
+Instrumento: `evaluation/ollama_bench.py`. Relatório completo:
+[`evaluation/ollama-local-model-bench.md`](evaluation/ollama-local-model-bench.md).
+
+**[F] O resultado que importa:** com o prompt original, o modelo sugeriu
+`accepted_risk` para **9 de 9** achados em banda de ação — enquanto escrevia, no
+mesmo objeto de resposta, que exigiam ação imediata. Na primeira execução, sobre um
+corpus 100% KEV, foram 12 de 12.
+
+**[F] E o que segurou:** banda determinística alterada **0 de 16**; score alterado
+**0 de 16**; evidência citada que não foi entregue **0 de 16**; aderência ao schema
+**16 de 16**. A camada semântica falhou por completo; a estrutural não cedeu em
+nada.
+
+**[D] Duas correções, porque regra de prompt é conselho** (ADR-0007 proíbe depender
+de obediência do modelo para propriedade de segurança): o prompt ganhou a informação
+que faltava, e `contract.validate()` ganhou um portão estrutural que descarta razão
+de fechamento quando a banda exige ação, registrando o descarte. Cinco testes em
+`TestSugestaoDeFechamento`.
+
+**[F] Uma correção foi medida e rejeitada.** Uma versão mais longa da mesma
+instrução (duas regras numeradas) derrubou a aderência ao schema de 100% para 50%:
+JSON válido com `summary` vazio, ~70 tokens. Num modelo de 3B, instrução nova
+compete com produção de conteúdo. É o `CLAUDE.md` §30 na prática.
+
+**[F] Ablação, mesmo corpus e mesmo modelo, com o portão ativo nas três:**
+
+| Prompt | Schema ok | Portão disparou (de 9) | Sugestão preservada em banda calma |
+|---|---|---|---|
+| v1 — original | 16/16 | 9 | 7 de 7 |
+| v2 — duas regras | 8/16 | 8 | 0 de 7 |
+| v3 — uma frase (produção) | 16/16 | 3 | 2 de 7 |
+
+**[F] Operacional:** latência mediana 15,0 s por achado, p90 17,9 s, custo zero
+(roda na máquina). Isso é utilizável sob demanda e **inviável em lote** — 400
+achados levariam 1h40. Confirma a escolha de arquitetura: análise é ação consentida
+por achado, nunca varredura.
+
+**[H] Não testado, e o portão existe para não depender disso:** que um modelo maior
+cometa menos o erro acima.
+
 ### Follow-ups em aberto dos experimentos
 
 **[F] Os dois experimentos deixaram 10 follow-ups, e eles não estão rastreados em lugar
@@ -366,7 +410,7 @@ indicado. Reproduzidos aqui para que não sumam:
 
 ## Current Test Status
 
-**[F] Existe suíte de testes desde a Sprint 3: `tests/`, 169 testes, `unittest` da
+**[F] Existe suíte de testes desde a Sprint 3: `tests/`, 174 testes, `unittest` da
 stdlib.** Continua sem `pytest`, sem `pyproject.toml`, sem `.github/workflows/`, sem
 lint e sem type checking. O `repository-structure.md` prevê tudo isso; só a suíte existe.
 
@@ -376,7 +420,7 @@ de build não existe; o substituto é estrutural e está descrito em `adr/0018` 
 não é equivalente — é o melhor disponível, e está registrado como tal.
 
 ```
-python tests/run.py     # 169 testes · 0 falhas · 0 erros · 0 pulados (2026-08-30)
+python tests/run.py     # 174 testes · 0 falhas · 0 erros · 0 pulados (2026-08-31)
 ```
 
 | Módulo | Testes | Cobre |
@@ -389,7 +433,7 @@ python tests/run.py     # 169 testes · 0 falhas · 0 erros · 0 pulados (2026-0
 | `test_migrations.py` | 11 | O runner de schema, e sobretudo o **banco que já existia**: um `decisions` sem as colunas novas ganha as colunas sem perder linha, e a decisão antiga não ganha vínculo inventado. Mais: idempotência, tabela ausente sem levantar, e `SCHEMA_VERSION` acompanhando a lista |
 | `test_credentials.py` | 11 | Round-trip **real** contra o Windows Credential Manager (grava, lê, sobrescreve, apaga, unicode, blob longo), env store somente-leitura, e que `info()`/`describe()` não devolvem a chave **nem os últimos quatro caracteres dela** |
 | `test_ai_provider.py` | 23 | Seleção e precedência, teto de três, disponibilidade sem sondar o caminho quente, loopback verificado, **`HTTP_PROXY` ignorado**, timeout, malformada, recusa, `choices: []`, retry só onde deve, prompt byte-estável |
-| `test_ai_privacy.py` | 23 | **A fronteira de redação.** Canários de `raw_json` e `rationale`, `file_path` só como forma no externo, detector sem falso positivo em KEV+EPSS real, bloqueio com contador em zero, contexto cru rejeitado por tipo, reflexão sobre `analyze`, nenhum outcome move a banda, fundamentação dura de `evidence_ids` |
+| `test_ai_privacy.py` | 28 | **A fronteira de redação.** Canários de `raw_json` e `rationale`, `file_path` só como forma no externo, detector sem falso positivo em KEV+EPSS real, bloqueio com contador em zero, contexto cru rejeitado por tipo, reflexão sobre `analyze`, nenhum outcome move a banda, fundamentação dura de `evidence_ids`, e o **portão de sugestão de fechamento** que o benchmark de 2026-08-31 obrigou a existir |
 | `test_api.py` | 12 | 6 telas, filtros, 404, contrato JSON, backtest legado intacto |
 
 **[F] O que existe como verificação executável são os gates de `phase0/README.md`.
@@ -479,7 +523,8 @@ não existe suíte de testes de produto que pudesse encontrá-los.
 | **L11** | **[F] Não há ground truth de falso positivo no artefato ISSTA.** Verificado: o zip traz os SARIF, `embedded-repos.json` e dois PDFs. Os 709 defeitos confirmados do paper estão em prosa, não em arquivo de labels. Nenhuma métrica de qualidade de detecção do CodeQL é reportável a partir dele |
 | **L12** | **[F] Janela de KEV de 12 meses deixa 31% da população indeterminável.** 111 de 360 decisões do run caem em `UNKNOWN_OUTSIDE_WINDOW` — o motor recusa dizer `NOT_IN_KEV` para um CVE que pode ter entrado antes da janela. O catálogo completo (1.674 entradas desde 2021-11) eliminaria isso |
 | **L9** | **[F] O export sintético do `--demo` depende do catálogo KEV, então os números do demo mudam quando o catálogo muda.** `demo_export_rows()` sorteia CVEs de `sorted(kev)`; um catálogo com 9 entradas a mais produz um export diferente com a mesma seed. Medido em 2026-08-23: sob `2026.08.14` o demo dá **100 dívida / 88 fechado-apesar-de**; sob `2026.08.21` dá **104 / 84**. **A análise em si é estável** — o *mesmo* CSV enviado por upload dá 100/88 nos dois catálogos. Ou seja: o número do botão "Rodar export sintético" não é reproduzível entre máquinas; o número de um arquivo enviado é |
-| **L13** | **[F] Nenhum LLM de verdade foi executado. Nem uma vez.** Os 46 testes da camada de IA rodam contra servidores falsos em `127.0.0.1`. Isso prova transporte, retry, timeout, validação, fundamentação e a fronteira de redação — **e não prova nada sobre qualidade de saída de modelo nenhum.** Não existe medida de taxa de recusa, de aderência a schema, de latência real, de custo por achado nem de aderência à evidência. A ADR-0015 §2 exige um benchmark antes de escolher fornecedor; esse benchmark **não foi feito**, e a camada existe para torná-lo possível, não para substituí-lo |
+| ~~**L13**~~ | **[F] FECHADA em 2026-08-31.** Um modelo local de verdade foi executado 48 vezes (`qwen2.5:3b` via Ollama em loopback). Relatório: [`evaluation/ollama-local-model-bench.md`](evaluation/ollama-local-model-bench.md). Ver § Current Experimental Results, EXP-005. **O que continua não medido virou L17** |
+| **L17** | **[F] Um modelo, 16 achados, um dia.** O benchmark de 2026-08-31 mediu `qwen2.5:3b` e mais nada. Não se transfere para modelo maior nem para provider externo. **Taxa de recusa: 0 em 48 chamadas** — mas um provider com filtro de conteúdo pode se comportar de outro jeito, e a ADR-0015 §2 diz que isso pode decidir o fornecedor. **Custo por achado num provider pago: não medido**, porque nenhuma chamada paga foi feita. E a qualidade do texto **não foi avaliada por nenhum analista**: os resumos são plausíveis e citam a evidência certa, e "plausível" é exatamente o que um modelo produz de graça |
 | **L14** | **[F] O suporte a structured output varia por modelo no Ollama e não foi verificado em nenhum.** A tela oferece um botão que roda a análise sobre um achado sintético e reporta se o modelo respeita o schema — o botão existe, o resultado para qualquer modelo específico não está registrado |
 | **L15** | **[F] A taxa de falso negativo do detector de segredo é desconhecida.** A resposta real da ADR-0011 são canários em CI, e **não há CI**. O que sustenta a fronteira são os controles estruturais — tier `no_code` e a exclusão de `raw_json`, `rationale` e caminho completo — e o regex é defesa em profundidade, **não a fronteira**. Ler L16 junto: a fronteira não tem portão de build |
 | **L16** | **[F] A fronteira de redação da ADR-0011 é verificada em tempo de execução, não por type checker.** A ADR pressupõe MyPy strict; o repositório não tem MyPy, nem lint, nem CI. O substituto (template method final, contexto não-serializável, teste de reflexão) é o melhor disponível **e não é equivalente** — um provider novo escrito fora da suíte não é impedido de nada por ferramenta alguma |
@@ -623,10 +668,11 @@ o resultado foi "nada aconteceu". O item V0 vive ou morre nesse registro.
    negativas**. Continua não existindo.
 2. **Executar o pedido do §8 do roteiro** — export de 12 meses de achados fechados +
    60 minutos de revisão. Esse pedido *é* o item V0, e continua sendo o gargalo.
-3. **[H] Rodar um modelo de verdade uma vez** e registrar o que sair (L13). Com Ollama
-   instalado o custo é zero e o resultado decide se a camada da Fase A é utilizável ou
-   se o schema precisa mudar. Enquanto isso não acontecer, "a IA funciona" significa
-   apenas "o transporte e a fronteira funcionam".
+3. ~~Rodar um modelo de verdade~~ — **feito em 2026-08-31** (EXP-005). O resultado
+   mudou o código: encontrou uma sugestão de `accepted_risk` em 9 de 9 achados em
+   banda de ação, e obrigou um portão estrutural. O que sobra está em L17:
+   **um provider externo nunca foi chamado**, então taxa de recusa sob filtro de
+   conteúdo e custo por achado continuam sem medida.
 
 ## Recommended Next Steps
 
@@ -652,6 +698,14 @@ Em ordem de valor por esforço, **depois** da demo:
 
 ## Files Currently Being Worked On
 
+**[F] Build Docker verificado em 2026-08-31.** `docker compose up -d --build`,
+container `healthy`, `/health`, `/aspm`, `/aspm/settings` e a API respondendo 200.
+Duas coisas que só o container mostra: o cofre de credencial degrada corretamente
+para `env` somente-leitura em Linux, e **a migração 2 rodou sobre o banco que já
+existia no volume** — 35 decisões de 2021 a 2025 ganharam as colunas novas sem
+perder linha e sem vínculo de IA inventado. É o cenário exato para o qual o runner
+existe, verificado fora de fixture.
+
 **[F] Nada pela metade.** A Fase A (passos 0 a 9) está completa e commitada; a suíte
 roda limpa. O que **não** foi feito, e é Fase B declarada: launcher, PyInstaller,
 instalador, e defesa contra CSRF no servidor local — qualquer página aberta no navegador
@@ -661,4 +715,4 @@ pode fazer POST para `127.0.0.1`, e hoje há rotas POST que executam análise.
 
 ## Last Updated
 
-**2026-08-30** · commit base `2607b73` + Fase A · branch `master`
+**2026-08-31** · commit base `bbe8b13` + benchmark de modelo real · branch `master`

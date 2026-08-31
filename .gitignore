@@ -28,3 +28,6 @@ Thumbs.db
 # blob. Instrucoes de reconstrucao em datasets/README.md.
 datasets/raw/*.zip
 datasets/processed/codeql_emboss_findings.json
+
+# Banco descartavel do benchmark de IA (o resultado versionado esta em evaluation/runs/).
+evaluation/bench.db
