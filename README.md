@@ -142,7 +142,7 @@ specifically to find out where they were wrong, and both were:
 | [`tests/`](tests/) | 207 testes, só stdlib: `python tests/run.py`. Dois módulos são artefato de segurança legível isolado: `test_ai_privacy.py` (a fronteira de redação) e `test_credentials.py`. |
 | [`phase0/`](phase0/) | Instrumentos de validação: arquivo único, só biblioteca padrão, sem instalação — de propósito, para rodar na máquina de um parceiro. |
 | [`docs/adr/`](docs/adr/) | 18 architecture decisions, with alternatives and consequences, not just conclusions. |
-| [`docs/product/`](docs/product/) | Product critique, competitive teardown, MVP backlog (MoSCoW), design-partner recruitment kit, [escopo e limitações do MVP ASPM](docs/product/mvp-aspm.md). |
+| [`docs/product/`](docs/product/) | Apresentacao de 5 min ([slides](docs/product/apresentacao-5min.html), [roteiro por integrante](docs/product/roteiro-apresentacao.md)), product critique, competitive teardown, MVP backlog (MoSCoW), design-partner recruitment kit, [escopo e limitações do MVP ASPM](docs/product/mvp-aspm.md). |
 | [`docs/evaluation/`](docs/evaluation/) | Pre-registered Phase 0 validation protocols, and the two experiments above. |
 | [`docs/architecture/`](docs/architecture/) | Architecture critique, diagrams, repository structure for the eventual platform. |
 | [`docs/data/`](docs/data/) | Domain model and database schema for the full platform. |

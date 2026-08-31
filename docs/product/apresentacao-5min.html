@@ -1,19 +1,22 @@
 <!--
   Apresentacao de 5 minutos do MVP ASPM, 10 slides, para 4 pessoas.
 
+  Roteiro por integrante: docs/product/roteiro-apresentacao.md
   Publicada tambem como artifact em
   https://claude.ai/code/artifact/19dcf7db-873b-41ca-b8f2-efcdd82445ea
-  Esta copia existe para o deck ser versionado junto com os numeros que ele cita:
-  quando 174 testes virar outro numero, o diff aparece aqui.
 
-  Abrir direto no navegador. Teclas: setas navegam, N mostra as notas do
-  apresentador, F entra em tela cheia.
+  Esta copia existe para o deck ser versionado junto com os numeros que ele cita:
+  quando 207 testes virar outro numero, o diff aparece aqui.
+
+  Abrir direto no navegador. Setas navegam, N mostra as notas do apresentador
+  (com quem fala e quanto tempo), F entra em tela cheia. Os slides nao tem
+  numero nem duracao impressos -- isso e informacao de quem apresenta.
 
   TODO numero neste deck tem origem verificavel:
     12 ativos / 68 achados / 14 dividas  ->  GET /api/v1/overview no dataset de demo
     219 dias                             ->  CVE-2021-27101, decisao 2021-03-29 x KEV 2021-11-03
     9/9 e os tres zeros                  ->  docs/evaluation/ollama-local-model-bench.md
-    174 testes                           ->  python tests/run.py
+    207 testes                           ->  python tests/run.py
     273 / 100.627 / 359.229              ->  docs/evaluation/ring0-real-data-validation.md
 -->
 <title>A Decisão Que Envelheceu</title>
@@ -26,15 +29,18 @@
    fundo claro, mesma identidade de documento do produto. Todas as cores pintadas
    explicitamente para o deck não herdar o fundo do hospedeiro.
 
+   SEM RODAPÉ. Numeração e duração saíram dos slides: são informação de quem
+   apresenta, não de quem assiste, e agora vivem nas notas (tecla N) e na barra
+   de progresso. O slide fica com o conteúdo e nada mais.
+
    ORÇAMENTO VERTICAL. O slide é 16:9 e todo o dimensionamento é em cqw (1cqw =
-   1% da largura do slide). A altura útil é fixa e pequena:
+   1% da largura do slide). A altura útil é fixa:
 
        altura 56.25cqw  -  padding vertical 10.4cqw  =  45.8cqw
 
-   Descontando o kicker e o rodapé, sobram ~38cqw para o corpo, ou ~31cqw quando
-   há título. Toda medida abaixo foi escolhida contra esse teto. O script no fim
-   do arquivo ainda reduz a escala do conteúdo se ele passar, para que nada seja
-   cortado em nenhuma tela. */
+   Sem o rodapé sobram ~4,8cqw a mais que na versão anterior, e é isso que
+   permite o slide do placar respirar. O script no fim do arquivo ainda reduz a
+   escala se algum conteúdo passar, para nada ser cortado em nenhuma tela. */
 :root{
   --folha:#F3F1F7;
   --papel:#FFFFFF;
@@ -76,7 +82,7 @@ ul,ol{list-style:none;}
   .slide.on{animation:in .22s ease-out;}
   @keyframes in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
 }
-/* Envelope medido pelo ajuste automático. Recebe tudo menos o rodapé. */
+/* Envelope medido pelo ajuste automático. */
 .fit{flex:1;min-height:0;display:flex;flex-direction:column;transform-origin:left top;}
 
 /* ---------- tipografia ---------- */
@@ -94,65 +100,70 @@ ul,ol{list-style:none;}
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;}
 
 /* ---------- slide 1: funil ---------- */
-.funnel{display:grid;grid-template-columns:1fr auto 1.15fr;align-items:center;gap:3cqw;margin-top:2.4cqw;}
-.scanners{display:flex;flex-direction:column;gap:.7cqw;}
+.funnel{display:grid;grid-template-columns:1fr auto 1.15fr;align-items:center;gap:3cqw;margin-top:3cqw;}
+.scanners{display:flex;flex-direction:column;gap:.8cqw;}
 .scan{
-  border:1px solid var(--fio-forte);border-radius:.45cqw;padding:.7cqw 1.4cqw;
-  font-size:1.8cqw;line-height:1.3;color:var(--grafite);background:var(--folha);
+  border:1px solid var(--fio-forte);border-radius:.45cqw;padding:.8cqw 1.4cqw;
+  font-size:1.85cqw;line-height:1.3;color:var(--grafite);background:var(--folha);
 }
 .arrowcol{display:flex;align-items:center;justify-content:center;color:var(--fio-forte);}
-.arrowcol svg{width:5.4cqw;height:auto;}
-.pile__n{font-size:7cqw;font-weight:800;line-height:.95;letter-spacing:-.03em;}
-.pile__l{font-size:2.1cqw;color:var(--grafite);margin-top:.4cqw;max-width:22ch;line-height:1.3;}
+.arrowcol svg{width:5.8cqw;height:auto;}
+.pile__n{font-size:7.4cqw;font-weight:800;line-height:.95;letter-spacing:-.03em;}
+.pile__l{font-size:2.15cqw;color:var(--grafite);margin-top:.5cqw;max-width:22ch;line-height:1.3;}
 .pile__x{
-  margin-top:1.8cqw;font-size:2cqw;color:var(--carmim);font-weight:600;
+  margin-top:2cqw;font-size:2.1cqw;color:var(--carmim);font-weight:600;
   border-left:.38cqw solid var(--carmim);padding-left:1.1cqw;line-height:1.35;
 }
 
 /* ---------- slide 2: camada ---------- */
-.layer{display:flex;align-items:stretch;gap:2cqw;margin-top:2.6cqw;}
+.layer{display:flex;align-items:stretch;gap:2cqw;margin-top:3cqw;}
 .layer__box{
   flex:1;border:1px solid var(--fio-forte);border-radius:.55cqw;
-  padding:1.8cqw 1.6cqw;text-align:center;background:var(--folha);
+  padding:2cqw 1.6cqw;text-align:center;background:var(--folha);
   display:flex;flex-direction:column;justify-content:center;
 }
 .layer__box--hero{background:var(--tinta);color:var(--papel);border-color:var(--tinta);flex:1.3;}
-.layer__t{font-size:2.4cqw;font-weight:700;line-height:1.2;}
-.layer__d{font-size:1.8cqw;color:var(--grafite);margin-top:.55cqw;line-height:1.35;}
+.layer__t{font-size:2.45cqw;font-weight:700;line-height:1.2;}
+.layer__d{font-size:1.85cqw;color:var(--grafite);margin-top:.55cqw;line-height:1.35;}
 .layer__box--hero .layer__d{color:#C9BFEA;}
 .layer__arrow{align-self:center;font-size:2.8cqw;color:var(--fio-forte);flex:none;}
 .sub{
   font-family:"Source Serif 4",Georgia,serif;
-  font-size:2.5cqw;line-height:1.45;color:var(--grafite);
-  max-width:52ch;margin-top:2.4cqw;
+  font-size:2.55cqw;line-height:1.45;color:var(--grafite);
+  max-width:52ch;margin-top:2.8cqw;
 }
+.local{
+  margin-top:1.8cqw;font-family:"IBM Plex Mono",monospace;font-size:1.65cqw;
+  color:var(--grafite);line-height:1.5;
+}
+.local b{color:var(--tinta);font-weight:600;}
 
 /* ---------- slide 3: cinco perguntas ---------- */
-.five{display:flex;flex-direction:column;margin-top:1.6cqw;}
+.five{display:flex;flex-direction:column;margin-top:2cqw;}
 .five li{
   display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2cqw;
-  padding:.95cqw 0;border-bottom:1px solid var(--fio);
+  padding:1.15cqw 0;border-bottom:1px solid var(--fio);
 }
 .five li:last-child{border-bottom:0;}
-.five__q{font-family:"Source Serif 4",Georgia,serif;font-size:2.8cqw;font-weight:600;line-height:1.3;}
+.five__q{font-family:"Source Serif 4",Georgia,serif;font-size:2.9cqw;font-weight:600;line-height:1.3;}
 .five__c{
-  font-family:"IBM Plex Mono",monospace;font-size:1.9cqw;
+  font-family:"IBM Plex Mono",monospace;font-size:1.95cqw;
   color:var(--anilina);letter-spacing:.04em;text-align:right;white-space:nowrap;
 }
 
 /* ---------- slide 4: fluxo ---------- */
-.flow{display:flex;align-items:stretch;gap:.7cqw;margin-top:2.6cqw;}
+.flow{display:flex;align-items:stretch;gap:.7cqw;margin-top:3.4cqw;}
 .flow__s{
   flex:1;border:1px solid var(--fio-forte);border-radius:.45cqw;
-  padding:1.5cqw .9cqw;text-align:center;font-size:1.85cqw;font-weight:600;
+  padding:1.7cqw .9cqw;text-align:center;font-size:1.9cqw;font-weight:600;
   display:flex;align-items:center;justify-content:center;background:var(--folha);
   line-height:1.25;
 }
 .flow__s--end{background:var(--anilina);color:var(--papel);border-color:var(--anilina);}
 .flow__gt{align-self:center;color:var(--fio-forte);font-size:2.2cqw;flex:none;}
 .flow__note{
-  font-family:"Source Serif 4",Georgia,serif;font-size:2.4cqw;color:var(--grafite);
-  margin-top:2.6cqw;max-width:56ch;line-height:1.45;
+  font-family:"Source Serif 4",Georgia,serif;font-size:2.5cqw;color:var(--grafite);
+  margin-top:3.2cqw;max-width:56ch;line-height:1.45;
 }
 
 /* ---------- slide 5: demo ---------- */
@@ -160,8 +171,8 @@ ul,ol{list-style:none;}
 .slide--demo .kicker{color:#B9A6F5;}
 .slide--demo .title{font-size:7cqw;}
 .demo__hint{
-  margin-top:2.4cqw;font-family:"IBM Plex Mono",monospace;font-size:1.95cqw;
-  color:#B0A5C7;line-height:1.8;
+  margin-top:3cqw;font-family:"IBM Plex Mono",monospace;font-size:2.05cqw;
+  color:#B0A5C7;line-height:1.85;
 }
 .demo__hint b{color:var(--papel);font-weight:600;}
 
@@ -169,25 +180,25 @@ ul,ol{list-style:none;}
    Grid de tres marcos. A primeira versão posicionava os rótulos de forma
    absoluta sobre left:0 e left:100%, centrados, e metade de cada rótulo das
    pontas caía fora da área do slide. Grid não tem como cortar. */
-.tl{margin-top:2.8cqw;}
+.tl{margin-top:3.2cqw;}
 .tl__row{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:start;gap:1.2cqw;}
-.tl__step{display:flex;flex-direction:column;gap:.45cqw;}
+.tl__step{display:flex;flex-direction:column;gap:.5cqw;}
 .tl__step--mid{text-align:center;}
 .tl__step--end{text-align:right;}
 .tl__dot{width:1.2cqw;height:1.2cqw;border-radius:50%;background:var(--papel);border:.36cqw solid var(--tinta);}
 .tl__step--mid .tl__dot{margin:0 auto;border-color:var(--carmim);background:var(--carmim);}
 .tl__step--end .tl__dot{margin-left:auto;}
-.tl__d{font-family:"IBM Plex Mono",monospace;font-size:1.75cqw;color:var(--grafite);line-height:1.4;}
-.tl__t{font-size:2.3cqw;font-weight:700;line-height:1.2;}
+.tl__d{font-family:"IBM Plex Mono",monospace;font-size:1.8cqw;color:var(--grafite);line-height:1.4;}
+.tl__t{font-size:2.4cqw;font-weight:700;line-height:1.2;}
 .tl__t--kev{color:var(--carmim);}
 .tl__link{align-self:start;text-align:center;min-width:10cqw;}
-.tl__gap{font-size:2.6cqw;font-weight:800;color:var(--ambar);line-height:1.1;}
+.tl__gap{font-size:2.7cqw;font-weight:800;color:var(--ambar);line-height:1.1;}
 .tl__rule{display:block;height:.3cqw;background:var(--ambar);border-radius:1cqw;margin-top:.6cqw;}
 .tl__rule--plain{background:var(--folha-alt);}
 .tl__verdict{
-  margin-top:3.4cqw;padding:1.9cqw 2.2cqw;background:var(--ambar-fundo);
+  margin-top:4cqw;padding:2.1cqw 2.3cqw;background:var(--ambar-fundo);
   border-left:.45cqw solid var(--ambar);border-radius:.4cqw;
-  font-family:"Source Serif 4",Georgia,serif;font-size:2.9cqw;line-height:1.35;
+  font-family:"Source Serif 4",Georgia,serif;font-size:3cqw;line-height:1.35;
 }
 .tl__verdict b{font-weight:600;}
 
@@ -195,117 +206,110 @@ ul,ol{list-style:none;}
    Placar de duas colunas, e a assimetria é o argumento. A coluna carmim carrega
    um número só, grande: tudo o que o modelo errou. A coluna escura carrega três
    zeros: tudo o que ele não conseguiu mover. Ler as duas juntas é o slide. */
-.placar{display:grid;grid-template-columns:1fr 1.15fr;gap:1.8cqw;margin-top:2cqw;}
-.col{border-radius:.55cqw;padding:1.5cqw 1.7cqw;display:flex;flex-direction:column;}
+.placar{display:grid;grid-template-columns:1fr 1.15fr;gap:2cqw;margin-top:2.6cqw;}
+.col{border-radius:.55cqw;padding:1.8cqw 1.9cqw;display:flex;flex-direction:column;}
 .col--erro{background:var(--carmim-fundo);border:1px solid rgba(163,27,62,.3);}
 .col--firme{background:var(--tinta);color:var(--papel);}
 .col__r{
-  font-family:"IBM Plex Mono",monospace;font-size:1.45cqw;letter-spacing:.12em;
+  font-family:"IBM Plex Mono",monospace;font-size:1.5cqw;letter-spacing:.12em;
   text-transform:uppercase;font-weight:500;line-height:1.35;
 }
 .col--erro .col__r{color:var(--carmim);}
 .col--firme .col__r{color:#B9A6F5;}
 .col__n{
-  font-size:6cqw;font-weight:800;letter-spacing:-.035em;line-height:.94;
-  margin-top:.5cqw;font-variant-numeric:tabular-nums;color:var(--carmim);
+  font-size:6.6cqw;font-weight:800;letter-spacing:-.035em;line-height:.94;
+  margin-top:.6cqw;font-variant-numeric:tabular-nums;color:var(--carmim);
 }
-.col__d{font-size:1.85cqw;line-height:1.32;margin-top:.6cqw;color:var(--grafite);max-width:32ch;}
+.col__d{font-size:1.95cqw;line-height:1.32;margin-top:.7cqw;color:var(--grafite);max-width:32ch;}
 .col__d b{color:var(--tinta);font-weight:600;}
-.zeros{display:flex;flex-direction:column;gap:.6cqw;margin-top:.9cqw;}
-.zeros li{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:1.2cqw;}
+.zeros{display:flex;flex-direction:column;gap:.7cqw;margin-top:1cqw;}
+.zeros li{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:1.3cqw;}
 .zeros b{
-  font-size:3.3cqw;font-weight:800;line-height:1.05;letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums;min-width:3.4cqw;
+  font-size:3.6cqw;font-weight:800;line-height:1.05;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;min-width:3.6cqw;
 }
-.zeros span{font-size:1.8cqw;line-height:1.25;color:#C9BFEA;}
+.zeros span{font-size:1.9cqw;line-height:1.25;color:#C9BFEA;}
 .veredito{
-  margin-top:2cqw;font-family:"Source Serif 4",Georgia,serif;
-  font-size:2.5cqw;line-height:1.34;max-width:64ch;text-wrap:balance;
+  margin-top:2.6cqw;font-family:"Source Serif 4",Georgia,serif;
+  font-size:2.6cqw;line-height:1.34;max-width:64ch;text-wrap:balance;
 }
 .veredito b{font-weight:600;color:var(--carmim);}
-.egresso{
-  margin-top:1.5cqw;font-family:"IBM Plex Mono",monospace;font-size:1.55cqw;
-  color:var(--grafite);line-height:1.45;max-width:74ch;
-}
-.egresso b{color:var(--tinta);font-weight:600;}
 
 /* ---------- slide 8: dados ---------- */
-.data{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4cqw;margin-top:2.4cqw;}
-.data__c{border-top:.3cqw solid var(--tinta);padding-top:1.1cqw;}
+.data{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5cqw;margin-top:3cqw;}
+.data__c{border-top:.3cqw solid var(--tinta);padding-top:1.2cqw;}
 .data__c--syn{border-top-color:var(--ambar);}
-.data__n{font-size:4.2cqw;font-weight:800;letter-spacing:-.03em;line-height:1;}
+.data__n{font-size:4.5cqw;font-weight:800;letter-spacing:-.03em;line-height:1;}
 .data__c--syn .data__n{color:var(--ambar);}
-.data__w{font-size:1.95cqw;font-weight:600;margin-top:.55cqw;line-height:1.25;}
-.data__s{font-size:1.65cqw;color:var(--grafite);margin-top:.4cqw;line-height:1.35;}
+.data__w{font-size:2cqw;font-weight:600;margin-top:.6cqw;line-height:1.25;}
+.data__s{font-size:1.7cqw;color:var(--grafite);margin-top:.45cqw;line-height:1.35;}
 .tag{
-  display:inline-block;margin-top:.7cqw;padding:.24cqw .7cqw;border-radius:.3cqw;
-  font-family:"IBM Plex Mono",monospace;font-size:1.35cqw;letter-spacing:.09em;text-transform:uppercase;
+  display:inline-block;margin-top:.8cqw;padding:.26cqw .7cqw;border-radius:.3cqw;
+  font-family:"IBM Plex Mono",monospace;font-size:1.4cqw;letter-spacing:.09em;text-transform:uppercase;
 }
 .tag--real{background:var(--folha-alt);color:var(--grafite);}
 .tag--syn{background:var(--ambar);color:var(--papel);}
 .data__note{
-  margin-top:2.6cqw;font-family:"Source Serif 4",Georgia,serif;
-  font-size:2.1cqw;color:var(--grafite);max-width:66ch;line-height:1.45;
+  margin-top:3.2cqw;font-family:"Source Serif 4",Georgia,serif;
+  font-size:2.2cqw;color:var(--grafite);max-width:66ch;line-height:1.45;
 }
 .data__note b{color:var(--tinta);font-weight:600;}
 
 /* ---------- slide 9: próximo passo e fecho ---------- */
 .next{
-  font-family:"Source Serif 4",Georgia,serif;font-size:2.4cqw;color:var(--grafite);
-  max-width:56ch;line-height:1.45;margin-top:1.6cqw;
+  font-family:"Source Serif 4",Georgia,serif;font-size:2.5cqw;color:var(--grafite);
+  max-width:56ch;line-height:1.45;margin-top:2cqw;
 }
 .next b{color:var(--tinta);font-weight:600;}
 .fim{
-  margin-top:3cqw;padding-top:2.6cqw;border-top:1px solid var(--fio);
-  font-size:4cqw;font-weight:700;line-height:1.22;letter-spacing:-.022em;
+  margin-top:3.6cqw;padding-top:3cqw;border-top:1px solid var(--fio);
+  font-size:4.2cqw;font-weight:700;line-height:1.22;letter-spacing:-.022em;
   max-width:30ch;text-wrap:balance;
 }
 .fim em{font-style:normal;color:var(--anilina);}
 
-/* ---------- slide 10: encerramento ----------
-   Fundo escuro como o slide da demo, fechando o deck em par com ele. E o slide
-   que fica mais tempo no ar, entao carrega tres ancoras dos numeros que a banca
-   provavelmente vai perguntar. */
+/* ---------- slide 10: encerramento ---------- */
 .slide--fim{background:var(--tinta);color:var(--papel);}
 .slide--fim .kicker{color:#B9A6F5;}
-.obrigado{font-size:6.6cqw;font-weight:800;letter-spacing:-.028em;line-height:1.04;margin-top:1.3cqw;}
+.obrigado{font-size:6.8cqw;font-weight:800;letter-spacing:-.028em;line-height:1.04;margin-top:1.3cqw;}
 .convite{
-  font-family:"Source Serif 4",Georgia,serif;font-size:2.5cqw;
-  color:#B0A5C7;margin-top:1.6cqw;line-height:1.45;
+  font-family:"Source Serif 4",Georgia,serif;font-size:2.6cqw;
+  color:#B0A5C7;margin-top:1.8cqw;line-height:1.45;
 }
 .ancoras{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:2.2cqw;
-  margin-top:2.8cqw;padding-top:2.2cqw;border-top:1px solid rgba(255,255,255,.2);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2.4cqw;
+  margin-top:3.4cqw;padding-top:2.6cqw;border-top:1px solid rgba(255,255,255,.2);
 }
 .ancora__r{
-  font-family:"IBM Plex Mono",monospace;font-size:1.4cqw;letter-spacing:.12em;
+  font-family:"IBM Plex Mono",monospace;font-size:1.45cqw;letter-spacing:.12em;
   text-transform:uppercase;color:#8B80A6;
 }
-.ancora__v{font-size:1.85cqw;line-height:1.35;margin-top:.5cqw;color:#DCD6EA;}
+.ancora__v{font-size:1.9cqw;line-height:1.35;margin-top:.55cqw;color:#DCD6EA;}
 .ancora__v b{color:var(--papel);font-weight:600;}
 
-/* ---------- rodapé ---------- */
-.foot{
-  display:flex;align-items:baseline;gap:1.6cqw;flex:none;
-  font-family:"IBM Plex Mono",monospace;font-size:1.6cqw;color:var(--grafite);
-  border-top:1px solid var(--fio);padding-top:1.1cqw;margin-top:1.8cqw;
-}
-.slide--demo .foot,.slide--fim .foot{border-top-color:rgba(255,255,255,.2);color:#9A8FB4;}
-.foot__n{margin-left:auto;}
-
-/* ---------- chrome do apresentador ---------- */
+/* ---------- chrome do apresentador ----------
+   Fora do slide, e só o apresentador usa. É aqui que numeração e tempo foram
+   parar depois de saírem do rodapé. */
 #bar{position:fixed;left:0;right:0;bottom:0;height:4px;background:var(--folha-alt);z-index:20;}
 #bar i{display:block;height:100%;background:var(--anilina);width:0;transition:width .2s;}
 #notes{
-  position:fixed;left:0;right:0;bottom:4px;max-height:38vh;overflow-y:auto;
-  background:var(--tinta);color:#EFEBF7;padding:1.1rem 1.4rem 1.3rem;
+  position:fixed;left:0;right:0;bottom:4px;max-height:44vh;overflow-y:auto;
+  background:var(--tinta);color:#EFEBF7;padding:1rem 1.4rem 1.3rem;
   font-family:"Source Serif 4",Georgia,serif;font-size:1.02rem;line-height:1.55;
   display:none;z-index:19;box-shadow:0 -8px 24px rgba(34,29,48,.3);
 }
 #notes.on{display:block;}
 #notes h4{
   font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.14em;
-  text-transform:uppercase;color:#B9A6F5;margin:0 0 .55rem;font-weight:500;
+  text-transform:uppercase;color:#B9A6F5;margin:0 0 .2rem;font-weight:500;
+}
+#notes .quem{
+  font-family:Archivo,sans-serif;font-weight:700;font-size:1.12rem;
+  color:#fff;margin:0 0 .6rem;display:flex;gap:.7rem;align-items:baseline;
+}
+#notes .quem span{
+  font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:.8rem;
+  color:#B9A6F5;letter-spacing:.06em;
 }
 #notes p{max-width:78ch;}
 #notes p+p{margin-top:.5rem;}
@@ -348,7 +352,6 @@ ul,ol{list-style:none;}
       </div>
     </div>
   </div>
-  <div class="foot"><span>0:25</span><span class="foot__n">1 / 10</span></div>
 </section>
 
 <!-- 2 -->
@@ -374,8 +377,9 @@ ul,ol{list-style:none;}
     </div>
     <p class="sub">Achar não é o gargalo. Decidir o que importa é.
        E continuar sabendo se aquela decisão ainda vale.</p>
+    <p class="local">Instala no notebook do analista, <b>sem servidor</b> e
+       <b>sem privilégio de administrador</b>. Os dados ficam na máquina.</p>
   </div>
-  <div class="foot"><span>0:30</span><span class="foot__n">2 / 10</span></div>
 </section>
 
 <!-- 3 -->
@@ -391,7 +395,6 @@ ul,ol{list-style:none;}
       <li><span class="five__q">O risco mudou?</span><span class="five__c">Continuous Monitoring</span></li>
     </ul>
   </div>
-  <div class="foot"><span>0:45</span><span class="foot__n">3 / 10</span></div>
 </section>
 
 <!-- 4 -->
@@ -411,7 +414,6 @@ ul,ol{list-style:none;}
        cobrindo 720 combinações, auditável linha a linha. Não é um modelo de linguagem
        decidindo.</p>
   </div>
-  <div class="foot"><span>0:10</span><span class="foot__n">4 / 10</span></div>
 </section>
 
 <!-- 5 -->
@@ -427,7 +429,6 @@ ul,ol{list-style:none;}
       <b>5.</b> A análise de IA, e o selo de <b>egresso</b>
     </p>
   </div>
-  <div class="foot"><span>1:15</span><span class="foot__n">5 / 10</span></div>
 </section>
 
 <!-- 6 -->
@@ -465,7 +466,6 @@ ul,ol{list-style:none;}
          Ela envelheceu, e o sistema percebeu.</p>
     </div>
   </div>
-  <div class="foot"><span>0:35</span><span class="foot__n">6 / 10</span></div>
 </section>
 
 <!-- 7 -->
@@ -491,10 +491,7 @@ ul,ol{list-style:none;}
     </div>
     <p class="veredito">Se a IA decidisse, <b>nove vulnerabilidades sob exploração ativa</b>
        teriam sido encerradas. Ela não decide — e agora temos o comprovante.</p>
-    <p class="egresso">E o dado só sai da máquina se você mandar: <b>nenhum</b> ·
-       <b>local</b> · <b>provedor externo</b>, com o padrão em nenhum.</p>
   </div>
-  <div class="foot"><span>0:50</span><span class="foot__n">7 / 10</span></div>
 </section>
 
 <!-- 8 -->
@@ -526,9 +523,8 @@ ul,ol{list-style:none;}
     </div>
     <p class="data__note">O histórico sintético prova que o mecanismo funciona.
        Ele <b>não</b> mede precisão em cliente, e aparece marcado em toda tela.
-       São <b>174 testes</b> automatizados e <b>48 chamadas</b> a um modelo real.</p>
+       São <b>207 testes</b> automatizados e <b>48 chamadas</b> a um modelo real.</p>
   </div>
-  <div class="foot"><span>0:15</span><span class="foot__n">8 / 10</span></div>
 </section>
 
 <!-- 9 -->
@@ -540,7 +536,6 @@ ul,ol{list-style:none;}
     <p class="fim">Construímos a camada que <em>lembra</em> por que cada decisão foi
        tomada, e avisa quando ela deixa de valer.</p>
   </div>
-  <div class="foot"><span>0:15</span><span class="foot__n">9 / 10</span></div>
 </section>
 
 <!-- 10 -->
@@ -563,11 +558,10 @@ ul,ol{list-style:none;}
       <div>
         <p class="ancora__r">O que falta</p>
         <p class="ancora__v">Rodar sobre o <b>histórico real</b> de uma organização.
-           <b>174 testes</b> automatizados.</p>
+           <b>207 testes</b> automatizados.</p>
       </div>
     </div>
   </div>
-  <div class="foot"><span>fica no ar durante as perguntas</span><span class="foot__n">10 / 10</span></div>
 </section>
 
 </div>
@@ -584,19 +578,18 @@ ul,ol{list-style:none;}
   var help = document.getElementById('help');
   var i = 0, notesOn = false;
 
-  /* Envolve tudo menos o rodapé num .fit, que é o elemento medido pelo ajuste
+  /* Envolve o conteúdo num .fit, que é o elemento medido pelo ajuste
      automático. Feito em JS para o HTML dos slides continuar legível. */
   slides.forEach(function(s){
     var fit = document.createElement('div');
     fit.className = 'fit';
-    var foot = s.querySelector('.foot');
-    while (s.firstChild && s.firstChild !== foot) fit.appendChild(s.firstChild);
-    s.insertBefore(fit, foot);
+    while (s.firstChild) fit.appendChild(s.firstChild);
+    s.appendChild(fit);
   });
 
-  /* Rede de segurança do orçamento vertical: se o conteúdo ainda passar da
-     altura útil (fonte que caiu para o fallback, tela muito estreita, tradução
-     mais longa), reduz a escala em vez de deixar cortar. */
+  /* Rede de segurança do orçamento vertical: se o conteúdo passar da altura
+     útil (fonte que caiu para o fallback, tela muito estreita), reduz a escala
+     em vez de deixar cortar. */
   function fit(slide){
     var f = slide.querySelector('.fit');
     f.style.transform = 'none';
@@ -609,56 +602,80 @@ ul,ol{list-style:none;}
     }
   }
 
+  /* Roteiro. Numeração e tempo saíram do slide e vivem aqui, junto de quem
+     fala — que é a informação que o apresentador realmente precisa ver. */
   var script = [
-    {cue:"Devagar. Pause depois de “mais fila”.", t:[
+    {quem:"Integrante 1", tempo:"0:25",
+     cue:"Devagar. Pause depois de “mais fila”. Este é o único momento em que a banca ainda não sabe do que se trata.", t:[
       "Toda equipe de segurança hoje tem scanner. Vários: código, dependência, segredo, contêiner. Cada um encontra coisa, e cada um entrega uma lista.",
       "O resultado não é mais segurança. É mais fila.",
       "São milhares de achados por ano, e cada um chega sem contexto. Não diz qual sistema afeta, se aquilo está exposto, nem se alguém já analisou o mesmo problema antes."]},
-    {cue:"Transição para a segunda pessoa no fim.", t:[
+
+    {quem:"Integrante 1", tempo:"0:35",
+     cue:"Termine entregando para o Integrante 2 com a frase de transição. Não desenvolva os cinco componentes aqui.", t:[
       "E aí vem a parte que ninguém acompanha: a maior parte desses achados é fechada. Falso positivo, risco aceito, mitigado. E estava certo, no dia em que foi decidido.",
       "O problema não é encontrar vulnerabilidade. É decidir qual importa, e continuar sabendo se aquela decisão ainda vale.",
+      "E uma decisão de projeto que vale dizer agora: isto instala no notebook do analista, sem servidor e sem privilégio de administrador. Os dados de segurança ficam na máquina dele.",
       "Transição: para virar decisão, o achado precisa de contexto. É isso que os cinco componentes de uma ASPM fazem, e o nosso MVP implementa os cinco."]},
-    {cue:"Cinco blocos curtos. Não desenvolva nenhum. Quem desenvolve é a demo.", t:[
+
+    {quem:"Integrante 2", tempo:"0:45",
+     cue:"Cinco blocos curtos, um fôlego cada. Não desenvolva nenhum — quem desenvolve é a demonstração.", t:[
       "São cinco perguntas, e cada componente responde uma.",
       "O que a gente tem? Asset Discovery: aplicações, serviços, dependências, com dono, ambiente e criticidade. Sem isso, todo achado parece igual.",
       "O que está relacionado? Correlação: o mesmo CVE em três serviços é um problema, não três. O sistema agrupa, e registra por que agrupou.",
       "O que importa mais? Priorização: severidade, criticidade do ativo, exposição, e se aquele CVE está na lista da CISA de exploração ativa conhecida.",
       "O que fazer? Remediação, com a fonte junto. Quando não existe fonte, o sistema diz que não sabe, em vez de inventar.",
       "O risco mudou? Monitoramento contínuo."]},
-    {cue:"Slide de passagem, 10 segundos. Já vá abrindo a aba da aplicação.", t:[
-      "Transição: no MVP esses cinco não são telas separadas. São um fluxo só, e dá para mostrar agora."]},
-    {cue:"Abas já abertas. Não navegue procurando tela. Deixe o passo 5 curto: ele é a montagem do slide seguinte.", t:[
+
+    {quem:"Integrante 2", tempo:"0:10",
+     cue:"Slide de passagem. Dez segundos. Já entregue para o Integrante 3, que deve estar com a aba aberta.", t:[
+      "No MVP esses cinco não são telas separadas. São um fluxo só.",
+      "E a prioridade sai de uma árvore determinística: vinte regras, setecentas e vinte combinações, auditável linha a linha. Não é um modelo de linguagem decidindo.",
+      "Transição: dá para mostrar agora."]},
+
+    {quem:"Integrante 3", tempo:"1:15",
+     cue:"Abas já abertas. Não navegue procurando tela. Deixe o passo 5 curto — ele é a montagem do slide do Integrante 4.", t:[
       "Esse é o painel. Doze ativos, sessenta e oito achados, e esse número aqui, catorze, é o que a gente chama de dívida de decisão. Já volto nele.",
       "Vou abrir um achado: CVE-2021-27101, na zlib 1.2.11.",
       "O sistema classificou como agir agora, e não pede para acreditar. Ele lista o porquê: o ativo é crítico, está em produção, a versão em uso está dentro da faixa afetada, e o CVE consta no catálogo da CISA de exploração ativa. Essa última linha trava tudo: achado em exploração ativa nunca pode ser silenciado.",
       "Aqui embaixo, a evidência: fonte, autoridade, e a data do fato separada da data em que lemos. E a remediação: atualizar o pacote, com a origem junto.",
-      "E, no fim, a análise de IA — com um selo dizendo se aquele texto saiu da máquina ou não. Guardem esse selo, porque o próximo slide é sobre ele."]},
-    {cue:"PARE depois de “duzentos e dezenove dias”. Deixe o número pousar.", t:[
+      "E, no fim, a análise de IA — com um selo dizendo se aquele texto saiu da máquina ou não. Guardem esse selo."]},
+
+    {quem:"Integrante 3", tempo:"0:35",
+     cue:"PARE depois de “duzentos e dezenove dias”. Deixe o número pousar antes de continuar.", t:[
       "Agora o ponto. Esse achado já tinha sido fechado, como mitigado. Alguém olhou e concluiu que estava sob controle.",
       "Duzentos e dezenove dias depois, o CVE entrou no catálogo da CISA, com uso confirmado em ransomware.",
       "A decisão não estava errada. Ela envelheceu. E o sistema percebeu.",
-      "Transição: isso é o que a gente acha que diferencia a proposta. E tem uma segunda coisa, que a gente descobriu testando."]},
-    {cue:"O slide mais importante do deck. Leia o 9 de 9 devagar, e PARE antes de virar para a coluna escura.", t:[
+      "Transição: esse é o diferencial que a gente propõe. E tem uma segunda coisa, que a gente descobriu testando."]},
+
+    {quem:"Integrante 4", tempo:"0:50",
+     cue:"O slide mais importante do deck. Leia “nove de nove” devagar, e PARE antes de virar para a coluna escura.", t:[
       "Todo produto de segurança hoje diz que tem IA. A pergunta que ninguém responde é: o que acontece quando ela erra?",
       "A gente colocou um modelo de verdade rodando na máquina e mediu.",
       "Em nove de nove achados que a árvore mandava corrigir agora, o modelo recomendou encerrar como risco aceito. E escreveu, no mesmo texto, que eram críticos e urgentes. Ele se contradisse, com toda a confiança do mundo.",
       "Agora olhem a outra coluna. Zero prioridades alteradas. Zero evidências inventadas. Zero decisões fechadas.",
-      "A IA errou cem por cento das recomendações e não conseguiu mexer em nada. Porque na nossa arquitetura ela não decide: ela explica o que o motor determinístico já decidiu, e cita a evidência que recebeu. Se ela citar uma evidência que não existe, a resposta inteira é rejeitada.",
-      "E a última linha: quem escolhe se o dado sai da máquina é o usuário. O padrão é não sair. Para usar um provedor externo, é preciso escolher e confirmar cada análise."]},
-    {cue:"Honestidade sem pedir desculpa. Nunca diga “precisão de 100%”.", t:[
-      "Sobre os dados: o MVP já roda sobre dado público real. O catálogo da CISA, cem mil achados reais de CodeQL, e a base de probabilidade de exploração do FIRST. São cento e setenta e quatro testes automatizados.",
+      "A IA errou cem por cento das recomendações e não conseguiu mexer em nada. Porque na nossa arquitetura ela não decide: ela explica o que o motor determinístico já decidiu, e cita a evidência que recebeu. Se citar uma evidência que não existe, a resposta inteira é rejeitada."]},
+
+    {quem:"Integrante 4", tempo:"0:20",
+     cue:"Honestidade sem pedir desculpa. Nunca diga “precisão de cem por cento”.", t:[
+      "Sobre os dados: o MVP já roda sobre dado público real. O catálogo da CISA, cem mil achados reais de CodeQL, e a base de probabilidade de exploração do FIRST. São duzentos e sete testes automatizados.",
       "Já o histórico de decisões é sintético, e aparece marcado como tal em toda tela. Ele prova que o mecanismo funciona. Não mede precisão em cliente."]},
-    {cue:"Termine no fecho. Não emende com “acho que é isso”.", t:[
+
+    {quem:"Integrante 4", tempo:"0:15",
+     cue:"Termine no fecho. Não emende com “acho que é isso”. Respire e vire o slide.", t:[
       "É exatamente esse o próximo passo: rodar sobre o histórico real de uma organização.",
       "A gente não construiu mais um lugar para ver vulnerabilidade. Construiu a camada que lembra por que cada decisão foi tomada, e avisa quando ela deixa de valer."]},
-    {cue:"Não corra. Deixe o slide no ar durante as perguntas.", t:[
+
+    {quem:"Integrante 4", tempo:"perguntas",
+     cue:"Não corra. Deixe o slide no ar durante as perguntas — as três âncoras são as respostas que provavelmente vão pedir.", t:[
       "Era isso. Obrigado pela atenção de vocês.",
       "Ficamos à disposição para as perguntas."]}
   ];
 
   function renderNotes(){
-    var s = script[i] || {t:[], cue:""};
-    var html = '<h4>Slide ' + (i+1) + ' · o que dizer</h4>';
+    var s = script[i] || {t:[], cue:"", quem:"", tempo:""};
+    var html = '<h4>Slide ' + (i+1) + ' de ' + slides.length + '</h4>';
+    html += '<p class="quem">' + s.quem + ' <span>' + s.tempo + '</span></p>';
     for (var k = 0; k < s.t.length; k++) html += '<p>' + s.t[k] + '</p>';
     if (s.cue) html += '<span class="cue">' + s.cue + '</span>';
     notes.innerHTML = html;
