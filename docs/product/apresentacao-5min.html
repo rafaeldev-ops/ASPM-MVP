@@ -1,0 +1,708 @@
+<!--
+  Apresentacao de 5 minutos do MVP ASPM, 10 slides, para 4 pessoas.
+
+  Publicada tambem como artifact em
+  https://claude.ai/code/artifact/19dcf7db-873b-41ca-b8f2-efcdd82445ea
+  Esta copia existe para o deck ser versionado junto com os numeros que ele cita:
+  quando 174 testes virar outro numero, o diff aparece aqui.
+
+  Abrir direto no navegador. Teclas: setas navegam, N mostra as notas do
+  apresentador, F entra em tela cheia.
+
+  TODO numero neste deck tem origem verificavel:
+    12 ativos / 68 achados / 14 dividas  ->  GET /api/v1/overview no dataset de demo
+    219 dias                             ->  CVE-2021-27101, decisao 2021-03-29 x KEV 2021-11-03
+    9/9 e os tres zeros                  ->  docs/evaluation/ollama-local-model-bench.md
+    174 testes                           ->  python tests/run.py
+    273 / 100.627 / 359.229              ->  docs/evaluation/ring0-real-data-validation.md
+-->
+<title>A Decisão Que Envelheceu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+/* Deck de projeção. Compromisso deliberado com um visual único: sala iluminada,
+   fundo claro, mesma identidade de documento do produto. Todas as cores pintadas
+   explicitamente para o deck não herdar o fundo do hospedeiro.
+
+   ORÇAMENTO VERTICAL. O slide é 16:9 e todo o dimensionamento é em cqw (1cqw =
+   1% da largura do slide). A altura útil é fixa e pequena:
+
+       altura 56.25cqw  -  padding vertical 10.4cqw  =  45.8cqw
+
+   Descontando o kicker e o rodapé, sobram ~38cqw para o corpo, ou ~31cqw quando
+   há título. Toda medida abaixo foi escolhida contra esse teto. O script no fim
+   do arquivo ainda reduz a escala do conteúdo se ele passar, para que nada seja
+   cortado em nenhuma tela. */
+:root{
+  --folha:#F3F1F7;
+  --papel:#FFFFFF;
+  --folha-alt:#E7E3EE;
+  --tinta:#221D30;
+  --grafite:#5F5872;
+  --anilina:#5330C7;
+  --carmim:#A31B3E;
+  --carmim-fundo:#FBEEF1;
+  --ambar:#7A5C15;
+  --ambar-fundo:#FCF3DC;
+  --fio:rgba(34,29,48,.16);
+  --fio-forte:rgba(34,29,48,.34);
+}
+*,*::before,*::after{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;background:var(--folha);color:var(--tinta);
+  font-family:Archivo,"Segoe UI",system-ui,sans-serif;
+  overflow:hidden;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,p,ul,ol{margin:0;padding:0;}
+ul,ol{list-style:none;}
+
+/* ---------- palco 16:9 ---------- */
+#stage{position:fixed;inset:0;display:grid;place-items:center;background:var(--folha);}
+.slide{
+  position:absolute;
+  width:min(100vw, 177.78vh);height:min(56.25vw, 100vh);
+  background:var(--papel);
+  padding:5.2% 6.4%;
+  display:none;flex-direction:column;
+  container-type:inline-size;
+  overflow:hidden;
+  box-shadow:0 0 0 1px var(--fio);
+}
+.slide.on{display:flex;}
+@media (prefers-reduced-motion:no-preference){
+  .slide.on{animation:in .22s ease-out;}
+  @keyframes in{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+}
+/* Envelope medido pelo ajuste automático. Recebe tudo menos o rodapé. */
+.fit{flex:1;min-height:0;display:flex;flex-direction:column;transform-origin:left top;}
+
+/* ---------- tipografia ---------- */
+.kicker{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:1.95cqw;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--anilina);font-weight:500;line-height:1.4;
+}
+.title{
+  font-size:6.6cqw;font-weight:800;letter-spacing:-.028em;line-height:1.04;
+  text-wrap:balance;margin-top:1.3cqw;
+}
+.title--sm{font-size:4.6cqw;line-height:1.06;}
+.body{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-start;}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;}
+
+/* ---------- slide 1: funil ---------- */
+.funnel{display:grid;grid-template-columns:1fr auto 1.15fr;align-items:center;gap:3cqw;margin-top:2.4cqw;}
+.scanners{display:flex;flex-direction:column;gap:.7cqw;}
+.scan{
+  border:1px solid var(--fio-forte);border-radius:.45cqw;padding:.7cqw 1.4cqw;
+  font-size:1.8cqw;line-height:1.3;color:var(--grafite);background:var(--folha);
+}
+.arrowcol{display:flex;align-items:center;justify-content:center;color:var(--fio-forte);}
+.arrowcol svg{width:5.4cqw;height:auto;}
+.pile__n{font-size:7cqw;font-weight:800;line-height:.95;letter-spacing:-.03em;}
+.pile__l{font-size:2.1cqw;color:var(--grafite);margin-top:.4cqw;max-width:22ch;line-height:1.3;}
+.pile__x{
+  margin-top:1.8cqw;font-size:2cqw;color:var(--carmim);font-weight:600;
+  border-left:.38cqw solid var(--carmim);padding-left:1.1cqw;line-height:1.35;
+}
+
+/* ---------- slide 2: camada ---------- */
+.layer{display:flex;align-items:stretch;gap:2cqw;margin-top:2.6cqw;}
+.layer__box{
+  flex:1;border:1px solid var(--fio-forte);border-radius:.55cqw;
+  padding:1.8cqw 1.6cqw;text-align:center;background:var(--folha);
+  display:flex;flex-direction:column;justify-content:center;
+}
+.layer__box--hero{background:var(--tinta);color:var(--papel);border-color:var(--tinta);flex:1.3;}
+.layer__t{font-size:2.4cqw;font-weight:700;line-height:1.2;}
+.layer__d{font-size:1.8cqw;color:var(--grafite);margin-top:.55cqw;line-height:1.35;}
+.layer__box--hero .layer__d{color:#C9BFEA;}
+.layer__arrow{align-self:center;font-size:2.8cqw;color:var(--fio-forte);flex:none;}
+.sub{
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:2.5cqw;line-height:1.45;color:var(--grafite);
+  max-width:52ch;margin-top:2.4cqw;
+}
+
+/* ---------- slide 3: cinco perguntas ---------- */
+.five{display:flex;flex-direction:column;margin-top:1.6cqw;}
+.five li{
+  display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2cqw;
+  padding:.95cqw 0;border-bottom:1px solid var(--fio);
+}
+.five li:last-child{border-bottom:0;}
+.five__q{font-family:"Source Serif 4",Georgia,serif;font-size:2.8cqw;font-weight:600;line-height:1.3;}
+.five__c{
+  font-family:"IBM Plex Mono",monospace;font-size:1.9cqw;
+  color:var(--anilina);letter-spacing:.04em;text-align:right;white-space:nowrap;
+}
+
+/* ---------- slide 4: fluxo ---------- */
+.flow{display:flex;align-items:stretch;gap:.7cqw;margin-top:2.6cqw;}
+.flow__s{
+  flex:1;border:1px solid var(--fio-forte);border-radius:.45cqw;
+  padding:1.5cqw .9cqw;text-align:center;font-size:1.85cqw;font-weight:600;
+  display:flex;align-items:center;justify-content:center;background:var(--folha);
+  line-height:1.25;
+}
+.flow__s--end{background:var(--anilina);color:var(--papel);border-color:var(--anilina);}
+.flow__gt{align-self:center;color:var(--fio-forte);font-size:2.2cqw;flex:none;}
+.flow__note{
+  font-family:"Source Serif 4",Georgia,serif;font-size:2.4cqw;color:var(--grafite);
+  margin-top:2.6cqw;max-width:56ch;line-height:1.45;
+}
+
+/* ---------- slide 5: demo ---------- */
+.slide--demo{background:var(--tinta);color:var(--papel);}
+.slide--demo .kicker{color:#B9A6F5;}
+.slide--demo .title{font-size:7cqw;}
+.demo__hint{
+  margin-top:2.4cqw;font-family:"IBM Plex Mono",monospace;font-size:1.95cqw;
+  color:#B0A5C7;line-height:1.8;
+}
+.demo__hint b{color:var(--papel);font-weight:600;}
+
+/* ---------- slide 6: linha do tempo ----------
+   Grid de tres marcos. A primeira versão posicionava os rótulos de forma
+   absoluta sobre left:0 e left:100%, centrados, e metade de cada rótulo das
+   pontas caía fora da área do slide. Grid não tem como cortar. */
+.tl{margin-top:2.8cqw;}
+.tl__row{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:start;gap:1.2cqw;}
+.tl__step{display:flex;flex-direction:column;gap:.45cqw;}
+.tl__step--mid{text-align:center;}
+.tl__step--end{text-align:right;}
+.tl__dot{width:1.2cqw;height:1.2cqw;border-radius:50%;background:var(--papel);border:.36cqw solid var(--tinta);}
+.tl__step--mid .tl__dot{margin:0 auto;border-color:var(--carmim);background:var(--carmim);}
+.tl__step--end .tl__dot{margin-left:auto;}
+.tl__d{font-family:"IBM Plex Mono",monospace;font-size:1.75cqw;color:var(--grafite);line-height:1.4;}
+.tl__t{font-size:2.3cqw;font-weight:700;line-height:1.2;}
+.tl__t--kev{color:var(--carmim);}
+.tl__link{align-self:start;text-align:center;min-width:10cqw;}
+.tl__gap{font-size:2.6cqw;font-weight:800;color:var(--ambar);line-height:1.1;}
+.tl__rule{display:block;height:.3cqw;background:var(--ambar);border-radius:1cqw;margin-top:.6cqw;}
+.tl__rule--plain{background:var(--folha-alt);}
+.tl__verdict{
+  margin-top:3.4cqw;padding:1.9cqw 2.2cqw;background:var(--ambar-fundo);
+  border-left:.45cqw solid var(--ambar);border-radius:.4cqw;
+  font-family:"Source Serif 4",Georgia,serif;font-size:2.9cqw;line-height:1.35;
+}
+.tl__verdict b{font-weight:600;}
+
+/* ---------- slide 7: o teste da IA ----------
+   Placar de duas colunas, e a assimetria é o argumento. A coluna carmim carrega
+   um número só, grande: tudo o que o modelo errou. A coluna escura carrega três
+   zeros: tudo o que ele não conseguiu mover. Ler as duas juntas é o slide. */
+.placar{display:grid;grid-template-columns:1fr 1.15fr;gap:1.8cqw;margin-top:2cqw;}
+.col{border-radius:.55cqw;padding:1.5cqw 1.7cqw;display:flex;flex-direction:column;}
+.col--erro{background:var(--carmim-fundo);border:1px solid rgba(163,27,62,.3);}
+.col--firme{background:var(--tinta);color:var(--papel);}
+.col__r{
+  font-family:"IBM Plex Mono",monospace;font-size:1.45cqw;letter-spacing:.12em;
+  text-transform:uppercase;font-weight:500;line-height:1.35;
+}
+.col--erro .col__r{color:var(--carmim);}
+.col--firme .col__r{color:#B9A6F5;}
+.col__n{
+  font-size:6cqw;font-weight:800;letter-spacing:-.035em;line-height:.94;
+  margin-top:.5cqw;font-variant-numeric:tabular-nums;color:var(--carmim);
+}
+.col__d{font-size:1.85cqw;line-height:1.32;margin-top:.6cqw;color:var(--grafite);max-width:32ch;}
+.col__d b{color:var(--tinta);font-weight:600;}
+.zeros{display:flex;flex-direction:column;gap:.6cqw;margin-top:.9cqw;}
+.zeros li{display:grid;grid-template-columns:auto 1fr;align-items:baseline;gap:1.2cqw;}
+.zeros b{
+  font-size:3.3cqw;font-weight:800;line-height:1.05;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;min-width:3.4cqw;
+}
+.zeros span{font-size:1.8cqw;line-height:1.25;color:#C9BFEA;}
+.veredito{
+  margin-top:2cqw;font-family:"Source Serif 4",Georgia,serif;
+  font-size:2.5cqw;line-height:1.34;max-width:64ch;text-wrap:balance;
+}
+.veredito b{font-weight:600;color:var(--carmim);}
+.egresso{
+  margin-top:1.5cqw;font-family:"IBM Plex Mono",monospace;font-size:1.55cqw;
+  color:var(--grafite);line-height:1.45;max-width:74ch;
+}
+.egresso b{color:var(--tinta);font-weight:600;}
+
+/* ---------- slide 8: dados ---------- */
+.data{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4cqw;margin-top:2.4cqw;}
+.data__c{border-top:.3cqw solid var(--tinta);padding-top:1.1cqw;}
+.data__c--syn{border-top-color:var(--ambar);}
+.data__n{font-size:4.2cqw;font-weight:800;letter-spacing:-.03em;line-height:1;}
+.data__c--syn .data__n{color:var(--ambar);}
+.data__w{font-size:1.95cqw;font-weight:600;margin-top:.55cqw;line-height:1.25;}
+.data__s{font-size:1.65cqw;color:var(--grafite);margin-top:.4cqw;line-height:1.35;}
+.tag{
+  display:inline-block;margin-top:.7cqw;padding:.24cqw .7cqw;border-radius:.3cqw;
+  font-family:"IBM Plex Mono",monospace;font-size:1.35cqw;letter-spacing:.09em;text-transform:uppercase;
+}
+.tag--real{background:var(--folha-alt);color:var(--grafite);}
+.tag--syn{background:var(--ambar);color:var(--papel);}
+.data__note{
+  margin-top:2.6cqw;font-family:"Source Serif 4",Georgia,serif;
+  font-size:2.1cqw;color:var(--grafite);max-width:66ch;line-height:1.45;
+}
+.data__note b{color:var(--tinta);font-weight:600;}
+
+/* ---------- slide 9: próximo passo e fecho ---------- */
+.next{
+  font-family:"Source Serif 4",Georgia,serif;font-size:2.4cqw;color:var(--grafite);
+  max-width:56ch;line-height:1.45;margin-top:1.6cqw;
+}
+.next b{color:var(--tinta);font-weight:600;}
+.fim{
+  margin-top:3cqw;padding-top:2.6cqw;border-top:1px solid var(--fio);
+  font-size:4cqw;font-weight:700;line-height:1.22;letter-spacing:-.022em;
+  max-width:30ch;text-wrap:balance;
+}
+.fim em{font-style:normal;color:var(--anilina);}
+
+/* ---------- slide 10: encerramento ----------
+   Fundo escuro como o slide da demo, fechando o deck em par com ele. E o slide
+   que fica mais tempo no ar, entao carrega tres ancoras dos numeros que a banca
+   provavelmente vai perguntar. */
+.slide--fim{background:var(--tinta);color:var(--papel);}
+.slide--fim .kicker{color:#B9A6F5;}
+.obrigado{font-size:6.6cqw;font-weight:800;letter-spacing:-.028em;line-height:1.04;margin-top:1.3cqw;}
+.convite{
+  font-family:"Source Serif 4",Georgia,serif;font-size:2.5cqw;
+  color:#B0A5C7;margin-top:1.6cqw;line-height:1.45;
+}
+.ancoras{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2.2cqw;
+  margin-top:2.8cqw;padding-top:2.2cqw;border-top:1px solid rgba(255,255,255,.2);
+}
+.ancora__r{
+  font-family:"IBM Plex Mono",monospace;font-size:1.4cqw;letter-spacing:.12em;
+  text-transform:uppercase;color:#8B80A6;
+}
+.ancora__v{font-size:1.85cqw;line-height:1.35;margin-top:.5cqw;color:#DCD6EA;}
+.ancora__v b{color:var(--papel);font-weight:600;}
+
+/* ---------- rodapé ---------- */
+.foot{
+  display:flex;align-items:baseline;gap:1.6cqw;flex:none;
+  font-family:"IBM Plex Mono",monospace;font-size:1.6cqw;color:var(--grafite);
+  border-top:1px solid var(--fio);padding-top:1.1cqw;margin-top:1.8cqw;
+}
+.slide--demo .foot,.slide--fim .foot{border-top-color:rgba(255,255,255,.2);color:#9A8FB4;}
+.foot__n{margin-left:auto;}
+
+/* ---------- chrome do apresentador ---------- */
+#bar{position:fixed;left:0;right:0;bottom:0;height:4px;background:var(--folha-alt);z-index:20;}
+#bar i{display:block;height:100%;background:var(--anilina);width:0;transition:width .2s;}
+#notes{
+  position:fixed;left:0;right:0;bottom:4px;max-height:38vh;overflow-y:auto;
+  background:var(--tinta);color:#EFEBF7;padding:1.1rem 1.4rem 1.3rem;
+  font-family:"Source Serif 4",Georgia,serif;font-size:1.02rem;line-height:1.55;
+  display:none;z-index:19;box-shadow:0 -8px 24px rgba(34,29,48,.3);
+}
+#notes.on{display:block;}
+#notes h4{
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:#B9A6F5;margin:0 0 .55rem;font-weight:500;
+}
+#notes p{max-width:78ch;}
+#notes p+p{margin-top:.5rem;}
+#notes .cue{color:#A79EBD;font-family:Archivo,sans-serif;font-size:.86rem;display:block;margin-top:.7rem;}
+#help{
+  position:fixed;top:.7rem;right:.9rem;z-index:21;
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;color:var(--grafite);
+  background:rgba(255,255,255,.9);border:1px solid var(--fio);border-radius:3px;
+  padding:.3rem .55rem;letter-spacing:.04em;transition:opacity .6s;
+}
+#help b{color:var(--tinta);}
+@media print{#bar,#notes,#help{display:none;}}
+</style>
+
+<div id="stage">
+
+<!-- 1 -->
+<section class="slide on">
+  <p class="kicker">O problema</p>
+  <h2 class="title title--sm">Cinco scanners, uma fila</h2>
+  <div class="body">
+    <div class="funnel">
+      <div class="scanners">
+        <div class="scan">Código · SAST</div>
+        <div class="scan">Dependências · SCA</div>
+        <div class="scan">Segredos</div>
+        <div class="scan">Contêiner</div>
+        <div class="scan">Infraestrutura</div>
+      </div>
+      <div class="arrowcol" aria-hidden="true">
+        <svg viewBox="0 0 60 40" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M2 6 H58 M2 20 H58 M2 34 H58" opacity=".45"/>
+          <path d="M46 12 L58 20 L46 28" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="pile">
+        <p class="pile__n">milhares</p>
+        <p class="pile__l">de achados por ano, cada um sem contexto</p>
+        <p class="pile__x">Quem integra tudo isso é o analista.<br>Item por item, na mão.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>0:25</span><span class="foot__n">1 / 10</span></div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <p class="kicker">A proposta</p>
+  <h2 class="title title--sm">Não é mais um scanner.<br>É o que vem depois dele.</h2>
+  <div class="body">
+    <div class="layer">
+      <div class="layer__box">
+        <p class="layer__t">Achados</p>
+        <p class="layer__d">do que a empresa já usa</p>
+      </div>
+      <span class="layer__arrow" aria-hidden="true">→</span>
+      <div class="layer__box layer__box--hero">
+        <p class="layer__t">Camada de decisão</p>
+        <p class="layer__d">contexto · evidência · histórico</p>
+      </div>
+      <span class="layer__arrow" aria-hidden="true">→</span>
+      <div class="layer__box">
+        <p class="layer__t">Decisões</p>
+        <p class="layer__d">poucas, explicadas e acompanhadas</p>
+      </div>
+    </div>
+    <p class="sub">Achar não é o gargalo. Decidir o que importa é.
+       E continuar sabendo se aquela decisão ainda vale.</p>
+  </div>
+  <div class="foot"><span>0:30</span><span class="foot__n">2 / 10</span></div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <p class="kicker">Os cinco pilares</p>
+  <h2 class="title title--sm">Cinco perguntas do analista</h2>
+  <div class="body">
+    <ul class="five">
+      <li><span class="five__q">O que a gente tem?</span><span class="five__c">Asset Discovery</span></li>
+      <li><span class="five__q">O que está relacionado?</span><span class="five__c">Risk Correlation</span></li>
+      <li><span class="five__q">O que importa mais?</span><span class="five__c">Prioritization</span></li>
+      <li><span class="five__q">O que devemos fazer?</span><span class="five__c">Remediation</span></li>
+      <li><span class="five__q">O risco mudou?</span><span class="five__c">Continuous Monitoring</span></li>
+    </ul>
+  </div>
+  <div class="foot"><span>0:45</span><span class="foot__n">3 / 10</span></div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <p class="kicker">A arquitetura, em uma linha</p>
+  <h2 class="title title--sm">Um fluxo, não cinco telas</h2>
+  <div class="body">
+    <div class="flow">
+      <div class="flow__s">Ativos</div><span class="flow__gt" aria-hidden="true">›</span>
+      <div class="flow__s">Correlação</div><span class="flow__gt" aria-hidden="true">›</span>
+      <div class="flow__s">Prioridade</div><span class="flow__gt" aria-hidden="true">›</span>
+      <div class="flow__s">Evidência</div><span class="flow__gt" aria-hidden="true">›</span>
+      <div class="flow__s">Remediação</div><span class="flow__gt" aria-hidden="true">›</span>
+      <div class="flow__s flow__s--end">Decisão<br>acompanhada</div>
+    </div>
+    <p class="flow__note">A prioridade sai de uma árvore determinística de 20 regras
+       cobrindo 720 combinações, auditável linha a linha. Não é um modelo de linguagem
+       decidindo.</p>
+  </div>
+  <div class="foot"><span>0:10</span><span class="foot__n">4 / 10</span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide slide--demo">
+  <p class="kicker">Demonstração ao vivo</p>
+  <div class="body">
+    <h2 class="title">Trocar para<br>a aplicação</h2>
+    <p class="demo__hint">
+      <b>1.</b> Painel: 12 ativos · 68 achados · <b>14 dívidas de decisão</b><br>
+      <b>2.</b> Abrir <b>CVE-2021-27101</b> em <b>zlib 1.2.11</b><br>
+      <b>3.</b> Por que é <b>agir agora</b> · evidência · remediação<br>
+      <b>4.</b> A decisão anterior: fechado como <b>mitigado</b><br>
+      <b>5.</b> A análise de IA, e o selo de <b>egresso</b>
+    </p>
+  </div>
+  <div class="foot"><span>1:15</span><span class="foot__n">5 / 10</span></div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <p class="kicker">O diferencial</p>
+  <h2 class="title title--sm">Dívida de decisão</h2>
+  <div class="body">
+    <div class="tl">
+      <div class="tl__row">
+        <div class="tl__step">
+          <span class="tl__dot"></span>
+          <p class="tl__d">2021-03-29</p>
+          <p class="tl__t">Fechado como mitigado</p>
+        </div>
+        <div class="tl__link">
+          <p class="tl__gap">219 dias</p>
+          <span class="tl__rule"></span>
+        </div>
+        <div class="tl__step tl__step--mid">
+          <span class="tl__dot"></span>
+          <p class="tl__d">2021-11-03</p>
+          <p class="tl__t tl__t--kev">Entra no CISA KEV</p>
+        </div>
+        <div class="tl__link">
+          <p class="tl__gap">&nbsp;</p>
+          <span class="tl__rule tl__rule--plain"></span>
+        </div>
+        <div class="tl__step tl__step--end">
+          <span class="tl__dot"></span>
+          <p class="tl__d">hoje</p>
+          <p class="tl__t">Volta para revisão</p>
+        </div>
+      </div>
+      <p class="tl__verdict">A decisão <b>não estava errada</b>.<br>
+         Ela envelheceu, e o sistema percebeu.</p>
+    </div>
+  </div>
+  <div class="foot"><span>0:35</span><span class="foot__n">6 / 10</span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <p class="kicker">A camada de IA</p>
+  <h2 class="title title--sm">Colocamos uma IA de verdade e medimos</h2>
+  <div class="body">
+    <div class="placar">
+      <div class="col col--erro">
+        <p class="col__r">O que o modelo errou</p>
+        <p class="col__n mono">9 / 9</p>
+        <p class="col__d">Sugeriu <b>encerrar como risco aceito</b> todo achado
+           que a árvore mandava corrigir agora.</p>
+      </div>
+      <div class="col col--firme">
+        <p class="col__r">O que ele não conseguiu mover</p>
+        <ul class="zeros">
+          <li><b class="mono">0</b><span>prioridades alteradas</span></li>
+          <li><b class="mono">0</b><span>evidências inventadas</span></li>
+          <li><b class="mono">0</b><span>decisões fechadas</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="veredito">Se a IA decidisse, <b>nove vulnerabilidades sob exploração ativa</b>
+       teriam sido encerradas. Ela não decide — e agora temos o comprovante.</p>
+    <p class="egresso">E o dado só sai da máquina se você mandar: <b>nenhum</b> ·
+       <b>local</b> · <b>provedor externo</b>, com o padrão em nenhum.</p>
+  </div>
+  <div class="foot"><span>0:50</span><span class="foot__n">7 / 10</span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <p class="kicker">Sobre que dados isto roda</p>
+  <h2 class="title title--sm">Dado público real, e o fabricado</h2>
+  <div class="body">
+    <div class="data">
+      <div class="data__c">
+        <p class="data__n mono">273</p><p class="data__w">CISA KEV</p>
+        <p class="data__s">exploração ativa conhecida, com data</p>
+        <span class="tag tag--real">real</span>
+      </div>
+      <div class="data__c">
+        <p class="data__n mono">100.627</p><p class="data__w">CodeQL</p>
+        <p class="data__s">achados de artefato acadêmico publicado</p>
+        <span class="tag tag--real">real</span>
+      </div>
+      <div class="data__c">
+        <p class="data__n mono">359.229</p><p class="data__w">EPSS</p>
+        <p class="data__s">probabilidade de exploração, FIRST</p>
+        <span class="tag tag--real">real</span>
+      </div>
+      <div class="data__c data__c--syn">
+        <p class="data__n mono">360</p><p class="data__w">Decisões</p>
+        <p class="data__s">histórico fabricado para exercitar o motor</p>
+        <span class="tag tag--syn">sintético</span>
+      </div>
+    </div>
+    <p class="data__note">O histórico sintético prova que o mecanismo funciona.
+       Ele <b>não</b> mede precisão em cliente, e aparece marcado em toda tela.
+       São <b>174 testes</b> automatizados e <b>48 chamadas</b> a um modelo real.</p>
+  </div>
+  <div class="foot"><span>0:15</span><span class="foot__n">8 / 10</span></div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <p class="kicker">Próximo passo</p>
+  <div class="body">
+    <p class="next">Rodar sobre o <b>histórico real de decisões</b> de uma organização.
+       É o único passo que não dá para fabricar.</p>
+    <p class="fim">Construímos a camada que <em>lembra</em> por que cada decisão foi
+       tomada, e avisa quando ela deixa de valer.</p>
+  </div>
+  <div class="foot"><span>0:15</span><span class="foot__n">9 / 10</span></div>
+</section>
+
+<!-- 10 -->
+<section class="slide slide--fim">
+  <p class="kicker">Perguntas</p>
+  <div class="body">
+    <p class="obrigado">Obrigado por ouvirem.</p>
+    <p class="convite">Ficamos à disposição para as perguntas.</p>
+    <div class="ancoras">
+      <div>
+        <p class="ancora__r">Como a prioridade sai</p>
+        <p class="ancora__v">Árvore determinística de <b>20 regras</b> sobre
+           <b>720 combinações</b>. A IA explica; <b>nunca decide</b>.</p>
+      </div>
+      <div>
+        <p class="ancora__r">Onde o dado fica</p>
+        <p class="ancora__v">Na máquina, por padrão. Sair exige <b>escolher o provedor</b>
+           e <b>confirmar cada análise</b>.</p>
+      </div>
+      <div>
+        <p class="ancora__r">O que falta</p>
+        <p class="ancora__v">Rodar sobre o <b>histórico real</b> de uma organização.
+           <b>174 testes</b> automatizados.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>fica no ar durante as perguntas</span><span class="foot__n">10 / 10</span></div>
+</section>
+
+</div>
+
+<div id="bar"><i></i></div>
+<div id="notes" role="region" aria-label="Notas do apresentador"></div>
+<p id="help"><b>← →</b> navega · <b>N</b> notas · <b>F</b> tela cheia</p>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var bar = document.querySelector('#bar i');
+  var notes = document.getElementById('notes');
+  var help = document.getElementById('help');
+  var i = 0, notesOn = false;
+
+  /* Envolve tudo menos o rodapé num .fit, que é o elemento medido pelo ajuste
+     automático. Feito em JS para o HTML dos slides continuar legível. */
+  slides.forEach(function(s){
+    var fit = document.createElement('div');
+    fit.className = 'fit';
+    var foot = s.querySelector('.foot');
+    while (s.firstChild && s.firstChild !== foot) fit.appendChild(s.firstChild);
+    s.insertBefore(fit, foot);
+  });
+
+  /* Rede de segurança do orçamento vertical: se o conteúdo ainda passar da
+     altura útil (fonte que caiu para o fallback, tela muito estreita, tradução
+     mais longa), reduz a escala em vez de deixar cortar. */
+  function fit(slide){
+    var f = slide.querySelector('.fit');
+    f.style.transform = 'none';
+    f.style.width = '100%';
+    var avail = f.clientHeight, need = f.scrollHeight;
+    if (need > avail + 1) {
+      var k = Math.max(0.55, avail / need);
+      f.style.transform = 'scale(' + k + ')';
+      f.style.width = (100 / k) + '%';
+    }
+  }
+
+  var script = [
+    {cue:"Devagar. Pause depois de “mais fila”.", t:[
+      "Toda equipe de segurança hoje tem scanner. Vários: código, dependência, segredo, contêiner. Cada um encontra coisa, e cada um entrega uma lista.",
+      "O resultado não é mais segurança. É mais fila.",
+      "São milhares de achados por ano, e cada um chega sem contexto. Não diz qual sistema afeta, se aquilo está exposto, nem se alguém já analisou o mesmo problema antes."]},
+    {cue:"Transição para a segunda pessoa no fim.", t:[
+      "E aí vem a parte que ninguém acompanha: a maior parte desses achados é fechada. Falso positivo, risco aceito, mitigado. E estava certo, no dia em que foi decidido.",
+      "O problema não é encontrar vulnerabilidade. É decidir qual importa, e continuar sabendo se aquela decisão ainda vale.",
+      "Transição: para virar decisão, o achado precisa de contexto. É isso que os cinco componentes de uma ASPM fazem, e o nosso MVP implementa os cinco."]},
+    {cue:"Cinco blocos curtos. Não desenvolva nenhum. Quem desenvolve é a demo.", t:[
+      "São cinco perguntas, e cada componente responde uma.",
+      "O que a gente tem? Asset Discovery: aplicações, serviços, dependências, com dono, ambiente e criticidade. Sem isso, todo achado parece igual.",
+      "O que está relacionado? Correlação: o mesmo CVE em três serviços é um problema, não três. O sistema agrupa, e registra por que agrupou.",
+      "O que importa mais? Priorização: severidade, criticidade do ativo, exposição, e se aquele CVE está na lista da CISA de exploração ativa conhecida.",
+      "O que fazer? Remediação, com a fonte junto. Quando não existe fonte, o sistema diz que não sabe, em vez de inventar.",
+      "O risco mudou? Monitoramento contínuo."]},
+    {cue:"Slide de passagem, 10 segundos. Já vá abrindo a aba da aplicação.", t:[
+      "Transição: no MVP esses cinco não são telas separadas. São um fluxo só, e dá para mostrar agora."]},
+    {cue:"Abas já abertas. Não navegue procurando tela. Deixe o passo 5 curto: ele é a montagem do slide seguinte.", t:[
+      "Esse é o painel. Doze ativos, sessenta e oito achados, e esse número aqui, catorze, é o que a gente chama de dívida de decisão. Já volto nele.",
+      "Vou abrir um achado: CVE-2021-27101, na zlib 1.2.11.",
+      "O sistema classificou como agir agora, e não pede para acreditar. Ele lista o porquê: o ativo é crítico, está em produção, a versão em uso está dentro da faixa afetada, e o CVE consta no catálogo da CISA de exploração ativa. Essa última linha trava tudo: achado em exploração ativa nunca pode ser silenciado.",
+      "Aqui embaixo, a evidência: fonte, autoridade, e a data do fato separada da data em que lemos. E a remediação: atualizar o pacote, com a origem junto.",
+      "E, no fim, a análise de IA — com um selo dizendo se aquele texto saiu da máquina ou não. Guardem esse selo, porque o próximo slide é sobre ele."]},
+    {cue:"PARE depois de “duzentos e dezenove dias”. Deixe o número pousar.", t:[
+      "Agora o ponto. Esse achado já tinha sido fechado, como mitigado. Alguém olhou e concluiu que estava sob controle.",
+      "Duzentos e dezenove dias depois, o CVE entrou no catálogo da CISA, com uso confirmado em ransomware.",
+      "A decisão não estava errada. Ela envelheceu. E o sistema percebeu.",
+      "Transição: isso é o que a gente acha que diferencia a proposta. E tem uma segunda coisa, que a gente descobriu testando."]},
+    {cue:"O slide mais importante do deck. Leia o 9 de 9 devagar, e PARE antes de virar para a coluna escura.", t:[
+      "Todo produto de segurança hoje diz que tem IA. A pergunta que ninguém responde é: o que acontece quando ela erra?",
+      "A gente colocou um modelo de verdade rodando na máquina e mediu.",
+      "Em nove de nove achados que a árvore mandava corrigir agora, o modelo recomendou encerrar como risco aceito. E escreveu, no mesmo texto, que eram críticos e urgentes. Ele se contradisse, com toda a confiança do mundo.",
+      "Agora olhem a outra coluna. Zero prioridades alteradas. Zero evidências inventadas. Zero decisões fechadas.",
+      "A IA errou cem por cento das recomendações e não conseguiu mexer em nada. Porque na nossa arquitetura ela não decide: ela explica o que o motor determinístico já decidiu, e cita a evidência que recebeu. Se ela citar uma evidência que não existe, a resposta inteira é rejeitada.",
+      "E a última linha: quem escolhe se o dado sai da máquina é o usuário. O padrão é não sair. Para usar um provedor externo, é preciso escolher e confirmar cada análise."]},
+    {cue:"Honestidade sem pedir desculpa. Nunca diga “precisão de 100%”.", t:[
+      "Sobre os dados: o MVP já roda sobre dado público real. O catálogo da CISA, cem mil achados reais de CodeQL, e a base de probabilidade de exploração do FIRST. São cento e setenta e quatro testes automatizados.",
+      "Já o histórico de decisões é sintético, e aparece marcado como tal em toda tela. Ele prova que o mecanismo funciona. Não mede precisão em cliente."]},
+    {cue:"Termine no fecho. Não emende com “acho que é isso”.", t:[
+      "É exatamente esse o próximo passo: rodar sobre o histórico real de uma organização.",
+      "A gente não construiu mais um lugar para ver vulnerabilidade. Construiu a camada que lembra por que cada decisão foi tomada, e avisa quando ela deixa de valer."]},
+    {cue:"Não corra. Deixe o slide no ar durante as perguntas.", t:[
+      "Era isso. Obrigado pela atenção de vocês.",
+      "Ficamos à disposição para as perguntas."]}
+  ];
+
+  function renderNotes(){
+    var s = script[i] || {t:[], cue:""};
+    var html = '<h4>Slide ' + (i+1) + ' · o que dizer</h4>';
+    for (var k = 0; k < s.t.length; k++) html += '<p>' + s.t[k] + '</p>';
+    if (s.cue) html += '<span class="cue">' + s.cue + '</span>';
+    notes.innerHTML = html;
+    notes.scrollTop = 0;
+  }
+
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function(s, k){ s.classList.toggle('on', k === i); });
+    fit(slides[i]);
+    bar.style.width = ((i + 1) / slides.length * 100) + '%';
+    if (notesOn) renderNotes();
+    try { location.hash = i + 1; } catch (e) {}
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') { show(0); }
+    else if (e.key === 'End') { show(slides.length - 1); }
+    else if (e.key === 'n' || e.key === 'N') {
+      notesOn = !notesOn;
+      notes.classList.toggle('on', notesOn);
+      if (notesOn) renderNotes();
+    }
+    else if (e.key === 'f' || e.key === 'F') {
+      var el = document.documentElement;
+      if (!document.fullscreenElement && el.requestFullscreen) el.requestFullscreen().catch(function(){});
+      else if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function(){});
+    }
+  });
+
+  document.getElementById('stage').addEventListener('click', function(e){
+    show(i + (e.clientX < window.innerWidth * 0.28 ? -1 : 1));
+  });
+
+  window.addEventListener('resize', function(){ fit(slides[i]); });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function(){ fit(slides[i]); });
+  }
+
+  var start = parseInt((location.hash || '').replace('#', ''), 10);
+  show(isNaN(start) ? 0 : start - 1);
+
+  setTimeout(function(){ help.style.opacity = '.35'; }, 5000);
+})();
+</script>
